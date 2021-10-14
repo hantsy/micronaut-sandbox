@@ -8,11 +8,9 @@ import com.example.domain.Post;
 import io.micronaut.core.type.Argument;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.HttpStatus;
-import io.micronaut.http.MutableHttpRequest;
-import io.micronaut.http.client.BlockingHttpClient;
 import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
+import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.runtime.EmbeddedApplication;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
@@ -66,15 +64,15 @@ class IntegrationTest {
         assertThat(getPostResponse.getStatus().getCode()).isEqualTo(200);
 
         // add comments
-        var addCommentRequest = HttpRequest.POST(savedUrl+"/comments", new CreateCommentDto( "test content"));
+        var addCommentRequest = HttpRequest.POST(savedUrl + "/comments", new CreateCommentDto("test content"));
         var addCommentResponse = blockingHttpClient.exchange(addCommentRequest);
         assertThat(addCommentResponse.getStatus().getCode()).isEqualTo(201);
         var savedCommentUrl = addCommentResponse.getHeaders().get("Location");
         assertThat(savedCommentUrl).isNotNull();
 
         // get all comments
-        var getAllCommentsRequest = HttpRequest.GET(savedUrl+"/comments");
-        var getAllCommentsResponse = blockingHttpClient.exchange(getAllCommentsRequest,Argument.listOf(CommentDetailsDto.class));
+        var getAllCommentsRequest = HttpRequest.GET(savedUrl + "/comments");
+        var getAllCommentsResponse = blockingHttpClient.exchange(getAllCommentsRequest, Argument.listOf(CommentDetailsDto.class));
         assertThat(getAllCommentsResponse.status().getCode()).isEqualTo(200);
         assertThat(getAllCommentsResponse.body().size()).isEqualTo(1);
 
@@ -83,7 +81,9 @@ class IntegrationTest {
         assertThat(deletePostResponse.getStatus().getCode()).isEqualTo(204);
 
         //get by id again(404)
-        var getPostResponse2 = blockingHttpClient.exchange(HttpRequest.GET(savedUrl));
+        var e = Assertions.assertThrows(HttpClientResponseException.class, () ->
+                blockingHttpClient.exchange(HttpRequest.GET(savedUrl)));
+        var getPostResponse2 = e.getResponse();
         assertThat(getPostResponse2.getStatus().getCode()).isEqualTo(404);
     }
 

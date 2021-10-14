@@ -1,25 +1,24 @@
 package com.example;
+
 import com.example.controller.PostSummaryDto;
 import com.example.domain.Post;
 import com.example.repository.CommentRepository;
 import com.example.repository.PostRepository;
 import io.micronaut.context.env.Environment;
-import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.client.HttpClient;
-import io.micronaut.runtime.EmbeddedApplication;
+import io.micronaut.http.client.annotation.Client;
 import io.micronaut.test.annotation.MockBean;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import io.micronaut.http.client.annotation.*;
-import jakarta.inject.Inject;
 
 import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @MicronautTest(environments = Environment.TEST)
@@ -29,9 +28,11 @@ public class PostControllerTest {
     @Client("/")
     HttpClient client;
 
-    @Inject PostRepository posts;
+    @Inject
+    PostRepository posts;
 
-    @Inject CommentRepository comments;
+    @Inject
+    CommentRepository comments;
 
     @MockBean(PostRepository.class)
     PostRepository posts() {
