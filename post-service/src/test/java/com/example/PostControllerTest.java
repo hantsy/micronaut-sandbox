@@ -1,4 +1,5 @@
 package com.example;
+import com.example.controller.PostSummaryDto;
 import com.example.domain.Post;
 import com.example.repository.CommentRepository;
 import com.example.repository.PostRepository;
@@ -48,11 +49,11 @@ public class PostControllerTest {
         when(this.posts.findAll()).thenReturn(
                 List.of(Post.builder().id(UUID.randomUUID()).title("test title").content("test content").build())
         );
-        var response = client.toBlocking().exchange("/posts", Post[].class);
+        var response = client.toBlocking().exchange("/posts", PostSummaryDto[].class);
         assertEquals(HttpStatus.OK, response.status());
         var body = response.body();
         assertThat(body.length).isEqualTo(1);
-        assertThat(body[0].getTitle()).isEqualTo("test title");
+        assertThat(body[0].title()).isEqualTo("test title");
 
         verify(this.posts, times(1)).findAll();
         verifyNoMoreInteractions(this.posts);

@@ -9,7 +9,14 @@
         </encoder>
     </appender>
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
+    <!-- // add custom logger-->
+    <logger name="com.example" level="debug">
+    </logger>
+    <logger name="io.micronaut" level="debug">
+    </logger>
+    <logger name="org.hibernate" level="debug">
+    </logger>
 </configuration>

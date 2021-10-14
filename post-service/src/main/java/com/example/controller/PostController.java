@@ -10,9 +10,12 @@ import io.micronaut.http.annotation.*;
 import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 
+import javax.transaction.Transactional;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
+
+import static io.micronaut.http.HttpResponse.ok;
 
 @Controller("/posts")
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
@@ -21,11 +24,16 @@ public class PostController {
     private final CommentRepository comments;
 
     @Get(uri = "/", produces = MediaType.APPLICATION_JSON)
-    public HttpResponse<List<Post>> getAll() {
-        return HttpResponse.ok(posts.findAll());
+    public HttpResponse<List<PostSummaryDto>> getAll() {
+        var body = posts.findAll()
+                .stream()
+                .map(p -> new PostSummaryDto(p.getId(), p.getTitle(), p.getCreatedAt()))
+                .toList();
+        return ok(body);
     }
 
     @io.micronaut.http.annotation.Post(uri = "/", consumes = MediaType.APPLICATION_JSON)
+    @Transactional
     public HttpResponse<Void> create(@Body CreatePostDto dto) {
         var data = Post.builder().title(dto.title()).content(dto.content()).build();
         var saved = this.posts.save(data);
@@ -33,13 +41,14 @@ public class PostController {
     }
 
     @Get(uri = "/{id}", produces = MediaType.APPLICATION_JSON)
-    public HttpResponse<Post> getById(@PathVariable UUID id) {
+    public HttpResponse<?> getById(@PathVariable UUID id) {
         return posts.findById(id)
-                .map(HttpResponse::ok)
+                .map(p -> ok(new PostDetailsDto(p.getId(), p.getTitle(), p.getContent(), p.getCreatedAt())))
                 .orElseGet(HttpResponse::notFound);
     }
 
     @Delete(uri = "/{id}", produces = MediaType.APPLICATION_JSON)
+    @Transactional
     public HttpResponse<?> deleteById(@PathVariable UUID id) {
         return posts.findById(id)
                 .map(p -> {
@@ -55,17 +64,19 @@ public class PostController {
         return posts.findById(id)
                 .map(post -> {
                     var comments = this.comments.findByPost(post);
-                    return HttpResponse.ok(comments.stream().map(c -> new CommentDetailsDto(c.getId(), c.getContent())));
+                    return ok(comments.stream().map(c -> new CommentDetailsDto(c.getId(), c.getContent(), c.getCreatedAt())));
                 })
                 .orElseGet(HttpResponse::notFound);
     }
 
     @io.micronaut.http.annotation.Post(uri = "/{id}/comments", consumes = MediaType.APPLICATION_JSON)
+    @Transactional
     public HttpResponse<?> create(@PathVariable UUID id, @Body CreateCommentDto dto) {
 
         return posts.findById(id)
                 .map(post -> {
                     var data = Comment.builder().content(dto.content()).post(post).build();
+                    post.getComments().add(data);
                     var saved = this.comments.save(data);
                     return HttpResponse.created(URI.create("/comments/" + saved.getId()));
                 })

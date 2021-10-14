@@ -12,4 +12,9 @@
     <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
+
+    <!-- // add custom logger-->
+    <logger name="com.example" level="debug" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
 </configuration>
