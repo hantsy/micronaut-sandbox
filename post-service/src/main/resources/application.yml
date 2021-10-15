@@ -18,3 +18,7 @@ jackson:
   deserialization:
     failOnUnknownProperties: false
 
+blog:
+  title: Hantsy's blog
+  description: Description of Hantsy's blog
+  author: Hantsy
