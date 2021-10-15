@@ -23,10 +23,12 @@ dependencies {
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-validation")
-    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+    implementation("io.micronaut.data:micronaut-data-hibernate-jpa") {
+        exclude group: "javax.persistence", module:"javax.persistence-api"
+    }
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
-    implementation("javax.annotation:javax.annotation-api")
-    implementation 'org.projectlombok:lombok:1.18.20'
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    implementation 'org.projectlombok:lombok:1.18.22'
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("org.postgresql:postgresql")
 
