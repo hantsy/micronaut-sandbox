@@ -10,3 +10,11 @@ datasources:
     schema-generate: CREATE_DROP
     dialect: POSTGRES
 jpa.default.properties.hibernate.hbm2ddl.auto: update
+
+jackson:
+  serialization:
+    indentOutput: true
+    writeDatesAsTimestamps: false
+  deserialization:
+    failOnUnknownProperties: false
+

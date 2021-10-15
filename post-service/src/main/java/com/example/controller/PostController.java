@@ -7,10 +7,12 @@ import com.example.repository.PostRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.*;
+import io.micronaut.validation.Validated;
 import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +21,7 @@ import static io.micronaut.http.HttpResponse.ok;
 
 @Controller("/posts")
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
+@Validated
 public class PostController {
     private final PostRepository posts;
     private final CommentRepository comments;
@@ -34,7 +37,7 @@ public class PostController {
 
     @io.micronaut.http.annotation.Post(uri = "/", consumes = MediaType.APPLICATION_JSON)
     @Transactional
-    public HttpResponse<Void> create(@Body CreatePostDto dto) {
+    public HttpResponse<Void> create(@Body @Valid CreatePostDto dto) {
         var data = Post.builder().title(dto.title()).content(dto.content()).build();
         var saved = this.posts.save(data);
         return HttpResponse.created(URI.create("/posts/" + saved.getId()));
@@ -71,7 +74,7 @@ public class PostController {
 
     @io.micronaut.http.annotation.Post(uri = "/{id}/comments", consumes = MediaType.APPLICATION_JSON)
     @Transactional
-    public HttpResponse<?> create(@PathVariable UUID id, @Body CreateCommentDto dto) {
+    public HttpResponse<?> create(@PathVariable UUID id, @Body @Valid CreateCommentDto dto) {
 
         return posts.findById(id)
                 .map(post -> {

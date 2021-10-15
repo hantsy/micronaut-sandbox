@@ -1,13 +1,16 @@
 package com.example;
 
+import com.example.controller.PostDetailsDto;
 import com.example.controller.PostSummaryDto;
 import com.example.domain.Post;
 import com.example.repository.CommentRepository;
 import com.example.repository.PostRepository;
 import io.micronaut.context.env.Environment;
+import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
+import io.micronaut.http.uri.UriBuilder;
 import io.micronaut.test.annotation.MockBean;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
@@ -15,6 +18,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -57,6 +62,22 @@ public class PostControllerTest {
         assertThat(body[0].title()).isEqualTo("test title");
 
         verify(this.posts, times(1)).findAll();
+        verifyNoMoreInteractions(this.posts);
+    }
+
+    @Test
+    @DisplayName("test GET '/posts/{id}' endpoint")
+    public void testGetSinglePost() throws Exception {
+        when(this.posts.findById(any(UUID.class))).thenReturn(
+                Optional.ofNullable(Post.builder().id(UUID.randomUUID()).title("test title").content("test content").build())
+        );
+        var request = HttpRequest.GET(UriBuilder.of("/posts/{id}").expand(Map.of("id", UUID.randomUUID())));
+        var response = client.toBlocking().exchange(request, PostDetailsDto.class);
+        assertEquals(HttpStatus.OK, response.status());
+        var body = response.body();
+        assertThat(body.title()).isEqualTo("test title");
+
+        verify(this.posts, times(1)).findById(any(UUID.class));
         verifyNoMoreInteractions(this.posts);
     }
 }

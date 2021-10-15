@@ -1,6 +1,10 @@
 package com.example.controller;
 
-import javax.validation.constraints.NotNull;
+import io.micronaut.core.annotation.Introspected;
 
-public record CreateCommentDto(@NotNull String content) {
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+@Introspected
+public record CreateCommentDto(@NotBlank @Size(min = 5, max = 200) String content) {
 }
