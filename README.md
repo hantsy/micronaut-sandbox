@@ -1,2 +1,2 @@
 # micronaut-sandbox
-Micronaut sandbox
+Micronaut playground
