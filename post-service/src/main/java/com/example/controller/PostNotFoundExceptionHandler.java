@@ -14,11 +14,11 @@ import lombok.RequiredArgsConstructor;
 @Singleton
 @Requires(classes = { PostNotFoundException.class})
 @RequiredArgsConstructor
-public class PostNotFoundExceptionHandler implements ExceptionHandler<PostNotFoundException, HttpResponse> {
+public class PostNotFoundExceptionHandler implements ExceptionHandler<PostNotFoundException, HttpResponse<?>> {
     private final ErrorResponseProcessor<?> errorResponseProcessor;
 
     @Override
-    public HttpResponse handle(HttpRequest request, PostNotFoundException exception) {
+    public HttpResponse<?> handle(HttpRequest request, PostNotFoundException exception) {
         return errorResponseProcessor.processResponse(
                 ErrorContext.builder(request)
                         .cause(exception)
