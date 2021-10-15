@@ -1,7 +1,7 @@
 package com.example;
 
-import com.example.controller.PostDetailsDto;
-import com.example.controller.PostSummaryDto;
+import com.example.controller.dto.PostDetailsDto;
+import com.example.controller.dto.PostSummaryDto;
 import com.example.domain.Post;
 import com.example.repository.CommentRepository;
 import com.example.repository.PostRepository;

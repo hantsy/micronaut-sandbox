@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.example.controller.dto;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

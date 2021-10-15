@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.example.controller.dto;
 
 import io.micronaut.core.annotation.Introspected;
 

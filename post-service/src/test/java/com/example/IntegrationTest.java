@@ -1,9 +1,9 @@
 package com.example;
 
-import com.example.controller.CommentDetailsDto;
-import com.example.controller.CreateCommentDto;
-import com.example.controller.CreatePostDto;
-import com.example.controller.PostSummaryDto;
+import com.example.controller.dto.CommentDetailsDto;
+import com.example.controller.dto.CreateCommentDto;
+import com.example.controller.dto.CreatePostDto;
+import com.example.controller.dto.PostSummaryDto;
 import com.example.domain.Post;
 import io.micronaut.core.type.Argument;
 import io.micronaut.http.HttpRequest;

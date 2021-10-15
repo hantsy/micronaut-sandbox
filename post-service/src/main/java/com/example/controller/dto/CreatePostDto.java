@@ -1,9 +1,8 @@
-package com.example.controller;
+package com.example.controller.dto;
 
 import io.micronaut.core.annotation.Introspected;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Introspected
 public record CreatePostDto(@NotBlank String title, @NotBlank String content) {

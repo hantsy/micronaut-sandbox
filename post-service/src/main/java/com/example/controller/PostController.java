@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.controller.dto.*;
 import com.example.domain.Comment;
 import com.example.domain.Post;
 import com.example.repository.CommentRepository;
@@ -47,7 +48,8 @@ public class PostController {
     public HttpResponse<?> getById(@PathVariable UUID id) {
         return posts.findById(id)
                 .map(p -> ok(new PostDetailsDto(p.getId(), p.getTitle(), p.getContent(), p.getCreatedAt())))
-                .orElseGet(HttpResponse::notFound);
+                .orElseThrow(() -> new PostNotFoundException(id));
+        //.orElseGet(HttpResponse::notFound);
     }
 
     @Delete(uri = "/{id}", produces = MediaType.APPLICATION_JSON)
@@ -58,7 +60,8 @@ public class PostController {
                     this.posts.delete(p);
                     return HttpResponse.noContent();
                 })
-                .orElseGet(HttpResponse::notFound);
+                .orElseThrow(() -> new PostNotFoundException(id));
+        //.orElseGet(HttpResponse::notFound);
     }
 
     // nested comments endpoints
@@ -69,7 +72,8 @@ public class PostController {
                     var comments = this.comments.findByPost(post);
                     return ok(comments.stream().map(c -> new CommentDetailsDto(c.getId(), c.getContent(), c.getCreatedAt())));
                 })
-                .orElseGet(HttpResponse::notFound);
+                .orElseThrow(() -> new PostNotFoundException(id));
+        //.orElseGet(HttpResponse::notFound);
     }
 
     @io.micronaut.http.annotation.Post(uri = "/{id}/comments", consumes = MediaType.APPLICATION_JSON)
@@ -83,7 +87,8 @@ public class PostController {
                     var saved = this.comments.save(data);
                     return HttpResponse.created(URI.create("/comments/" + saved.getId()));
                 })
-                .orElseGet(HttpResponse::notFound);
+                .orElseThrow(() -> new PostNotFoundException(id));
+        // .orElseGet(HttpResponse::notFound);
 
     }
 }
