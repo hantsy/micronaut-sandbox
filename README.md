@@ -12,10 +12,10 @@ A  personal sandbox project  to experience the new features of the [Micronaut  f
 
 | Name | Description |
 |:-------------------|--------------------------------------------------|
-|[post-service](https://github.com/hantsy/micronaut-sandbox/tree/master/post-service) |Simple CURD RESTful APIs using Micronaout|
+|[post-service](https://github.com/hantsy/micronaut-sandbox/tree/master/post-service) |Simple CURD RESTful APIs|
 
 
 ## References
 
-* [Quarkus Workshop](https://quarkus.io/quarkus-workshops/super-heros/)
+* [Micronaut Guides](https://docs.micronaut.io/latest/guide/index.html/)
 
