@@ -3,11 +3,8 @@ package com.example;
 import com.example.controller.dto.CommentDetailsDto;
 import com.example.controller.dto.CreateCommentCommand;
 import com.example.controller.dto.CreatePostCommand;
-import com.example.controller.dto.PostSummaryDto;
 import com.example.domain.Post;
 import io.micronaut.core.type.Argument;
-import io.micronaut.core.type.GenericArgument;
-import io.micronaut.data.model.Page;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.client.HttpClient;
@@ -15,6 +12,7 @@ import io.micronaut.http.client.annotation.Client;
 import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.runtime.EmbeddedApplication;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import io.restassured.path.json.JsonPath;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -42,11 +40,11 @@ class IntegrationTest {
 
     @Test
     void testGetAllPosts() {
-        var response = client.exchange(HttpRequest.GET("/posts"), new GenericArgument<Page<PostSummaryDto>>() {});
+        var response = client.exchange(HttpRequest.GET("/posts"), String.class);
 
         var bodyFlux = Flux.from(response).map(HttpResponse::body);
         StepVerifier.create(bodyFlux)
-                .consumeNextWith(posts -> assertThat(posts.getTotalSize()).isGreaterThanOrEqualTo(2))
+                .consumeNextWith(posts -> assertThat(JsonPath.from(posts).getInt("totalSize")).isGreaterThanOrEqualTo(2))
                 .verifyComplete();
     }
 

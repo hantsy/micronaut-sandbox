@@ -46,7 +46,12 @@ dependencies {
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
     testImplementation("org.mockito:mockito-core")
+
+    // reactor test
     testImplementation("io.projectreactor:reactor-test:3.4.10")
+
+    // rest-assured
+    testImplementation("io.rest-assured:rest-assured:4.4.0")
 
 }
 

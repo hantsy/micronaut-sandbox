@@ -1,13 +1,10 @@
 package com.example;
 
 import com.example.controller.dto.PostDetailsDto;
-import com.example.controller.dto.PostSummaryDto;
 import com.example.domain.Post;
 import com.example.repository.CommentRepository;
 import com.example.repository.PostRepository;
 import io.micronaut.context.env.Environment;
-import io.micronaut.core.type.Argument;
-import io.micronaut.core.type.GenericArgument;
 import io.micronaut.data.jpa.repository.criteria.Specification;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
@@ -19,6 +16,7 @@ import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.http.uri.UriBuilder;
 import io.micronaut.test.annotation.MockBean;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import io.restassured.path.json.JsonPath;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -79,13 +77,12 @@ public class PostControllerTest {
         when(this.posts.findAll(isA(Specification.class), isA(Pageable.class))).thenReturn(
                 Page.of(content, Pageable.from(0, 20), 1)
         );
-        var request =HttpRequest.GET("/posts");
-        var response = client.toBlocking().exchange(request, new GenericArgument<Page<PostSummaryDto>>() {
-        });
+        var request = HttpRequest.GET("/posts");
+        var response = client.toBlocking().exchange(request, String.class);
         assertEquals(HttpStatus.OK, response.status());
         var body = response.body();
-        assertThat(body.getTotalSize()).isEqualTo(1);
-        assertThat(body.getContent().get(0).title()).isEqualTo("test title");
+        assertThat(JsonPath.from(body).getInt("totalSize")).isEqualTo(1);
+        assertThat(JsonPath.from(body).getString("content[0].title")).isEqualTo("test title");
 
         verify(this.posts, times(1)).findAll(isA(Specification.class), isA(Pageable.class));
         verifyNoMoreInteractions(this.posts);

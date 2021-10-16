@@ -41,6 +41,7 @@ public class PostController {
 //    }
 
     @Get(uri = "/", produces = MediaType.APPLICATION_JSON)
+    @Transactional
     public HttpResponse<Page<PostSummaryDto>> getAll(@QueryValue(defaultValue = "") String q,
                                                      @QueryValue(defaultValue = "") String status,
                                                      @QueryValue(defaultValue = "0") int page,
