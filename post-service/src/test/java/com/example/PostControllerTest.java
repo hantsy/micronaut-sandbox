@@ -6,6 +6,11 @@ import com.example.domain.Post;
 import com.example.repository.CommentRepository;
 import com.example.repository.PostRepository;
 import io.micronaut.context.env.Environment;
+import io.micronaut.core.type.Argument;
+import io.micronaut.core.type.GenericArgument;
+import io.micronaut.data.jpa.repository.criteria.Specification;
+import io.micronaut.data.model.Page;
+import io.micronaut.data.model.Pageable;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.client.HttpClient;
@@ -51,19 +56,38 @@ public class PostControllerTest {
         return mock(CommentRepository.class);
     }
 
+//    @Test
+//    @DisplayName("test GET '/posts' endpoint")
+//    public void testGetAllPosts() throws Exception {
+//        when(this.posts.findAll()).thenReturn(
+//                List.of(Post.builder().id(UUID.randomUUID()).title("test title").content("test content").build())
+//        );
+//        var response = client.toBlocking().exchange("/posts", PostSummaryDto[].class);
+//        assertEquals(HttpStatus.OK, response.status());
+//        var body = response.body();
+//        assertThat(body.length).isEqualTo(1);
+//        assertThat(body[0].title()).isEqualTo("test title");
+//
+//        verify(this.posts, times(1)).findAll();
+//        verifyNoMoreInteractions(this.posts);
+//    }
+
     @Test
     @DisplayName("test GET '/posts' endpoint")
     public void testGetAllPosts() throws Exception {
-        when(this.posts.findAll()).thenReturn(
-                List.of(Post.builder().id(UUID.randomUUID()).title("test title").content("test content").build())
+        var content = List.of(Post.builder().id(UUID.randomUUID()).title("test title").content("test content").build());
+        when(this.posts.findAll(isA(Specification.class), isA(Pageable.class))).thenReturn(
+                Page.of(content, Pageable.from(0, 20), 1)
         );
-        var response = client.toBlocking().exchange("/posts", PostSummaryDto[].class);
+        var request =HttpRequest.GET("/posts");
+        var response = client.toBlocking().exchange(request, new GenericArgument<Page<PostSummaryDto>>() {
+        });
         assertEquals(HttpStatus.OK, response.status());
         var body = response.body();
-        assertThat(body.length).isEqualTo(1);
-        assertThat(body[0].title()).isEqualTo("test title");
+        assertThat(body.getTotalSize()).isEqualTo(1);
+        assertThat(body.getContent().get(0).title()).isEqualTo("test title");
 
-        verify(this.posts, times(1)).findAll();
+        verify(this.posts, times(1)).findAll(isA(Specification.class), isA(Pageable.class));
         verifyNoMoreInteractions(this.posts);
     }
 

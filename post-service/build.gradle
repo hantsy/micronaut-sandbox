@@ -7,6 +7,7 @@ version = "0.1"
 group = "com.example"
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -37,6 +38,7 @@ dependencies {
     testAnnotationProcessor("org.projectlombok:lombok")
     annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
+    annotationProcessor('org.hibernate:hibernate-jpamodelgen:5.5.7.Final')
 
     //test
     testImplementation("org.assertj:assertj-core")
@@ -48,6 +50,18 @@ dependencies {
 
 }
 
+//tasks.withType(JavaCompile) {
+//    options.annotationProcessorGeneratedSourcesDirectory  file("src/generated/java")
+//}
+//
+//
+//sourceSets {
+//    generated {
+//        java {
+//            srcDirs = ['src/generated/java']
+//        }
+//    }
+//}
 
 application {
     mainClass.set("com.example.Application")
@@ -58,9 +72,10 @@ java {
     targetCompatibility = JavaVersion.toVersion("17")
 }
 
+
+
 dockerfile {
     baseImage = "openjdk:17-alpine"
-
 }
 
 

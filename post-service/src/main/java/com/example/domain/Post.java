@@ -28,6 +28,9 @@ public class Post implements Serializable {
     String content;
 
     @Builder.Default
+    Status status = Status.DRAFT;
+
+    @Builder.Default
     LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true, mappedBy = "post")
@@ -46,5 +49,16 @@ public class Post implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getTitle());
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", status=" + status +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

@@ -5,6 +5,11 @@ import com.example.domain.Comment;
 import com.example.domain.Post;
 import com.example.repository.CommentRepository;
 import com.example.repository.PostRepository;
+import com.example.repository.PostSpecifications;
+import io.micronaut.core.util.StringUtils;
+import io.micronaut.data.model.Page;
+import io.micronaut.data.model.Pageable;
+import io.micronaut.data.model.Sort;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.*;
@@ -15,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 import static io.micronaut.http.HttpResponse.ok;
@@ -27,18 +31,30 @@ public class PostController {
     private final PostRepository posts;
     private final CommentRepository comments;
 
+//    @Get(uri = "/", produces = MediaType.APPLICATION_JSON)
+//    public HttpResponse<List<PostSummaryDto>> getAll() {
+//        var body = posts.findAll()
+//                .stream()
+//                .map(p -> new PostSummaryDto(p.getId(), p.getTitle(), p.getCreatedAt()))
+//                .toList();
+//        return ok(body);
+//    }
+
     @Get(uri = "/", produces = MediaType.APPLICATION_JSON)
-    public HttpResponse<List<PostSummaryDto>> getAll() {
-        var body = posts.findAll()
-                .stream()
-                .map(p -> new PostSummaryDto(p.getId(), p.getTitle(), p.getCreatedAt()))
-                .toList();
+    public HttpResponse<Page<PostSummaryDto>> getAll(@QueryValue(defaultValue = "") String q,
+                                                     @QueryValue(defaultValue = "") String status,
+                                                     @QueryValue(defaultValue = "0") int page,
+                                                     @QueryValue(defaultValue = "10") int size) {
+        var pageable = Pageable.from(page, size, Sort.of(Sort.Order.desc("createdAt")));
+        var postStatus = StringUtils.hasText(status) ? com.example.domain.Status.valueOf(status) : null;
+        var data = this.posts.findAll(PostSpecifications.filterByKeywordAndStatus(q, postStatus), pageable);
+        var body = data.map(p -> new PostSummaryDto(p.getId(), p.getTitle(), p.getCreatedAt()));
         return ok(body);
     }
 
     @io.micronaut.http.annotation.Post(uri = "/", consumes = MediaType.APPLICATION_JSON)
     @Transactional
-    public HttpResponse<Void> create(@Body @Valid CreatePostDto dto) {
+    public HttpResponse<Void> create(@Body @Valid CreatePostCommand dto) {
         var data = Post.builder().title(dto.title()).content(dto.content()).build();
         var saved = this.posts.save(data);
         return HttpResponse.created(URI.create("/posts/" + saved.getId()));
@@ -47,7 +63,7 @@ public class PostController {
     @Get(uri = "/{id}", produces = MediaType.APPLICATION_JSON)
     public HttpResponse<?> getById(@PathVariable UUID id) {
         return posts.findById(id)
-                .map(p -> ok(new PostDetailsDto(p.getId(), p.getTitle(), p.getContent(), p.getCreatedAt())))
+                .map(p -> ok(new PostDetailsDto(p.getId(), p.getTitle(), p.getContent(), p.getStatus(), p.getCreatedAt())))
                 .orElseThrow(() -> new PostNotFoundException(id));
         //.orElseGet(HttpResponse::notFound);
     }
@@ -78,7 +94,7 @@ public class PostController {
 
     @io.micronaut.http.annotation.Post(uri = "/{id}/comments", consumes = MediaType.APPLICATION_JSON)
     @Transactional
-    public HttpResponse<?> create(@PathVariable UUID id, @Body @Valid CreateCommentDto dto) {
+    public HttpResponse<?> create(@PathVariable UUID id, @Body @Valid CreateCommentCommand dto) {
 
         return posts.findById(id)
                 .map(post -> {

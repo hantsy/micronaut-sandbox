@@ -45,4 +45,13 @@ public class Comment implements Serializable {
     public int hashCode() {
         return Objects.hash(getContent());
     }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

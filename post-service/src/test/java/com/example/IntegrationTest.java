@@ -1,11 +1,13 @@
 package com.example;
 
 import com.example.controller.dto.CommentDetailsDto;
-import com.example.controller.dto.CreateCommentDto;
-import com.example.controller.dto.CreatePostDto;
+import com.example.controller.dto.CreateCommentCommand;
+import com.example.controller.dto.CreatePostCommand;
 import com.example.controller.dto.PostSummaryDto;
 import com.example.domain.Post;
 import io.micronaut.core.type.Argument;
+import io.micronaut.core.type.GenericArgument;
+import io.micronaut.data.model.Page;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.client.HttpClient;
@@ -40,18 +42,18 @@ class IntegrationTest {
 
     @Test
     void testGetAllPosts() {
-        var response = client.exchange(HttpRequest.GET("/posts"), Argument.listOf(PostSummaryDto.class));
+        var response = client.exchange(HttpRequest.GET("/posts"), new GenericArgument<Page<PostSummaryDto>>() {});
 
         var bodyFlux = Flux.from(response).map(HttpResponse::body);
         StepVerifier.create(bodyFlux)
-                .consumeNextWith(posts -> assertThat(posts.size()).isGreaterThanOrEqualTo(2))
+                .consumeNextWith(posts -> assertThat(posts.getTotalSize()).isGreaterThanOrEqualTo(2))
                 .verifyComplete();
     }
 
     @Test
     public void testCrudFlow() {
         //create a new post
-        var request = HttpRequest.POST("/posts", new CreatePostDto("test title", "test content"));
+        var request = HttpRequest.POST("/posts", new CreatePostCommand("test title", "test content"));
         var blockingHttpClient = client.toBlocking();
         var response = blockingHttpClient.exchange(request);
         assertThat(response.status().getCode()).isEqualTo(201);
@@ -64,7 +66,7 @@ class IntegrationTest {
         assertThat(getPostResponse.getStatus().getCode()).isEqualTo(200);
 
         // add comments
-        var addCommentRequest = HttpRequest.POST(savedUrl + "/comments", new CreateCommentDto("test content"));
+        var addCommentRequest = HttpRequest.POST(savedUrl + "/comments", new CreateCommentCommand("test content"));
         var addCommentResponse = blockingHttpClient.exchange(addCommentRequest);
         assertThat(addCommentResponse.getStatus().getCode()).isEqualTo(201);
         var savedCommentUrl = addCommentResponse.getHeaders().get("Location");
