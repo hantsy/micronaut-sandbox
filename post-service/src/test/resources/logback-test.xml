@@ -15,8 +15,10 @@
     <!-- // add custom logger-->
     <logger name="com.example" level="debug">
     </logger>
-    <logger name="io.micronaut" level="debug">
+    <logger name="io.micronaut.web" level="debug">
     </logger>
-    <logger name="org.hibernate" level="debug">
+    <logger name="io.micronaut.data.jpa" level="debug">
+    </logger>
+    <logger name="org.hibernate.sql" level="debug">
     </logger>
 </configuration>
