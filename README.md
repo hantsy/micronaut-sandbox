@@ -4,7 +4,7 @@ A  personal sandbox project  to experience the new features of the [Micronaut  f
 
 ## Docs
 
-* [Building RESTful APIs with Micronaut](./docs/01-start.md)
+* [Building RESTful APIs with Micronaut](./docs/gs-rest.md)
 
 ## Sample Codes
 
