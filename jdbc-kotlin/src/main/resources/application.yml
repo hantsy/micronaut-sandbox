@@ -1,0 +1,19 @@
+micronaut:
+  application:
+    name: demo
+datasources:
+  default:
+    url: jdbc:postgresql://localhost:5432/blogdb
+    driverClassName: org.postgresql.Driver
+    username: user
+    password: password
+    #schema-generate: CREATE_DROP
+    schema-generate: NONE
+    dialect: POSTGRES
+
+jackson:
+  serialization:
+    indentOutput: true
+    writeDatesAsTimestamps: false
+  deserialization:
+    failOnUnknownProperties: false

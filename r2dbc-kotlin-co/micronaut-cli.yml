@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.example
+testFramework: kotest
+sourceLanguage: kotlin
+buildTool: gradle_kotlin
+features: [annotation-api, app-name, data, data-r2dbc, gradle, http-client, kotest, kotlin, kotlin-application, kotlin-extension-functions, logback, netty-server, postgres, r2dbc, reactor, reactor-http-client, readme, shade, testcontainers, yaml]

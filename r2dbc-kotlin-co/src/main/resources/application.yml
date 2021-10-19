@@ -1,0 +1,19 @@
+micronaut:
+  application:
+    name: demo
+r2dbc:
+  datasources:
+    default:
+      #schema-generate: CREATE_DROP
+      schema-generate: NONE
+      dialect: POSTGRES
+      url: r2dbc:postgresql://localhost:5432/blogdb
+      username: user
+      password: password
+
+jackson:
+  serialization:
+    indentOutput: true
+    writeDatesAsTimestamps: false
+  deserialization:
+    failOnUnknownProperties: false
