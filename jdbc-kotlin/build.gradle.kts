@@ -24,28 +24,36 @@ micronaut {
 }
 
 dependencies {
+    // javaee/jakartaee specs
     implementation("javax.annotation:javax.annotation-api")
 
+    // micronaut framework
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-validation")
+
+    //database
     implementation("io.micronaut.data:micronaut-data-jdbc")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+    runtimeOnly("org.postgresql:postgresql")
+
+    //kotlin
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
-    runtimeOnly("ch.qos.logback:logback-classic")
-    runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    //logging
+    runtimeOnly("ch.qos.logback:logback-classic")
 
     // kapt
     kapt("io.micronaut:micronaut-http-validation")
     kapt("io.micronaut.data:micronaut-data-processor")
 
     //test
-    testImplementation("org.testcontainers:postgresql:1.16.0")
-    testImplementation("org.testcontainers:testcontainers:1.16.0")
+    //testImplementation("org.testcontainers:postgresql:1.16.0")
+    //testImplementation("org.testcontainers:testcontainers:1.16.0")
     testImplementation("io.mockk:mockk")
     testApi("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-engine")
@@ -72,6 +80,4 @@ tasks {
             jvmTarget = "11"
         }
     }
-
-
 }

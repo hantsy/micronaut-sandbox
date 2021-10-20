@@ -4,8 +4,6 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.inspectors.forAny
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
-import io.micronaut.core.type.Argument
-import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client

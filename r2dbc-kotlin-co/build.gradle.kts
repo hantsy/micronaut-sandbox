@@ -25,21 +25,29 @@ micronaut {
 
 dependencies {
 
+    // javaee/jakarta ee spec
     implementation("javax.annotation:javax.annotation-api")
+
+    //micronaut framework
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut.data:micronaut-data-r2dbc")
+    runtimeOnly("io.r2dbc:r2dbc-postgresql")
+
+    //kotlin support
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    implementation("io.micronaut.reactor:micronaut-reactor")
-    implementation("io.micronaut.reactor:micronaut-reactor-http-client")
-
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
-    runtimeOnly("ch.qos.logback:logback-classic")
-    runtimeOnly("io.r2dbc:r2dbc-postgresql")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    //logging
+    runtimeOnly("ch.qos.logback:logback-classic")
+
+    //reactor/reactivestreams
+    implementation("io.micronaut.reactor:micronaut-reactor")
+    implementation("io.micronaut.reactor:micronaut-reactor-http-client")
 
     //kotlin coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
@@ -50,8 +58,8 @@ dependencies {
     kapt("io.micronaut.data:micronaut-data-processor")
 
     // test
-    testImplementation("org.testcontainers:r2dbc")
-    testImplementation("org.testcontainers:testcontainers")
+    //testImplementation("org.testcontainers:r2dbc")
+    //testImplementation("org.testcontainers:testcontainers")
 }
 
 application {
