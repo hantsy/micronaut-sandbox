@@ -1,5 +1,6 @@
 package com.example
 
+import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.micronaut.core.type.Argument
 import io.micronaut.http.HttpRequest
@@ -7,27 +8,22 @@ import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.test.annotation.MockBean
+import io.micronaut.test.extensions.kotest.MicronautKotestExtension.getMock
 import io.micronaut.test.extensions.kotest.annotation.MicronautTest
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import jakarta.inject.Inject
-import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 import java.util.*
 
 @MicronautTest
-class PostControllerTest() {
+class PostControllerTest(
+    private val postsBean: PostRepository,
+    @Client("/") private var client: HttpClient
+) : FunSpec({
 
-    @Inject
-    lateinit var posts: PostRepository
-
-    @Inject
-    @Client("/")
-    lateinit var client: HttpClient
-
-    @Test
-    fun `test get posts endpoint`() {
+    test("test get posts endpoint") {
+        val posts = getMock(postsBean)
         every { posts.findAll() }
             .returns(
                 listOf(
@@ -49,7 +45,7 @@ class PostControllerTest() {
 
         verify(exactly = 1) { posts.findAll() }
     }
-
-    @MockBean
+}) {
+    @MockBean(PostRepository::class)
     fun posts() = mockk<PostRepository>()
 }
