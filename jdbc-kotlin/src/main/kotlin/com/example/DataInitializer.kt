@@ -1,19 +1,20 @@
 package com.example
 
+import io.micronaut.context.annotation.Requires
 import io.micronaut.context.event.StartupEvent
 import io.micronaut.runtime.event.annotation.EventListener
 import jakarta.inject.Singleton
 import org.slf4j.LoggerFactory
 
 @Singleton
+@Requires(notEnv = ["mock"])
 class DataInitializer(private val posts: PostRepository) {
 
     @EventListener
     fun onStartUp(e: StartupEvent) {
         log.info("starting data initialization at StartUpEvent: $e")
 
-        val deleteAll = posts.deleteAll()
-        log.info("deleted posts: $deleteAll")
+        posts.deleteAll()
 
         val data = listOf(
             Post(title = "Building Restful APIs with Micronaut and Kotlin", content = "test"),

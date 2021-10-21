@@ -10,7 +10,7 @@ import io.micronaut.data.jdbc.runtime.JdbcOperations
 import io.micronaut.test.extensions.kotest.annotation.MicronautTest
 import org.slf4j.LoggerFactory
 
-@MicronautTest(environments = [Environment.TEST])
+@MicronautTest(environments = [Environment.TEST], startApplication = false)
 class PostRepositoryTest(private val posts: PostRepository, private val template: JdbcOperations) : StringSpec({
     val log = LoggerFactory.getLogger(PostControllerTest::class.java)
 
