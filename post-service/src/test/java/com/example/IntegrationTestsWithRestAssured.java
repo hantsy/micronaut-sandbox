@@ -15,8 +15,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @MicronautTest
 @Slf4j
-class IntegrationTestWithRestAssured {
-
+class IntegrationTestsWithRestAssured {
 
     @Inject
     EmbeddedServer embeddedServer;

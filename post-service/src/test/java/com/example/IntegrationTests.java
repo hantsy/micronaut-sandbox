@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @MicronautTest
 @Slf4j
-class IntegrationTest {
+class IntegrationTests {
 
     @Inject
     @Client("/")
