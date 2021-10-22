@@ -1,0 +1,16 @@
+micronaut:
+  application:
+    name: demo
+mongodb:
+  uri: mongodb://${MONGO_HOST:localhost}:${MONGO_PORT:27017}
+  cluster:
+    maxWaitQueueSize: 5
+  connectionPool:
+    maxSize: 20
+
+jackson:
+  serialization:
+    indentOutput: true
+    writeDatesAsTimestamps: false
+  deserialization:
+    failOnUnknownProperties: false

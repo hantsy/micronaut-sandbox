@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.example
+testFramework: spock
+sourceLanguage: java
+buildTool: gradle
+features: [annotation-api, app-name, gradle, http-client, java, java-application, logback, mongo-reactive, netty-server, reactor, reactor-http-client, readme, shade, spock, testcontainers, yaml]
