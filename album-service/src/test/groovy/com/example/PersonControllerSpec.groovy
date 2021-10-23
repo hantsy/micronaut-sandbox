@@ -4,6 +4,7 @@ import com.example.persons.Person
 import com.example.persons.PersonRepository
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpResponse
+import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.reactor.http.client.ReactorHttpClient
 import io.micronaut.runtime.EmbeddedApplication
@@ -59,8 +60,13 @@ class PersonControllerSpec extends Specification {
         Flux<HttpResponse<String>> resFlux = client.exchange(HttpRequest.GET("/persons"), String).log()
 
         then:
+        //1 * persons.findAll() >> Flux.just(Person.of(ObjectId.get(), "Jack", 40, null), Person.of(ObjectId.get(), "Rose", 20, null))
         StepVerifier.create(resFlux)
-                .expectNextCount(1)
+        //.expectNextCount(1)
+                .consumeNextWith(s -> {
+                    assert s.getStatus() == HttpStatus.OK
+                    assert s.body().contains('Jack')
+                })
                 .expectComplete()
                 .verify()
     }
