@@ -1,14 +1,17 @@
 package com.example
 
 import com.example.persons.PersonRepository
+import io.micronaut.runtime.EmbeddedApplication
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import reactor.test.StepVerifier
 import spock.lang.Specification
 
-@MicronautTest
+@MicronautTest(startApplication = false)
 class PersonRepositorySpec extends Specification {
-
+//
+// starting a postgres in docker with testcontainers.
+//
 //    @Shared
 //    @AutoCleanup
 //    GenericContainer mongo = new GenericContainer("mongo")
@@ -19,9 +22,17 @@ class PersonRepositorySpec extends Specification {
 //    }
 
     @Inject
+    EmbeddedApplication<?> application
+
+    @Inject
     PersonRepository persons;
 
-    void 'test it works'() {
+    void 'application is not running'() {
+        expect:
+        !application.running
+    }
+
+    void 'test findAll'() {
         when:
         def result = this.persons.findAll()
 
@@ -29,5 +40,6 @@ class PersonRepositorySpec extends Specification {
         StepVerifier.create(result)
                 .expectNextCount(3)
                 .expectComplete()
+                .verify()
     }
 }

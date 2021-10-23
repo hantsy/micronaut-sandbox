@@ -66,13 +66,13 @@ public class PhotoController {
                 .map(id -> ok(Map.of("id", id)));
     }
 
-    @Get(uri = "/{id}", consumes = {MediaType.APPLICATION_OCTET_STREAM})
+    @Get(uri = "/{id}", produces = {MediaType.APPLICATION_OCTET_STREAM})
     public Mono<HttpResponse<?>> download(@PathVariable ObjectId id) {
         return Mono.from(this.bucket.downloadToPublisher(id))
                 .map(HttpResponse::ok);
     }
 
-    @Get(uri = "/{id}/info", consumes = {MediaType.APPLICATION_JSON})
+    @Get(uri = "/{id}/info", produces = {MediaType.APPLICATION_JSON})
     public Mono<HttpResponse<?>> fileInfo(@PathVariable ObjectId id) {
         return Mono.from(this.bucket.downloadToPublisher(id).getGridFSFile())
                 .map(file -> new PhotoInfo(id.toHexString(), file.getFilename(), file.getChunkSize(), file.getLength(), file.getUploadDate(), file.getMetadata().getString("contentType")))

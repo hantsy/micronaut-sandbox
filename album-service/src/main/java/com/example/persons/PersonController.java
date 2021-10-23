@@ -2,6 +2,7 @@ package com.example.persons;
 
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
+import io.micronaut.http.MutableHttpResponse;
 import io.micronaut.http.annotation.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +26,10 @@ public class PersonController {
     }
 
     @Get(uri = "/{id}", produces = {MediaType.APPLICATION_JSON})
-    public Mono<HttpResponse<?>> byId(@PathVariable ObjectId id) {
-        return this.persons.findById(id).map(HttpResponse::ok);
+    public Mono<MutableHttpResponse<Person>> byId(@PathVariable ObjectId id) {
+        return this.persons.findById(id)
+                .map(HttpResponse::ok)
+                .switchIfEmpty(Mono.just(notFound()));
     }
 
     @Post(uri = "/", consumes = {MediaType.APPLICATION_JSON})
