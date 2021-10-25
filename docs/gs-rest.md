@@ -73,9 +73,9 @@ It uses `com.github.johnrengelman.shadow` to package the application into a jar 
 
 In Micronaut, it used  JSR330(aka @Inject) specification to annotate the injectable beans. JSR330 originally is lead by SpringSource(now VMware) and Google. 
 
-> Spring also has built-in JSR330 support, by default it is not activated. You should add `inject` in your project dependency.
+> Spring also has built-in JSR330 support, by default it is not activated. You should add `inject` artifact in your project dependencies to enable it.
 
-When a class is annotated with  `@Singleton` means there is only one instance shared in the application scope, `@Prototype` will produce a new instance for every injection.
+When a class is annotated with `@Singleton` means there is only one instance shared in the application scope, `@Prototype` will produce a new instance for every injection.
 
 Micronaut provides a `@Factory` to produces simple beans in groups, for example.
 
@@ -91,7 +91,7 @@ class MyConfig{
 }
 ```
 
-As described in former sections,  Micronaut process IOC at compile time. When building and run the application,  explore the project *build/classes* folder, you will find there are a lot of extra classes generated which names are start with a **$**  symbol.
+As described in former sections,  Micronaut process IOC at compile time. When building the application,  explore the project *build/classes* folder, you will find there are a lot of extra classes generated at compile time which names are start with a USD("**$**") symbol.
 
 ## Setup database
 
@@ -248,7 +248,7 @@ public class Comment implements Serializable {
 
 They are standard JPA `@Entity` classes.  
 
-An JPA entity class should be annotated with an `@Entity` annotation, and includes a `@Id` field to identify this entity and a none-arguments constructor. Here we use Lombok to generate setters and getters, and constructors at compile time. We use IDE to generate `equals` and `hasCode` according to the business  requirements.  
+An JPA entity class should be annotated with an `@Entity` annotation, and includes a `@Id` field to identify this entity and a none-arguments constructor. Here we use Lombok to generate setters and getters, and constructors at compile time. We use IDE to generate `equals` and `hasCode` according to the business requirements.  
 
 ```java
 @Repository
@@ -319,7 +319,7 @@ class PostRepositoryTest {
 }
 ```
 
-Here we set `startApplication = false`, it does not start the embedded server to host the application, to test against the database, we do not need a  web environment.
+Here we set `startApplication = false`, it does not start the embedded server to host the application, to test against the database, we do not need a running application
 
 We have add `testcontainers` feature, it will configure a Postgres for test automatically.  Check the testcontainers config in the `src/test/resources/application-test.yml`.
 
@@ -479,7 +479,7 @@ Similar to Spring's `RestTemplate` or `WebClient`,  Micronaut provides a `HttpCl
 
 The `exchange` method will return a HTTP response object, and the `retrieve` method returns the response body directly.
 
-Note: If it returns a failure HTTP response, such as return a 4xx status code,  it will throws a `HttpClientResponseException` instead.  
+> Note: In the blocking APIs, when it returns a failure HTTP response, such as return a 4xx status code,  it will throws a `HttpClientResponseException` instead.  In the ReactiveStreams APIs, it will emit an error event, the subscribers will handle the errors through the error channel.
 
 
 
