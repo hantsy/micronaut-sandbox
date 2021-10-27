@@ -332,7 +332,7 @@ datasources:
 
 When there is a `tc` as database host name, testcontainer will start up a Postgres database automaticially.
 
-## Producing Restful APIs
+## Exposing Restful APIs
 
 Similar to Spring WebMVC, in Micronaut,  we can use a controller to expose Restful APIs. 
 
@@ -475,11 +475,512 @@ public class PostControllerTest {
 
 In this test, we use Mockito to mock all dependent beans(`PostRepository` and `CommentRepository`) in the `PostController`.  To mock beans in the test context, Micronaut provides a `MockBean` to produce a mocked instance to replace the *real* beans.
 
-Similar to Spring's `RestTemplate` or `WebClient`,  Micronaut provides a `HttpClient` to send request to a certain URI, by default it uses the *ReactiveStream*s compatible APIs, If you are stick on the transitional blocking APIs, call the `toBlocking()` method to switch to use the blocking APIs. 
+Similar to Spring's `RestTemplate` or `WebClient`,  Micronaut provides a `HttpClient` to send request to a certain URI, by default it uses the *ReactiveStream*s compatible API, If you are stick on the traditional blocking API, call the `toBlocking()` method to switch to use it. 
 
 The `exchange` method will return a HTTP response object, and the `retrieve` method returns the response body directly.
 
-> Note: In the blocking APIs, when it returns a failure HTTP response, such as return a 4xx status code,  it will throws a `HttpClientResponseException` instead.  In the ReactiveStreams APIs, it will emit an error event, the subscribers will handle the errors through the error channel.
+> Note: When using blocking APIs, if it returns a failure HTTP response, such as return a 4xx status code,  it will throws a `HttpClientResponseException` instead. In contrast,  in ReactiveStreams APIs, it will emit the exception to error channel.
+
+### Exception Handling
+
+In the above `PostController`, if there is no posts found for the given post id, it returns a 404 HTTP status directly.  In a real world application, we can use an exception to envelope the exception case. Like Spring WebMVC, Micronaut also provides exception handling mechanism. 
+
+For example, create an `PostNotFoundException` to stand for the case post was not found by id.
+
+Create a `PostNotFoundException` class. 
+
+```java
+public class PostNotFoundException extends RuntimeException {
+    public PostNotFoundException(UUID id) {
+        super("Post[id=" + id + "] was not found");
+    }
+}
+```
+
+In the `PostController`, throw the exception.
+
+```java
+@Get(uri = "/{id}", produces = MediaType.APPLICATION_JSON)
+public HttpResponse<?> getById(@PathVariable UUID id) {
+    return posts.findById(id)
+        .map(p -> ok(new PostDetailsDto(p.getId(), p.getTitle(), p.getContent(), p.getStatus(), p.getCreatedAt())))
+        .orElseThrow(() -> new PostNotFoundException(id));
+}
+```
+
+Add a `PostNotFoundExceptionHandler` to handle `PostNotFoundException`.
+
+```java
+@Produces
+@Singleton
+@Requires(classes = { PostNotFoundException.class})
+@RequiredArgsConstructor
+public class PostNotFoundExceptionHandler implements ExceptionHandler<PostNotFoundException, HttpResponse<?>> {
+    private final ErrorResponseProcessor<?> errorResponseProcessor;
+
+    @Override
+    public HttpResponse<?> handle(HttpRequest request, PostNotFoundException exception) {
+        return errorResponseProcessor.processResponse(
+                ErrorContext.builder(request)
+                        .cause(exception)
+                        .errorMessage(exception.getMessage())
+                        .build(),
+                HttpResponse.notFound()
+        );
+    }
+}
+```
+
+Open your terminal,  use `curl` to test the `/posts/{id}` endpoint with an none-existing id.
+
+```bash
+# curl http://localhost:8080/posts/b6fb90ab-2719-498e-a5fd-93d0c7669fdf -v
+> GET /posts/b6fb90ab-2719-498e-a5fd-93d0c7669fdf HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.55.1
+> Accept: */*
+>
+< HTTP/1.1 404 Not Found
+< Content-Type: application/json
+< date: Mon, 25 Oct 2021 07:02:01 GMT
+< content-length: 301
+< connection: keep-alive
+<
+{
+  "message" : "Not Found",
+  "_links" : {
+    "self" : {
+      "href" : "/posts/b6fb90ab-2719-498e-a5fd-93d0c7669fdf",
+      "templated" : false
+    }
+  },
+  "_embedded" : {
+    "errors" : [ {
+      "message" : "Post[id=b6fb90ab-2719-498e-a5fd-93d0c7669fdf] was not found"
+    } ]
+  }
+}
+```
+
+### Pagination
+
+Similar to Spring Data, Micronaut Data provides pagination for long query result, the `findAll` accepts a `Pageable` parameter, and returns a `Page` result. Micronaut Data also includes a `Specification`  to adopt JPA Criteria APIs for type safe query.
+
+Change `PostRepository`  , add `JpaSpecificationExecutor<Post>` to extends list.
+
+```java
+@Repository
+public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificationExecutor<Post> {
+
+}
+```
+
+Create a specific `PostSpecifications` to group all specifications for querying posts.  Currently only add one for query by keyword and status.
+
+```java
+public class PostSpecifications {
+    private PostSpecifications(){
+        // forbid to instantiate
+    }
+
+    public static Specification<Post> filterByKeywordAndStatus(
+            final String keyword,
+            final Status status
+    ) {
+        return (Root<Post> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (StringUtils.hasText(keyword)) {
+                predicates.add(
+                        cb.or(
+                                cb.like(root.get(Post_.title), "%" + keyword + "%"),
+                                cb.like(root.get(Post_.content), "%" + keyword + "%")
+                        )
+                );
+            }
+
+            if (status != null) {
+                predicates.add(cb.equal(root.get(Post_.status), status));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+    }
+}
+```
+
+Change the `getAll` method of `PostController` to the following.
+
+```java
+@Get(uri = "/", produces = MediaType.APPLICATION_JSON)
+@Transactional
+public HttpResponse<Page<PostSummaryDto>> getAll(@QueryValue(defaultValue = "") String q,
+                                                 @QueryValue(defaultValue = "") String status,
+                                                 @QueryValue(defaultValue = "0") int page,
+                                                 @QueryValue(defaultValue = "10") int size) {
+    var pageable = Pageable.from(page, size, Sort.of(Sort.Order.desc("createdAt")));
+    var postStatus = StringUtils.hasText(status) ? com.example.domain.Status.valueOf(status) : null;
+    var data = this.posts.findAll(PostSpecifications.filterByKeywordAndStatus(q, postStatus), pageable);
+    var body = data.map(p -> new PostSummaryDto(p.getId(), p.getTitle(), p.getCreatedAt()));
+    return ok(body);
+}
+```
+
+All the query parameters are optional. 
+
+Let's use `curl` to test the */posts* endpiont.
+
+```bash
+# curl http://localhost:8080/posts
+{
+  "content" : [ {
+    "id" : "c9ec963d-2df5-4d65-bfbe-5a0d4cb14ca6",
+    "title" : "Getting started wit Micronaut",
+    "createdAt" : "2021-10-25T16:35:03.732951"
+  }, {
+    "id" : "0a79185c-5981-4301-86d1-c266b26b4980",
+    "title" : "Getting started wit Micronaut: part 2",
+    "createdAt" : "2021-10-25T16:35:03.732951"
+  } ],
+  "pageable" : {
+    "number" : 0,
+    "sort" : {
+      "orderBy" : [ {
+        "property" : "createdAt",
+        "direction" : "DESC",
+        "ignoreCase" : false,
+        "ascending" : false
+      } ],
+      "sorted" : true
+    },
+    "size" : 10,
+    "offset" : 0,
+    "sorted" : true,
+    "unpaged" : false
+  },
+  "totalSize" : 2,
+  "totalPages" : 1,
+  "empty" : false,
+  "size" : 10,
+  "offset" : 0,
+  "numberOfElements" : 2,
+  "pageNumber" : 0
+}
+```
+
+### Customizing JsonSerializer
+
+The `Page` object rendered result is a little tedious, most of case, we do not need all these fields, we can customize it via Jackson `JsonSerializer`. 
+
+```java
+@Singleton
+public class PageJsonSerializer extends JsonSerializer<Page<?>> {
+    @Override
+    public void serialize(Page<?> value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+        gen.writeStartObject();
+        gen.writeNumberField("pageNumber", value.getPageNumber());
+        if (value.getNumberOfElements() != value.getSize()) {
+            //only display it in the last page when number of elements is not equal to page size.
+            gen.writeNumberField("numberOfElements", value.getNumberOfElements());
+        }
+        gen.writeNumberField("size", value.getSize());
+        gen.writeNumberField("totalPages", value.getTotalPages());
+        gen.writeNumberField("totalSize", value.getTotalSize());
+        gen.writeObjectField("content", value.getContent());
+        gen.writeEndObject();
+    }
+}
+
+```
+
+Run the application again, and hint  */posts* endpoint.
+
+```bash
+# curl http://localhost:8080/posts
+{
+  "pageNumber" : 0,
+  "numberOfElements" : 2,
+  "size" : 10,
+  "totalPages" : 1,
+  "totalSize" : 2,
+  "content" : [ {
+    "id" : "53fb77d5-4159-4a80-bab9-c76d9a535b36",
+    "title" : "Getting started wit Micronaut",
+    "createdAt" : "2021-10-25T16:47:05.545594"
+  }, {
+    "id" : "aa02fd49-0c24-4f12-b204-2e48213c7a1e",
+    "title" : "Getting started wit Micronaut: part 2",
+    "createdAt" : "2021-10-25T16:47:05.545594"
+  } ]
+}
+```
+
+Modify the testing codes to verify changes.
+
+```java
+class PostControllerTest{
+    //...
+    
+    @Test
+    @DisplayName("test GET '/posts' endpoint")
+    public void testGetAllPosts() throws Exception {
+        var content = List.of(Post.builder().id(UUID.randomUUID()).title("test title").content("test content").build());
+        when(this.posts.findAll(isA(Specification.class), isA(Pageable.class))).thenReturn(
+                Page.of(content, Pageable.from(0, 20), 1)
+        );
+        var request = HttpRequest.GET("/posts");
+        var response = client.toBlocking().exchange(request, String.class);
+        assertEquals(HttpStatus.OK, response.status());
+        var body = response.body();
+        assertThat(JsonPath.from(body).getInt("totalSize")).isEqualTo(1);
+        assertThat(JsonPath.from(body).getString("content[0].title")).isEqualTo("test title");
+
+        verify(this.posts, times(1)).findAll(isA(Specification.class), isA(Pageable.class));
+        verifyNoMoreInteractions(this.posts);
+    }
+}
+```
+
+## Creating Posts
+
+ We have discussed how to query posts by key word and get single post by id,  in this section, we will focus on creating a new post.
+
+According the REST convention, we will use a POST HTTP method  to send a request on endpoint */posts* and accept JSON data as request body. 
+
+```
+@io.micronaut.http.annotation.Post(uri = "/", consumes = MediaType.APPLICATION_JSON)
+@Transactional
+public HttpResponse<Void> create(@Body CreatePostCommand dto) {
+    var data = Post.builder().title(dto.title()).content(dto.content()).build();
+    var saved = this.posts.save(data);
+    return HttpResponse.created(URI.create("/posts/" + saved.getId()));
+}
+```
+
+The request body is deserialized as a POJO by built-in Jackson `JsonDesearilizer`s, it is annotated with a `@Body` annotation to indicate which target class it will be desearilized to.  After the post data is saved, set the response header `Location` to the URI of accessing the new post.
+
+Run the application, and try to add a post via `curl`, and then access the newly created post.
+
+```bash
+# curl -X POST -v  -H "Content-Type:application/json" http://localhost:8080/posts -d "{\"title\":\"test title\",\"content\":\"test content\"}"
+> POST /posts HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.55.1
+> Accept: */*
+> Content-Type:application/json
+> Content-Length: 47
+>
+* upload completely sent off: 47 out of 47 bytes
+< HTTP/1.1 201 Created
+< location: /posts/7db15639-62e3-4d3e-9cf4-f54413502ea6
+< date: Mon, 25 Oct 2021 09:07:40 GMT
+< connection: keep-alive
+< transfer-encoding: chunked
+<
+# curl http://localhost:8080/posts/7db15639-62e3-4d3e-9cf4-f54413502ea6
+{
+  "id" : "7db15639-62e3-4d3e-9cf4-f54413502ea6",
+  "title" : "test title",
+  "content" : "test content",
+  "status" : "DRAFT",
+  "createdAt" : "2021-10-25T17:07:40.87621"
+}
+```
+
+### Data Validation
+
+Generally, in a real application, we have to ensure the request data satisfies requirements. Micronaut has built-in Bean Validation support.
+
+In the above `CreatPostCommand` class, add Bean Validation annotations on the fields.
+
+```java
+@Introspected
+public record CreatePostCommand(@NotBlank String title, @NotBlank String content) {
+}
+```
+
+You have to add `@Introspected` annotation to let micronaut plugin to preprocess bean validation annotations at compile time, and let Bean Validation works without any reflections APIs at runtime time.
+
+In the  `PostController`, add a `@Validated` on the class and a `@Valid` on the method argument.
+
+```java
+@Validated
+public class PostController {
+    public HttpResponse<Void> create(@Body @Valid CreatePostCommand dto) {...}
+    //...
+}
+```
+
+Let's  try to create a post.  Note, set  the `content` field empty.
+
+```bash
+curl -X POST -v  -H "Content-Type:application/json" http://localhost:8080/posts -d "{\"title\":\"test title\",\"content\":\"\"}"
+> POST /posts HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.55.1
+> Accept: */*
+> Content-Type:application/json
+> Content-Length: 35
+>
+* upload completely sent off: 35 out of 35 bytes
+< HTTP/1.1 400 Bad Request
+< Content-Type: application/json
+< date: Mon, 25 Oct 2021 09:23:22 GMT
+< content-length: 237
+< connection: keep-alive
+<
+{
+  "message" : "Bad Request",
+  "_embedded" : {
+    "errors" : [ {
+      "message" : "dto.content: must not be blank"
+    } ]
+  },
+  "_links" : {
+    "self" : {
+      "href" : "/posts",
+      "templated" : false
+    }
+  }
+}
+```
+
+## Deleting a Post
+
+According to REST convention, to delete a single post, send a `DELETE` request on `/posts/{id}`, if it is successful, returns a 204 status. If the `id` is not existed, returns a `404` instead.
+
+Add the following codes to the `PostController`.
+
+```java
+@Delete(uri = "/{id}", produces = MediaType.APPLICATION_JSON)
+@Transactional
+public HttpResponse<?> deleteById(@PathVariable UUID id) {
+    return posts.findById(id)
+        .map(p -> {
+            this.posts.delete(p);
+            return HttpResponse.noContent();
+        })
+        .orElseThrow(() -> new PostNotFoundException(id));
+    //.orElseGet(HttpResponse::notFound);
+}
+```
+
+## Processing Subresources
+
+In our application, the a `Comment` resource, it should be a subresource of `Post` resource when adding comments or fetching comments of a specific post, we can design comments resource like this.
+
+* `POST /posts/{id}/comments` , add  a `Comment` resource to a specific `Post`.
+* `GET /posts/{id}/comments`, get all comments of a certain `Post` which id value is the path variable `id`.
+
+```java
+// nested comments endpoints
+@Get(uri = "/{id}/comments", produces = MediaType.APPLICATION_JSON)
+public HttpResponse<?> getCommentsByPostId(@PathVariable UUID id) {
+    return posts.findById(id)
+        .map(post -> {
+            var comments = this.comments.findByPost(post);
+            return ok(comments.stream().map(c -> new CommentDetailsDto(c.getId(), c.getContent(), c.getCreatedAt())));
+        })
+        .orElseThrow(() -> new PostNotFoundException(id));
+    //.orElseGet(HttpResponse::notFound);
+}
+
+@io.micronaut.http.annotation.Post(uri = "/{id}/comments", consumes = MediaType.APPLICATION_JSON)
+@Transactional
+public HttpResponse<?> create(@PathVariable UUID id, @Body @Valid CreateCommentCommand dto) {
+
+    return posts.findById(id)
+        .map(post -> {
+            var data = Comment.builder().content(dto.content()).post(post).build();
+            post.getComments().add(data);
+            var saved = this.comments.save(data);
+            return HttpResponse.created(URI.create("/comments/" + saved.getId()));
+        })
+        .orElseThrow(() -> new PostNotFoundException(id));
+    // .orElseGet(HttpResponse::notFound);
+
+}
+```
+
+## Integration Tests
+
+The following is an example of integration tests, it tries to test all APIs in an integration environment with a real database, and running on a live embedded server.
+
+```java
+@MicronautTest
+@Slf4j
+class IntegrationTests {
+
+    @Inject
+    @Client("/")
+    HttpClient client;
+
+    @Inject
+    EmbeddedApplication<?> application;
+
+    @Test
+    void testItWorks() {
+        Assertions.assertTrue(application.isRunning());
+    }
+
+    @Test
+    void testGetAllPosts() {
+        var response = client.exchange(HttpRequest.GET("/posts"), String.class);
+
+        var bodyFlux = Flux.from(response).map(HttpResponse::body);
+        StepVerifier.create(bodyFlux)
+                .consumeNextWith(posts -> assertThat(JsonPath.from(posts).getInt("totalSize")).isGreaterThanOrEqualTo(2))
+                .verifyComplete();
+    }
+
+    @Test
+    public void testCrudFlow() {
+        //create a new post
+        var request = HttpRequest.POST("/posts", new CreatePostCommand("test title", "test content"));
+        var blockingHttpClient = client.toBlocking();
+        var response = blockingHttpClient.exchange(request);
+        assertThat(response.status().getCode()).isEqualTo(201);
+        var savedUrl = response.getHeaders().get("Location");
+        assertThat(savedUrl).isNotNull();
+        log.debug("saved post url: {}", savedUrl);
+
+        //get by id
+        var getPostResponse = blockingHttpClient.exchange(savedUrl, Post.class);
+        assertThat(getPostResponse.getStatus().getCode()).isEqualTo(200);
+
+        // add comments
+        var addCommentRequest = HttpRequest.POST(savedUrl + "/comments", new CreateCommentCommand("test content"));
+        var addCommentResponse = blockingHttpClient.exchange(addCommentRequest);
+        assertThat(addCommentResponse.getStatus().getCode()).isEqualTo(201);
+        var savedCommentUrl = addCommentResponse.getHeaders().get("Location");
+        assertThat(savedCommentUrl).isNotNull();
+
+        // get all comments
+        var getAllCommentsRequest = HttpRequest.GET(savedUrl + "/comments");
+        var getAllCommentsResponse = blockingHttpClient.exchange(getAllCommentsRequest, Argument.listOf(CommentDetailsDto.class));
+        assertThat(getAllCommentsResponse.status().getCode()).isEqualTo(200);
+        assertThat(getAllCommentsResponse.body().size()).isEqualTo(1);
+
+        //delete by id
+        var deletePostResponse = blockingHttpClient.exchange(HttpRequest.DELETE(savedUrl));
+        assertThat(deletePostResponse.getStatus().getCode()).isEqualTo(204);
+
+        //get by id again(404)
+        var e = Assertions.assertThrows(HttpClientResponseException.class, () ->
+                blockingHttpClient.exchange(HttpRequest.GET(savedUrl)));
+        var getPostResponse2 = e.getResponse();
+        assertThat(getPostResponse2.getStatus().getCode()).isEqualTo(404);
+    }
+
+}
+```
+
+In the `testGetAllPosts` test, we try to use reactive `HttpClient` APIs and use reactor-test's `StepVerifier` to assert the data in a reactive data stream.
+
+The second test mothed is verifying the whole flow of creating a post, add comments, fetching comments, and deleting the post. 
+
+In an API integration tests, the tests works through `HttpClient` to interact with the backend with defined APIs.   Ideally you can test the APIs with any HttpClient, such as Java 11 HttpClient, OKHttp, etc.  There is an example written with `RestAssured` and Java 11 new `HttpClient`,  check [the source codes](https://github.com/hantsy/micronaut-sandbox/tree/master/post-service) and explore them yourself.
+
+The example codes are hosted on my GitHub, check [hantsy/micronaut-sandbox/tree/master/post-service](https://github.com/hantsy/micronaut-sandbox#post-service).
 
 
 
