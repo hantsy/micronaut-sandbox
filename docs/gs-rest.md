@@ -980,7 +980,7 @@ The second test mothed is verifying the whole flow of creating a post, add comme
 
 In an API integration tests, the tests works through `HttpClient` to interact with the backend with defined APIs.   Ideally you can test the APIs with any HttpClient, such as Java 11 HttpClient, OKHttp, etc.  There is an example written with `RestAssured` and Java 11 new `HttpClient`,  check [the source codes](https://github.com/hantsy/micronaut-sandbox/tree/master/post-service) and explore them yourself.
 
-The example codes are hosted on my GitHub, check [hantsy/micronaut-sandbox/tree/master/post-service](https://github.com/hantsy/micronaut-sandbox#post-service).
+The example codes are hosted on my GitHub, check [hantsy/micronaut-sandbox#post-service](https://github.com/hantsy/micronaut-sandbox/tree/master/post-service).
 
 
 
