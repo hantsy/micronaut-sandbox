@@ -978,7 +978,7 @@ In the `testGetAllPosts` test, we try to use reactive `HttpClient` APIs and use 
 
 The second test mothed is verifying the whole flow of creating a post, add comments, fetching comments, and deleting the post. 
 
-In an API integration tests, the tests works through `HttpClient` to interact with the backend with defined APIs.   Ideally you can test the APIs with any HttpClient, such as Java 11 HttpClient, OKHttp, etc.  There is an example written with `RestAssured` and Java 11 new `HttpClient`,  check [the source codes](https://github.com/hantsy/micronaut-sandbox/tree/master/post-service) and explore them yourself.
+In an API integration tests, test itself works as a Http client(through a HTTP Client library) to interact with the backend with defined APIs. Ideally you can use any HttpClient to test APIs, such as Java 11 HttpClient, OKHttp, etc. There are some examples in the example repository using `RestAssured` and Java 11 new `HttpClient`, check [the source codes](https://github.com/hantsy/micronaut-sandbox/tree/master/post-service) and explore them yourself.
 
 The example codes are hosted on my GitHub, check [hantsy/micronaut-sandbox#post-service](https://github.com/hantsy/micronaut-sandbox/tree/master/post-service).
 
