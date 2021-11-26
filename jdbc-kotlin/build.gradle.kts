@@ -9,7 +9,7 @@ plugins {
 version = "0.1"
 group = "com.example"
 
-val kotlinVersion= project.properties["kotlinVersion"]
+val kotlinVersion = project.properties["kotlinVersion"]
 repositories {
     mavenCentral()
 }
@@ -25,7 +25,8 @@ micronaut {
 
 dependencies {
     // javaee/jakartaee specs
-    implementation("javax.annotation:javax.annotation-api")
+    implementation("jakarta.annotation:jakarta.annotation-api:2.0.0")
+    implementation("jakarta.persistence:jakarta.persistence-api:3.0.0")
 
     // micronaut framework
     implementation("io.micronaut:micronaut-http-client")
@@ -36,6 +37,7 @@ dependencies {
     implementation("io.micronaut.data:micronaut-data-jdbc")
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     runtimeOnly("org.postgresql:postgresql")
+
 
     //kotlin
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
@@ -52,11 +54,11 @@ dependencies {
     kapt("io.micronaut.data:micronaut-data-processor")
 
     //test
-    //testImplementation("org.testcontainers:postgresql:1.16.0")
-    //testImplementation("org.testcontainers:testcontainers:1.16.0")
+//    testImplementation("org.testcontainers:postgresql:1.16.2")
+//    testImplementation("org.testcontainers:testcontainers:1.16.2")
     testImplementation("io.mockk:mockk")
-    testApi("org.junit.jupiter:junit-jupiter-api")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+//    testApi("org.junit.jupiter:junit-jupiter-api")
+//    testImplementation("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("io.kotest:kotest-runner-junit5-jvm")
     testImplementation("io.kotest:kotest-assertions-core-jvm")
 }
@@ -78,6 +80,12 @@ tasks {
     compileTestKotlin {
         kotlinOptions {
             jvmTarget = "17"
+        }
+    }
+
+    test {
+        testLogging {
+            showStandardStreams = true
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.example
 
-import io.kotest.core.spec.style.StringSpec
+import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.core.test.TestCase
 import io.kotest.inspectors.forAny
 import io.kotest.matchers.collections.shouldHaveSize
@@ -13,17 +13,40 @@ import io.micronaut.test.extensions.kotest.annotation.MicronautTest
 import io.micronaut.transaction.TransactionCallback
 import io.micronaut.transaction.TransactionOperations
 import io.micronaut.transaction.TransactionStatus
+import jakarta.inject.Inject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 @MicronautTest(environments = [Environment.TEST], startApplication = false)
-class PostRepositoryTest(
-    private val posts: PostRepository,
-    private val template: JdbcOperations,
-    private val tx: TransactionOperations<Any>
-) : StringSpec({
+open class PostRepositoryAnnotationSpec() : AnnotationSpec() {
+    companion object {
+        private val log: Logger = LoggerFactory.getLogger(PostControllerTest::class.java)
+    }
 
-    "test save and find posts" {
+    @Inject
+    private lateinit var posts: PostRepository
+
+    @Inject
+    private lateinit var template: JdbcOperations
+
+    @Inject
+    private lateinit var tx: TransactionOperations<Any>
+
+    @BeforeEach
+    fun beforeEach() {
+        val callback: TransactionCallback<Any, Int> = TransactionCallback { _: TransactionStatus<Any> ->
+            val sql = "delete from posts";
+            this.template.prepareStatement(sql) {
+                it.executeUpdate()
+            }
+        }
+
+        val cnt = tx.executeWrite(callback)
+        println("deleted $cnt");
+    }
+
+    @Test
+    fun `test save and find posts`() {
         val sql = "insert into posts(title, content, status) values (?, ?, ?)";
         val insertedCnt = template.prepareStatement(sql) {
             it.setString(1, "test title")
@@ -39,7 +62,8 @@ class PostRepositoryTest(
         all.map { it.title }.forAny { it shouldContain "test" }
     }
 
-    "find by title" {
+    @Test
+    fun `find by title`() {
         val sql = "insert into posts(title, content, status) values (?, ?, ?)";
         val insertedCnt = template.prepareStatement(sql) {
             it.setString(1, "test title")
@@ -58,7 +82,8 @@ class PostRepositoryTest(
         all2 shouldHaveSize 0
     }
 
-    "find by keyword" {
+    @Test
+    fun `find by keyword`() {
         val sql = "insert into posts(title, content, status) values (?, ?, ?)";
         val insertedCnt = template.prepareStatement(sql) {
             it.setString(1, "test title")
@@ -82,7 +107,8 @@ class PostRepositoryTest(
         all2 shouldHaveSize 1
     }
 
-    "update posts" {
+    @Test
+    fun `update posts`() {
         val sql = "insert into posts(title, content, status) values (?, ?, ?)";
         val insertedCnt = template.prepareStatement(sql) {
             it.setString(1, "test title")
@@ -106,7 +132,8 @@ class PostRepositoryTest(
         all.map { it.status }.forAny { it shouldBe Status.REJECTED }
     }
 
-    "remove posts" {
+    @Test
+    fun `remove posts`() {
         val sql = "insert into posts(title, content, status) values (?, ?, ?)";
         val insertedCnt = template.prepareStatement(sql) {
             it.setString(1, "test title")
@@ -129,22 +156,4 @@ class PostRepositoryTest(
         all shouldHaveSize 1
         all.map { it.status }.forAny { it shouldBe Status.DRAFT }
     }
-
-}) {
-    companion object {
-        private val log: Logger = LoggerFactory.getLogger(PostControllerTest::class.java)
-    }
-
-    override fun beforeEach(testCase: TestCase) {
-        val callback: TransactionCallback<Any, Int> = TransactionCallback { _: TransactionStatus<Any> ->
-            val sql = "delete from posts";
-            this.template.prepareStatement(sql) {
-                it.executeUpdate()
-            }
-        }
-
-        val cnt = tx.executeWrite(callback)
-        println("deleted $cnt");
-    }
 }
-

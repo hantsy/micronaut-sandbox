@@ -1,5 +1,5 @@
 package com.example
 
 enum class Status {
-    DRAFT, PUBLISHED
+    DRAFT, PENDING_MODERATED, PUBLISHED, REJECTED
 }

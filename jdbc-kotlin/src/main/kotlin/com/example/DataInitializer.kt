@@ -3,6 +3,7 @@ package com.example
 import io.micronaut.context.annotation.Requires
 import io.micronaut.context.event.StartupEvent
 import io.micronaut.runtime.event.annotation.EventListener
+import io.micronaut.runtime.server.event.ServerStartupEvent
 import jakarta.inject.Singleton
 import org.slf4j.LoggerFactory
 
@@ -11,8 +12,8 @@ import org.slf4j.LoggerFactory
 class DataInitializer(private val posts: PostRepository) {
 
     @EventListener
-    fun onStartUp(e: StartupEvent) {
-        log.info("starting data initialization at StartUpEvent: $e")
+    fun onStartUp(e: ServerStartupEvent) {
+        log.info("starting data initialization at ServerStartupEvent: $e")
 
         posts.deleteAll()
 
