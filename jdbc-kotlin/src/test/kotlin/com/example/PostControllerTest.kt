@@ -66,7 +66,6 @@ class PostControllerTest(
     @Client("/") private var client: HttpClient
 ) : FunSpec({
 
-
     test("test get posts endpoint") {
         val posts = getMock(postsBean)
         every { posts.findAll() }
