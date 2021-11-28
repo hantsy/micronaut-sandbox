@@ -1,6 +1,8 @@
 micronaut:
   application:
     name: demo
+  server:
+    port: 8080
 datasources:
   default:
     url: jdbc:postgresql://localhost:5432/blogdb
