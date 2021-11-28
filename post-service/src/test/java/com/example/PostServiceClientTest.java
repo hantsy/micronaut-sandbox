@@ -45,23 +45,23 @@ public class PostServiceClientTest {
         return mock(CommentRepository.class);
     }
 
-//    @Test
-//    @DisplayName("test GET '/posts' endpoint")
-//    public void testGetAllPosts() throws Exception {
-//        var content = List.of(Post.builder().id(UUID.randomUUID()).title("test title").content("test content").build());
-//        when(this.posts.findAll(isA(Specification.class), isA(Pageable.class))).thenReturn(
-//                Page.of(content, Pageable.from(0, 20), 1)
-//        );
-//
-//        var response = client.getAll("", "", 0, 10);
-//        assertEquals(HttpStatus.OK, response.status());
-//        var body = response.body();
-//        assertThat(body.getTotalSize()).isEqualTo(1);
-//        assertThat(body.getContent().get(0).title()).isEqualTo("test title");
-//
-//        verify(this.posts, times(1)).findAll(isA(Specification.class), isA(Pageable.class));
-//        verifyNoMoreInteractions(this.posts);
-//    }
+    @Test
+    @DisplayName("test GET '/posts' endpoint")
+    public void testGetAllPosts() throws Exception {
+        var content = List.of(Post.builder().id(UUID.randomUUID()).title("test title").content("test content").build());
+        when(this.posts.findAll(isA(Specification.class), isA(Pageable.class))).thenReturn(
+                Page.of(content, Pageable.from(0, 20), 1)
+        );
+
+        var response = client.getAll("", "", 0, 10);
+        assertEquals(HttpStatus.OK, response.status());
+        var body = response.body();
+        assertThat(body.getTotalSize()).isEqualTo(1);
+        assertThat(body.getContent().get(0).title()).isEqualTo("test title");
+
+        verify(this.posts, times(1)).findAll(isA(Specification.class), isA(Pageable.class));
+        verifyNoMoreInteractions(this.posts);
+    }
 
     @Test
     @DisplayName("test GET '/posts/{id}' endpoint")

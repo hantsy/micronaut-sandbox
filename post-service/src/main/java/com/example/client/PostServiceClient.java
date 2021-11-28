@@ -17,7 +17,7 @@ import java.util.UUID;
 public interface PostServiceClient {
 
     @Get(uri = "/", produces = MediaType.APPLICATION_JSON)
-    HttpResponse<Page<PostSummaryDto>> getAll(@QueryValue(defaultValue = "") String q,
+    HttpResponse<PageDto<PostSummaryDto>> getAll(@QueryValue(defaultValue = "") String q,
                                               @QueryValue(defaultValue = "") String status,
                                               @QueryValue(defaultValue = "0") int page,
                                               @QueryValue(defaultValue = "10") int size);
