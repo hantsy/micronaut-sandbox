@@ -10,7 +10,7 @@ import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
 
 @MicronautTest
-class DemoTest(
+class ApplicationTest(
     private val application: EmbeddedApplication<*>,
     @Client("/") private val client: HttpClient
 ) : StringSpec({
