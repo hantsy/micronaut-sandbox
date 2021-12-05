@@ -84,7 +84,7 @@ class PostRepositoryTest(
 
     "find by keyword" {
         val sql = "insert into posts(title, content, status) values ($1, $2, $3)";
-        Mono
+        Flux
             .from(template.withTransaction { status: ReactiveTransactionStatus<Connection> ->
                 val statement = status.connection.createStatement(sql)
                 statement
@@ -101,7 +101,7 @@ class PostRepositoryTest(
             })
             .`as` { StepVerifier.create(it) }
             .consumeNextWith { it shouldBeEqualComparingTo 1 }
-            //.consumeNextWith { it shouldBeEqualComparingTo 1 }
+            .consumeNextWith { it shouldBeEqualComparingTo 1 }
             .verifyComplete()
 
         runBlocking {
@@ -117,7 +117,7 @@ class PostRepositoryTest(
 
     "update posts" {
         val sql = "insert into posts(title, content, status) values ($1, $2, $3)";
-        Mono
+        Flux
             .from(template.withTransaction { status: ReactiveTransactionStatus<Connection> ->
                 val statement = status.connection.createStatement(sql)
                 statement
@@ -136,7 +136,7 @@ class PostRepositoryTest(
             })
             .`as` { StepVerifier.create(it) }
             .consumeNextWith { it shouldBeEqualComparingTo 1 }
-            //.consumeNextWith { it shouldBeEqualComparingTo 1 }
+            .consumeNextWith { it shouldBeEqualComparingTo 1 }
             .verifyComplete()
 
         runBlocking {
@@ -152,7 +152,7 @@ class PostRepositoryTest(
 
     "remove posts" {
         val sql = "insert into posts(title, content, status) values ($1, $2, $3)";
-        Mono
+        Flux
             .from(template.withTransaction { status: ReactiveTransactionStatus<Connection> ->
                 val statement = status.connection.createStatement(sql)
                 statement
@@ -170,7 +170,7 @@ class PostRepositoryTest(
             })
             .`as` { StepVerifier.create(it) }
             .consumeNextWith { it shouldBeEqualComparingTo 1 }
-            //.consumeNextWith { it shouldBeEqualComparingTo 1 }
+            .consumeNextWith { it shouldBeEqualComparingTo 1 }
             .verifyComplete()
 
         runBlocking {

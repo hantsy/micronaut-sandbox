@@ -13,4 +13,5 @@
         <appender-ref ref="STDOUT" />
     </root>
     <logger level="debug" name="io.micronaut.data"></logger>
+    <logger level="trace" name="io.micronaut.data.query"></logger>
 </configuration>
