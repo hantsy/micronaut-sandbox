@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 import java.util.concurrent.CountDownLatch
@@ -85,21 +86,22 @@ class PostRepositoryTest(
         val sql = "insert into posts(title, content, status) values ($1, $2, $3)";
         Mono
             .from(template.withTransaction { status: ReactiveTransactionStatus<Connection> ->
-                Mono.from(
-                    status.connection.createStatement(sql)
-                        .bind(0, "test title")
-                        .bind(1, "test content")
-                        .bind(2, "DRAFT")
-                        .add()
-                        .bind(0, "test2 title")
-                        .bind(1, "test2 content")
-                        .bind(2, "DRAFT")
-                        .execute()
+                val statement = status.connection.createStatement(sql)
+                statement
+                    .bind(0, "test title")
+                    .bind(1, "test content")
+                    .bind(2, "DRAFT")
+                    .add()
+                statement.bind(0, "test2 title")
+                    .bind(1, "test2 content")
+                    .bind(2, "DRAFT")
+                    .add()
 
-                ).flatMap { Mono.from(it.rowsUpdated) }
+                Flux.from(statement.execute()).flatMap { Flux.from(it.rowsUpdated) }
             })
             .`as` { StepVerifier.create(it) }
-            .consumeNextWith { it shouldBeEqualComparingTo 2 }
+            .consumeNextWith { it shouldBeEqualComparingTo 1 }
+            //.consumeNextWith { it shouldBeEqualComparingTo 1 }
             .verifyComplete()
 
         runBlocking {
@@ -117,21 +119,24 @@ class PostRepositoryTest(
         val sql = "insert into posts(title, content, status) values ($1, $2, $3)";
         Mono
             .from(template.withTransaction { status: ReactiveTransactionStatus<Connection> ->
-                Mono.from(
-                    status.connection.createStatement(sql)
-                        .bind(0, "test title")
-                        .bind(1, "test content")
-                        .bind(2, "PENDING_MODERATED")
-                        .add()
-                        .bind(0, "test2 title")
-                        .bind(1, "test2 content")
-                        .bind(2, "PENDING_MODERATED")
-                        .execute()
+                val statement = status.connection.createStatement(sql)
+                statement
+                    .bind(0, "test title")
+                    .bind(1, "test content")
+                    .bind(2, "PENDING_MODERATED")
+                    .add()
 
-                ).flatMap { Mono.from(it.rowsUpdated) }
+                statement
+                    .bind(0, "test2 title")
+                    .bind(1, "test2 content")
+                    .bind(2, "PENDING_MODERATED")
+                    .add()
+
+                Flux.from(statement.execute()).flatMap { Flux.from(it.rowsUpdated) }
             })
             .`as` { StepVerifier.create(it) }
-            .consumeNextWith { it shouldBeEqualComparingTo 2 }
+            .consumeNextWith { it shouldBeEqualComparingTo 1 }
+            //.consumeNextWith { it shouldBeEqualComparingTo 1 }
             .verifyComplete()
 
         runBlocking {
@@ -149,21 +154,23 @@ class PostRepositoryTest(
         val sql = "insert into posts(title, content, status) values ($1, $2, $3)";
         Mono
             .from(template.withTransaction { status: ReactiveTransactionStatus<Connection> ->
-                Mono.from(
-                    status.connection.createStatement(sql)
-                        .bind(0, "test title")
-                        .bind(1, "test content")
-                        .bind(2, "REJECTED")
-                        .add()
-                        .bind(0, "test2 title")
-                        .bind(1, "test2 content")
-                        .bind(2, "DRAFT")
-                        .execute()
+                val statement = status.connection.createStatement(sql)
+                statement
+                    .bind(0, "test title")
+                    .bind(1, "test content")
+                    .bind(2, "REJECTED")
+                    .add()
+                statement
+                    .bind(0, "test2 title")
+                    .bind(1, "test2 content")
+                    .bind(2, "DRAFT")
+                    .add()
 
-                ).flatMap { Mono.from(it.rowsUpdated) }
+                Flux.from(statement.execute()).flatMap { Flux.from(it.rowsUpdated) }
             })
             .`as` { StepVerifier.create(it) }
-            .consumeNextWith { it shouldBeEqualComparingTo 2 }
+            .consumeNextWith { it shouldBeEqualComparingTo 1 }
+            //.consumeNextWith { it shouldBeEqualComparingTo 1 }
             .verifyComplete()
 
         runBlocking {
@@ -190,16 +197,19 @@ class PostRepositoryTest(
             .from(
                 this.template.withConnection { conn: Connection ->
                     Mono.from(conn.beginTransaction())
-                        .flatMap { Mono.from(conn.createStatement(sql).execute()) }
-                        .flatMap { Mono.from(it.rowsUpdated) }
-                        .doOnSuccess { Mono.from(conn.commitTransaction()).subscribe() }
-                        .doOnError { Mono.from(conn.rollbackTransaction()).subscribe() }
+                        .then(Mono.from(conn.createStatement(sql).execute())
+                            .flatMap { Mono.from(it.rowsUpdated) }
+                            .doOnNext { log.debug("deleted rows: $it ") }
+                        )
+                        .then(Mono.from(conn.commitTransaction()))
+                        .doOnError { Mono.from(conn.rollbackTransaction()).then() }
                 }
             )
+            .log()
             .doOnTerminate { latch.countDown() }
             .subscribe(
-                { data -> log.debug("deleted result: $data ") },
-                { error -> log.error("error: $error") },
+                { data -> log.debug("deleted posts: $data ") },
+                { error -> log.error("error of cleaning posts: $error") },
                 { log.info("done") }
             )
 

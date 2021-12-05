@@ -2,6 +2,7 @@ package com.example
 
 import io.micronaut.context.event.StartupEvent
 import io.micronaut.runtime.event.annotation.EventListener
+import io.micronaut.runtime.server.event.ServerStartupEvent
 import jakarta.inject.Singleton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
@@ -15,7 +16,7 @@ import org.slf4j.LoggerFactory
 class DataInitializer(private val posts: PostRepository) {
 
     @EventListener//does not support `suspend`
-    fun onStartUp(e: StartupEvent) {
+    fun onStartUp(e: ServerStartupEvent) {
         log.info("starting data initialization at StartUpEvent: $e")
 
         runBlocking {
