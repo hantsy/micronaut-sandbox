@@ -26,7 +26,8 @@ micronaut {
 dependencies {
 
     // javaee/jakarta ee spec
-    implementation("javax.annotation:javax.annotation-api")
+    implementation("jakarta.annotation:jakarta.annotation-api:2.0.0")
+    implementation("jakarta.persistence:jakarta.persistence-api:3.0.0")
 
     //micronaut framework
     implementation("io.micronaut:micronaut-http-client")
@@ -58,6 +59,8 @@ dependencies {
     kapt("io.micronaut.data:micronaut-data-processor")
 
     // test
+    // https://mvnrepository.com/artifact/io.projectreactor/reactor-test
+    testImplementation("io.projectreactor:reactor-test:3.4.12")
     //testImplementation("org.testcontainers:r2dbc")
     //testImplementation("org.testcontainers:testcontainers")
 }

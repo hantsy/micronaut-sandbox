@@ -132,7 +132,7 @@ class PostRepositoryTest(
 
 }) {
     companion object {
-        private val log: Logger = LoggerFactory.getLogger(PostControllerTest::class.java)
+        private val log: Logger = LoggerFactory.getLogger(PostRepositoryTest::class.java)
     }
 
     override fun beforeEach(testCase: TestCase) {
