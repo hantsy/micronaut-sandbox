@@ -28,7 +28,7 @@ class PostRepositoryTest(
     private val template: R2dbcOperations
 ) : StringSpec({
 
-    "test save and find posts" {
+    "save and find posts" {
         val sql = "insert into posts(title, content, status) values ($1, $2, $3)";
         Mono
             .from(template.withTransaction { status: ReactiveTransactionStatus<Connection> ->

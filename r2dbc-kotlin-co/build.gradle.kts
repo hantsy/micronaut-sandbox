@@ -9,7 +9,7 @@ plugins {
 version = "0.1"
 group = "com.example"
 
-val kotlinVersion=project.properties.get("kotlinVersion")
+val kotlinVersion = project.properties.get("kotlinVersion")
 repositories {
     mavenCentral()
 }
@@ -46,7 +46,7 @@ dependencies {
     //logging
     runtimeOnly("ch.qos.logback:logback-classic")
 
-    //reactor/reactivestreams
+    //reactor/reactivestreams httpclient
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
 
@@ -61,6 +61,7 @@ dependencies {
     // test
     // https://mvnrepository.com/artifact/io.projectreactor/reactor-test
     testImplementation("io.projectreactor:reactor-test:3.4.12")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
     //testImplementation("org.testcontainers:r2dbc")
     //testImplementation("org.testcontainers:testcontainers")
 }
@@ -77,11 +78,13 @@ tasks {
     compileKotlin {
         kotlinOptions {
             jvmTarget = "17"
+            freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
         }
     }
     compileTestKotlin {
         kotlinOptions {
             jvmTarget = "17"
+            freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
         }
     }
 }
