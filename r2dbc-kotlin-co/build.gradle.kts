@@ -10,6 +10,8 @@ version = "0.1"
 group = "com.example"
 
 val kotlinVersion = project.properties.get("kotlinVersion")
+val kotlinCoVersion = project.properties.get("kotlinCoVersion")
+
 repositories {
     mavenCentral()
 }
@@ -51,8 +53,8 @@ dependencies {
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
 
     //kotlin coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoVersion}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${kotlinCoVersion}")
 
     // annotation processor
     kapt("io.micronaut:micronaut-http-validation")
@@ -61,7 +63,7 @@ dependencies {
     // test
     // https://mvnrepository.com/artifact/io.projectreactor/reactor-test
     testImplementation("io.projectreactor:reactor-test:3.4.12")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlinCoVersion}")
     //testImplementation("org.testcontainers:r2dbc")
     //testImplementation("org.testcontainers:testcontainers")
 }

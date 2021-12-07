@@ -1,5 +1,6 @@
 package com.example
 
+import io.micronaut.context.annotation.Requires
 import io.micronaut.context.event.StartupEvent
 import io.micronaut.runtime.event.annotation.EventListener
 import io.micronaut.runtime.server.event.ServerStartupEvent
@@ -13,6 +14,7 @@ import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 
 @Singleton
+@Requires(notEnv = ["mock"])
 class DataInitializer(private val posts: PostRepository) {
 
     @EventListener//does not support `suspend`

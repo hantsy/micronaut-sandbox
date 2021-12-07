@@ -14,8 +14,7 @@ import io.micronaut.test.extensions.kotest.annotation.MicronautTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.reactive.awaitSingle
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.assertThrows
+import kotlinx.coroutines.test.runTest
 import java.util.*
 
 @MicronautTest
@@ -46,19 +45,21 @@ class ApplicationTest(
     fun `test GET by an none existing id`() {
         runBlocking {
             shouldThrow<HttpClientResponseException> {
-                client.exchange("/posts/"+ UUID.randomUUID().toString(), Post::class.java).awaitSingle()
+                client.exchange("/posts/" + UUID.randomUUID().toString(), Post::class.java).awaitSingle()
             }.status shouldBe HttpStatus.NOT_FOUND
         }
     }
 
-//    @Test
-//    fun `test GET all posts endpoint`() = runBlockingTest {
-//        val response = client.exchange("/posts", Array<Post>::class.java).awaitSingle()
-//        response.status shouldBe HttpStatus.OK
-//        response.body()!!.map { it.title }.forAny {
-//            it shouldContain "Micronaut"
-//        }
-//    }
+    // see: https://stackoverflow.com/questions/70243380/test-kotlin-coroutines-with-runblockingtest-failed
+    // and https://github.com/Kotlin/kotlinx.coroutines/issues/1204
+    @Test
+    fun `test GET all posts endpoint with runTest`() = runTest {
+        val response = client.exchange("/posts", Array<Post>::class.java).awaitSingle()
+        response.status shouldBe HttpStatus.OK
+        response.body()!!.map { it.title }.forAny {
+            it shouldContain "Micronaut"
+        }
+    }
 
 //    private suspend fun <O> sendRequest(uri: String, type: Class<O>): HttpResponse<O> {
 //        return client.exchange(uri, type).awaitSingle()
