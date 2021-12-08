@@ -1,6 +1,6 @@
 # Building Micronaut applications with Micronaut Data R2dbc and Kotlin Coroutines
 
-In this post, we will continue to explore Micronaut Data  R2dbc,  and write the example with Kotlin Coroutines. In contrast to Jdbc, R2dbc is another RDBMS accessing specification but provides asynchronous none-blocking API, R2dbc API is totally compatible with Reactive Streams specification. Kotlin Coroutines is an official Kotlin extension provides an event-loop based asynchronous programming model.
+In this post, we will continue to explore Micronaut Data  R2dbc,  and rewrite the previous Data Jdbc/Kotlin example with Data R2dbc and Kotlin Coroutines. In contrast to Jdbc, R2dbc is another RDBMS database connection specification but provides asynchronous none-blocking API for users. R2dbc API is totally compatible with Reactive Streams specification. Kotlin Coroutines is an official Kotlin extension provides an event-loop based asynchronous programming model.
 
 
 
@@ -44,7 +44,7 @@ data class Post(
 )
 ```
 
-Micronaut Data R2dbc does not support a `UUID`  ID generator strategy, here we use `@AutoPopulated` to generate a random UUID before persisting into database.
+Micronaut Data R2dbc does not include a `UUID`  ID generator strategy, here we use `@AutoPopulated` to generate a random UUID before persisting into database.
 
 Create a Repository interface for `Post` entity.
 
@@ -53,7 +53,7 @@ Create a Repository interface for `Post` entity.
 interface PostRepository : CoroutineCrudRepository<Post, UUID>, CoroutineJpaSpecificationExecutor<Post>
 ```
 
-Micronaut Data provides several Repository interface for ReactiveStreams API, such as `ReactorCrudRepository`, etc. `CoroutineCrudRepository` is a Kotlin Coroutines compatible Repository interface which returns a *suspend* result in the functions. 
+Micronaut Data provides several Repository interface for ReactiveStreams API, for Reactor users, there is `ReactorCrudRepository`. The  `CoroutineCrudRepository` is a Kotlin Coroutines compatible Repository interface which returns a *suspend* result in the functions. 
 
 > The `@R2dbcRepository` requires a `dialect` here, else it will fail at the application startup.
 
@@ -344,9 +344,25 @@ We converted the existing Jdbc version to R2dbc, there are some mainly differenc
 
 In this post, we still use Kotest as testing framework, as you see in the above `PostRepositoryTest`,  we use a `runBlocking` to wrap the coroutines execution in a blocking context.
 
-The `kotlinx-coroutines-test` provides some helpers to simplify the testing of Kotlin Coroutines. 
+The `kotlinx-coroutines-test` provides some helpers to simplify the testing of Kotlin Coroutines, eg. `runBlockingTest`, etc. Add `kotlinx-coroutines-test` into the test dependencies.
 
-> There is [an issue](https://stackoverflow.com/questions/70243380/test-kotlin-coroutines-with-runblockingtest-failed) to use `runTest` in a test, make sure you are using the latest 1.6.0-RC. 
+```kotlin
+//gradle.properties
+kotlinCoVersion=1.6.0-RC
+
+//build.gradle.kt
+val kotlinCoVersion=project.properties.get("kotlinCoVersoin")
+
+//update versions of kotlin coroutines
+implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoVersion}")
+implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${kotlinCoVersion}")
+
+testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlinCoVersion}")
+```
+
+
+
+> There is [an issue](https://stackoverflow.com/questions/70243380/test-kotlin-coroutines-with-runblockingtest-failed) to use `runBlockingTest` in a test, make sure you are using the latest 1.6.0-RC, and use `runTest` instead.
 
 Similar to the `runBlocking`, you can use `runTest` to wrap the testing functionality.
 
@@ -363,7 +379,7 @@ fun `test GET all posts endpoint with runTest`() = runTest {
 
 > The `runBlockingTest` is deprecated in the latest 1.6.0 version of Kotlin Coroutines.
 
-We can also mock the repository when testing controllers, as we done in the previous post. Mockk provides some variants for Kotlin Coroutines, such as `coEvery`, `coVerify`, etc.
+We can also mock the repository when testing controllers, as we've done in the previous post. Mockk provides some variants for Kotlin Coroutines, such as `coEvery`, `coVerify`, etc.
 
 ```kotlin
 @MicronautTest(environments = ["mock"])
@@ -400,7 +416,7 @@ class PostControllerTest(
 
 ```
 
-Firstly, create a mock bean for `PostRepository`, then do stubbing with a `coEvery` and verify the calls in the mocks with `coVerify`.
+Firstly, create a mock bean for `PostRepository` , then do stubbing with a `coEvery` and verify the calls in the mocks with `coVerify` clause.
 
 Get the complete [source codes](https://github.com/hantsy/micronaut-sandbox/tree/master/r2dbc-kotlin-co) from my Github.
 
