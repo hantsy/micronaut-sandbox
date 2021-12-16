@@ -22,15 +22,15 @@ micronaut {
 
 dependencies {
     //spec
-    implementation("javax.annotation:javax.annotation-api")
+    implementation("jakarta.annotation:jakarta.annotation-api:2.0.0")
 
     //micronaut
-    implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut.mongodb:micronaut-mongo-reactive")
+    implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
-    implementation("io.micronaut.mongodb:micronaut-mongo-reactive")
 
     //logging
     runtimeOnly("ch.qos.logback:logback-classic")
@@ -39,11 +39,13 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testAnnotationProcessor("org.projectlombok:lombok")
+
     //apt
     annotationProcessor("io.micronaut:micronaut-http-validation")
 
     // reactor test
     testImplementation("io.projectreactor:reactor-test:3.4.12")
+
     //test
     testImplementation("org.testcontainers:mongodb")
     testImplementation("org.testcontainers:spock")

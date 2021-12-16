@@ -1,4 +1,4 @@
-package com.example.persons;
+package com.example.customers;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

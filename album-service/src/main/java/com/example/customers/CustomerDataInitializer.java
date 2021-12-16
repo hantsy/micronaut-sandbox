@@ -1,9 +1,8 @@
-package com.example;
+package com.example.customers;
 
-import com.example.persons.PersonRepository;
 import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.event.StartupEvent;
 import io.micronaut.runtime.event.annotation.EventListener;
+import io.micronaut.runtime.server.event.ServerStartupEvent;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,12 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 @Requires(notEnv = "mock")
 @Slf4j
 @RequiredArgsConstructor
-public class DataInitializer {
-    private final PersonRepository persons;
+public class CustomerDataInitializer {
+    private final CustomerRepository customerRepository;
 
     @EventListener
-    public void onStart(StartupEvent event) {
+    public void onStart(ServerStartupEvent event) {
         log.debug("starting data initialization...");
-        this.persons.init();
+        this.customerRepository.init();
     }
 }

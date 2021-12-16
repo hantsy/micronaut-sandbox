@@ -1,4 +1,4 @@
-package com.example.persons;
+package com.example.customers;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,14 +10,14 @@ import org.bson.types.ObjectId;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
-public class Person {
+public class Customer {
     private ObjectId id;
     private String name;
     private int age;
     private Address address;
 
-    public static Person of(String name, int age, Address address) {
-        return Person.of(null, name, age, address);
+    public static Customer of(String name, int age, Address address) {
+        return Customer.of(null, name, age, address);
     }
 }
 

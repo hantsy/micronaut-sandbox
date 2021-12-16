@@ -1,7 +1,6 @@
 package com.example
 
-import com.example.persons.Person
-import com.example.persons.PersonRepository
+import com.example.customers.CustomerRepository
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
@@ -20,7 +19,7 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 @MicronautTest(environments = ["mock"])
-class PersonControllerSpec extends Specification {
+class CustomerControllerSpec extends Specification {
 
     @Inject
     EmbeddedApplication<?> application
@@ -30,7 +29,7 @@ class PersonControllerSpec extends Specification {
     ReactorHttpClient client
 
     @Inject
-    PersonRepository persons
+    CustomerRepository customerRepository
 
     //for all features, run once globally
     // def setupSpec() {
@@ -56,7 +55,7 @@ class PersonControllerSpec extends Specification {
 
     void 'get all persons'() {
         given:
-        1 * persons.findAll() >> Flux.just(Person.of(ObjectId.get(), "Jack", 40, null), Person.of(ObjectId.get(), "Rose", 20, null))
+        1 * customerRepository.findAll() >> Flux.just(Person.of(ObjectId.get(), "Jack", 40, null), Person.of(ObjectId.get(), "Rose", 20, null))
 
         when:
         Flux<HttpResponse<String>> resFlux = client.exchange(HttpRequest.GET("/persons"), String).log()
@@ -76,7 +75,7 @@ class PersonControllerSpec extends Specification {
     void 'create a new person'() {
         given:
         def objId = ObjectId.get()
-        1 * persons.insertOne(_) >> Mono.just(objId)
+        1 * customerRepository.insertOne(_) >> Mono.just(objId)
 
         when:
         def body = Person.of(null, "Jack", 40, null)
@@ -94,7 +93,7 @@ class PersonControllerSpec extends Specification {
 
     void 'get person by id '() {
         given:
-        1 * persons.findById(_) >> Mono.just(Person.of(ObjectId.get(), "Jack", 40, null))
+        1 * customerRepository.findById(_) >> Mono.just(Person.of(ObjectId.get(), "Jack", 40, null))
 
         when:
         Flux<HttpResponse<String>> resFlux = client.exchange(HttpRequest.GET("/persons/" + ObjectId.get().toHexString()), String).log()
@@ -111,7 +110,7 @@ class PersonControllerSpec extends Specification {
 
     void 'get person by none-existing id '() {
         given:
-        1 * persons.findById(_) >> Mono.empty()
+        1 * customerRepository.findById(_) >> Mono.empty()
 
         when:
         Flux<HttpResponse<String>> resFlux = client.exchange(HttpRequest.GET("/persons/" + ObjectId.get().toHexString()), String).log()
@@ -127,7 +126,7 @@ class PersonControllerSpec extends Specification {
 
     void 'delete person by id '() {
         given:
-        1 * persons.deleteById(_) >> Mono.just(1L)
+        1 * customerRepository.deleteById(_) >> Mono.just(1L)
 
         when:
         Flux<HttpResponse<String>> resFlux = client.exchange(HttpRequest.DELETE("/persons/" + ObjectId.get().toHexString()), String).log()
@@ -143,7 +142,7 @@ class PersonControllerSpec extends Specification {
 
     void 'delete person by none-existing id '() {
         given:
-        1 * persons.deleteById(_) >> Mono.just(0L)
+        1 * customerRepository.deleteById(_) >> Mono.just(0L)
 
         when:
         Flux<HttpResponse<String>> resFlux = client.exchange(HttpRequest.DELETE("/persons/" + ObjectId.get().toHexString()), String).log()
@@ -157,8 +156,8 @@ class PersonControllerSpec extends Specification {
                 .verify()
     }
 
-    @MockBean(PersonRepository)
-    PersonRepository mockPersonRepository() {// must use explicit type declaration
-        Mock(PersonRepository)
+    @MockBean(CustomerRepository)
+    CustomerRepository mockedCustomerRepository() {// must use explicit type declaration
+        Mock(CustomerRepository)
     }
 }

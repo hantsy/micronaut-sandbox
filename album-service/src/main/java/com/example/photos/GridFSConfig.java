@@ -1,4 +1,4 @@
-package com.example;
+package com.example.photos;
 
 import com.mongodb.WriteConcern;
 import com.mongodb.reactivestreams.client.MongoClient;
