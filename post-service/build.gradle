@@ -1,6 +1,6 @@
 plugins {
-    id("com.github.johnrengelman.shadow") version "7.1.0"
-    id("io.micronaut.application") version "3.0.1"
+    id("com.github.johnrengelman.shadow") version "7.1.1"
+    id("io.micronaut.application") version "3.0.2"
 }
 
 version = "0.1"
@@ -55,7 +55,7 @@ dependencies {
     testImplementation("org.mockito:mockito-core")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.4.12")
+    testImplementation("io.projectreactor:reactor-test:3.4.13")
 
     // rest-assured
     testImplementation("io.rest-assured:rest-assured:4.4.0")
