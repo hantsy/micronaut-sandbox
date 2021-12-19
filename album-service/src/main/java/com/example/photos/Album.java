@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +20,13 @@ import java.util.List;
 @AllArgsConstructor
 public class Album {
     @BsonId
-    private String id;
+    private ObjectId id;
 
     @BsonProperty
     private String name;
+
+    @Builder.Default
+    private Instant createdAt = Instant.now();
 
     @Builder.Default
     private List<String> photos = new ArrayList<>();

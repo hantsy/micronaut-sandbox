@@ -6,6 +6,7 @@ import io.micronaut.http.MutableHttpResponse;
 import io.micronaut.http.annotation.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -26,7 +27,7 @@ public class AlbumController {
     }
 
     @Get(uri = "/{id}", produces = {MediaType.APPLICATION_JSON})
-    public Mono<MutableHttpResponse<Album>> byId(@PathVariable String id) {
+    public Mono<MutableHttpResponse<Album>> byId(@PathVariable ObjectId id) {
         return this.albumRepository.findById(id)
                 .map(HttpResponse::ok)
                 .switchIfEmpty(Mono.just(notFound()));
@@ -39,7 +40,7 @@ public class AlbumController {
     }
 
     @Post(uri = "/{id}/photos", consumes = {MediaType.APPLICATION_JSON})
-    public Mono<MutableHttpResponse<Object>> addPhotosToAlbum(@PathVariable String id, @Body AddPhotoToAlbumDto data) {
+    public Mono<MutableHttpResponse<Object>> addPhotosToAlbum(@PathVariable ObjectId id, @Body AddPhotoToAlbumDto data) {
         return this.albumRepository.findById(id)
                 .flatMap(album -> {
                     Arrays.stream(data.photoIds()).forEach(album::addPhoto);
@@ -50,7 +51,7 @@ public class AlbumController {
     }
 
     @Delete(uri = "/{id}/photos", consumes = {MediaType.APPLICATION_JSON})
-    public Mono<MutableHttpResponse<Object>> removePhotosToAlbum(@PathVariable String id, @Body RemovePhotoFromAlbumDto data) {
+    public Mono<MutableHttpResponse<Object>> removePhotosToAlbum(@PathVariable ObjectId id, @Body RemovePhotoFromAlbumDto data) {
         return this.albumRepository.findById(id)
                 .flatMap(album -> {
                     Arrays.stream(data.photoIds()).forEach(album::removePhoto);
@@ -61,7 +62,7 @@ public class AlbumController {
     }
 
     @Delete(uri = "/{id}")
-    public Mono<HttpResponse<?>> delete(@PathVariable String id) {
+    public Mono<HttpResponse<?>> delete(@PathVariable ObjectId id) {
         return this.albumRepository.deleteById(id)
                 .map(deleted -> {
                     if (deleted > 0) {
