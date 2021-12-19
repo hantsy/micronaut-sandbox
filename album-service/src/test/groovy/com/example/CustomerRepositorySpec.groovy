@@ -1,6 +1,6 @@
 package com.example
 
-import com.example.customers.Address
+
 import com.example.customers.Customer
 import com.example.customers.CustomerRepository
 import groovy.util.logging.Slf4j
@@ -43,14 +43,14 @@ class CustomerRepositorySpec extends Specification {
 
     void 'test findAll'() {
         given:
-        this.customerRepository.insertMany(List.of(Customer.of("Hantsy", 40, Address.of("TianHe District", "Gungzhou", "51000"))))
+        this.customerRepository.insertMany(List.of(Customer.of("Jack", 40, null))).subscribe()
 
         when:
         def result = this.customerRepository.findAll()
 
         then:
         StepVerifier.create(result)
-                .expectNextMatches(it -> it.name == "Hantsy")
+                .expectNextMatches(it -> it.name == "Jack")
                 .expectComplete()
                 .verify()
     }
