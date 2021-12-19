@@ -10,6 +10,8 @@ import jakarta.inject.Inject
 import reactor.test.StepVerifier
 import spock.lang.Specification
 
+import java.time.Duration
+
 @MicronautTest(startApplication = false)
 @Slf4j
 class CustomerRepositorySpec extends Specification {
@@ -43,7 +45,8 @@ class CustomerRepositorySpec extends Specification {
 
     void 'test findAll'() {
         given:
-        this.customerRepository.insertMany(List.of(Customer.of("Jack", 40, null))).subscribe()
+        this.customerRepository.insertMany(List.of(Customer.of("Jack", 40, null)))
+                .block(Duration.ofMillis(5000L))
 
         when:
         def result = this.customerRepository.findAll()

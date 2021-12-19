@@ -10,6 +10,8 @@ import jakarta.inject.Inject
 import reactor.test.StepVerifier
 import spock.lang.Specification
 
+import java.time.Duration
+
 @MicronautTest(startApplication = false)
 @Slf4j
 class AlbumRepositorySpec extends Specification {
@@ -31,7 +33,8 @@ class AlbumRepositorySpec extends Specification {
 
     void 'test findAll'() {
         given:
-        this.albumRepository.insertMany(List.of(Album.of("Guangzhou"), Album.of("Shanghai"))).subscribe()
+        this.albumRepository.insertMany(List.of(Album.of("Guangzhou"), Album.of("Shanghai")))
+                .block(Duration.ofMillis(5000))
 
         when:
         def result = this.albumRepository.findAll().log()

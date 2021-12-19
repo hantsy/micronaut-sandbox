@@ -73,7 +73,7 @@ public class AlbumRepository {
                 PojoCodecProvider.builder()
                         .register("com.example.photos")
                         .register(new OptionalPropertyCodecProvider())
-                        .conventions(List.of(Conventions.ANNOTATION_CONVENTION))
+                        .conventions(Conventions.DEFAULT_CONVENTIONS)
                         .build());
         var codecRegistry = fromRegistries(List.of(providers));
         return mongoClient
