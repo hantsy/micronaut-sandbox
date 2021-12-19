@@ -14,7 +14,7 @@ import java.net.URI;
 
 import static io.micronaut.http.HttpResponse.*;
 
-@Controller("/persons")
+@Controller("/customers")
 @RequiredArgsConstructor
 @Slf4j
 public class CustomerController {
@@ -35,7 +35,7 @@ public class CustomerController {
     @Post(uri = "/", consumes = {MediaType.APPLICATION_JSON})
     public Mono<HttpResponse<?>> create(@Body Customer data) {
         return this.customerRepository.insertOne(data)
-                .map(id -> created(URI.create("/persons/" + id.toHexString())));
+                .map(id -> created(URI.create("/customers/" + id.toHexString())));
     }
 
     @Delete(uri = "/{id}")

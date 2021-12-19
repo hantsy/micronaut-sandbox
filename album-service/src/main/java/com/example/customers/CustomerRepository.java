@@ -21,9 +21,6 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Map;
 
-import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
-import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
-
 @Singleton
 @RequiredArgsConstructor
 @Slf4j
@@ -70,13 +67,16 @@ public class CustomerRepository {
                 );
     }
 
-    private MongoCollection<Customer> customersCollection() {
-//        var existingRegistries = new ArrayList<>(mongoConfiguration.getCodecRegistries());
-//        existingRegistries.add(fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-//        var codecRegistry = fromRegistries(existingRegistries);
-        return mongoClient
-                .getDatabase("custdb")
-                .getCollection("customers", Customer.class);
-        //.withCodecRegistry(codecRegistry);
+    public Mono<Long> deleteAll() {
+        return Mono.from(customersCollection().deleteMany(Filters.empty(), new DeleteOptions()))
+                .map(DeleteResult::getDeletedCount);
     }
+
+    private MongoCollection<Customer> customersCollection() {
+        return mongoClient
+                .getDatabase("userdb")
+                .getCollection("customers", Customer.class);
+    }
+
+
 }

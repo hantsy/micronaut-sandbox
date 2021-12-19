@@ -1,5 +1,6 @@
-package com.example.customers;
+package com.example;
 
+import com.example.customers.CustomerRepository;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.runtime.event.annotation.EventListener;
 import io.micronaut.runtime.server.event.ServerStartupEvent;
@@ -11,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Requires(notEnv = "mock")
 @Slf4j
 @RequiredArgsConstructor
-public class CustomerDataInitializer {
+public class DataInitializer {
     private final CustomerRepository customerRepository;
 
     @EventListener
