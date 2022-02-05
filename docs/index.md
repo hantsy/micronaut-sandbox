@@ -1,5 +1,10 @@
-# Micronaut by Example
+# Home
 
-## Table of Content
+## What is Micronaut?
 
-* [Building RESTful APIs with Micronaut](./gs-rest.md)
+As described in [Micronaut homepage](https://www.micronaut.io):
+
+Micronaut is:
+
+> A modern, JVM-based, full-stack framework for building modular, easily testable microservice and serverless applications.
+
