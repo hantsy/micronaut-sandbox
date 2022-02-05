@@ -11,6 +11,8 @@ import reactor.test.StepVerifier
 import spock.lang.Specification
 
 import java.time.Duration
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 @MicronautTest(startApplication = false)
 @Slf4j
@@ -23,7 +25,11 @@ class AlbumRepositorySpec extends Specification {
     AlbumRepository albumRepository;
 
     def setup() {
-        albumRepository.deleteAll().subscribe(it -> log.debug "deleted albums: {}", it)
+        CountDownLatch latch = new CountDownLatch(1)
+        albumRepository.deleteAll()
+                .doOnTerminate(_ -> latch.countDown())
+                .subscribe(it -> log.debug "deleted albums: {}", it)
+        latch.await(1000, TimeUnit.MILLISECONDS)
     }
 
     void 'application is not running'() {

@@ -11,6 +11,8 @@ import reactor.test.StepVerifier
 import spock.lang.Specification
 
 import java.time.Duration
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 @MicronautTest(startApplication = false)
 @Slf4j
@@ -35,7 +37,11 @@ class CustomerRepositorySpec extends Specification {
     CustomerRepository customerRepository;
 
     def setup() {
-        customerRepository.deleteAll().subscribe(it -> log.debug "deleted customers: {}", it)
+        CountDownLatch latch = new CountDownLatch(1)
+        customerRepository.deleteAll()
+                .doOnTerminate(_ -> latch.countDown())
+                .subscribe(it -> log.debug "deleted customers: {}", it)
+        latch.await(1000, TimeUnit.MILLISECONDS)
     }
 
     void 'application is not running'() {
