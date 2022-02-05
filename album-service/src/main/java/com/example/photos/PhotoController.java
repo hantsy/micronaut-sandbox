@@ -41,7 +41,7 @@ public class PhotoController {
     }
 
     @Post(uri = "/", consumes = {MediaType.MULTIPART_FORM_DATA})
-    public Mono<HttpResponse<?>> upload(StreamingFileUpload file) {
+    public Mono<HttpResponse<?>> upload(@Part StreamingFileUpload file) {
         var filename = file.getFilename();
         var name = file.getName();
         var contentType = file.getContentType();
