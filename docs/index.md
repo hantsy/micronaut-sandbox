@@ -8,3 +8,4 @@ Micronaut is:
 
 > A modern, JVM-based, full-stack framework for building modular, easily testable microservice and serverless applications.
 
+## New section

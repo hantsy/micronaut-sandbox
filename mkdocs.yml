@@ -1,4 +1,25 @@
 site_name: Micronaut by Example
-
+repo_name: hantsy/micronaut-sandbox
 theme:
   name: material
+  features:
+    - toc.integrate
+  icon:
+    repo: fontawesome/brands/git-alt 
+
+copyright: Copyright &copy;2022 Hantsy  
+extra:
+  social:
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/hantsy  
+    - icon: fontawesome/brands/linkedin
+      link: https://linkedin.com/in/hantsy  
+    - icon: fontawesome/brands/medium
+      link: https://medium.com/@hantsy   
+    - icon: fontawesome/brands/github
+      link: https://github.com/hantsy   
+
+markdown_extensions:
+  - toc:
+      toc_depth: 3
+      permalink: true      
