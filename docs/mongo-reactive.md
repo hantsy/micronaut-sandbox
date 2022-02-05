@@ -121,8 +121,8 @@ When a  `mongo.uri` is set in the *application.yml*,  there is a  **reactive** `
 
 In the above codes:
 
-* The `customersCollection()` method defines a Mongo collection mapped to the `Customer` class. As you see, there is a `ObjectId` id field is defined in the `Customer` class, it will be detected as the document `_id` automatically.
-*  The `MongoClient` provides methods for CRUD operations,  but it is based on the *Reactive Streams* APIs. Here we use Reactor API in this project, and use `Mono` and `Flux` to wrap the result into Reactor friendly APIs.
+* The `customersCollection()` method defines a Mongo collection mapped to the `Customer` class. As you see, there is a `ObjectId` id field is defined in the `Customer` class, when saving a Customer instance, it will generate a new  ObjectId for it and  saving it to the *customers* document `_id` in MongoDB automatically.
+*  The `MongoClient` provides methods for CRUD operations,  but it is based on the *Reactive Streams* APIs. Here we use Reactor API in this project, we use `Mono` and `Flux` to wrap the operation result into Reactor friendly APIs.
 
 Now let's create  a test to test the `CustomerRepository`.
 
@@ -247,7 +247,7 @@ public class CustomerController {
 
 ```
 
-To process the `ObjectId` in the request path, create a `TypeConverter` to convert the string id to `ObjectId`.
+To process the `ObjectId` in the request path, create a `TypeConverter` to convert  id from String to `ObjectId`.
 
 ```java
 @Singleton
@@ -260,7 +260,7 @@ public class StringToObjectIdConverter implements TypeConverter<String, ObjectId
 }
 ```
 
- In order to serialize the `ObjectId` type id of `Customer` as a String in the HTTP response, create a `JsonSerializer` to customize the serialization process.  When it is applied,  the id field is serialized as a hex string instead of a JSON object.
+ In order to serialize the id (`ObjectId` type) of `Customer` as a String in the HTTP response, create a `JsonSerializer` to customize the serialization process.  When it is applied,  the id field is serialized as a hex string instead of a JSON object.
 
 ```java
 @Singleton
@@ -273,7 +273,7 @@ public class ObjectIdJsonSerializer extends JsonSerializer<ObjectId> {
 }
 ```
 
-Create a  test to test the `CustomerController`.
+Create a test for the `CustomerController`.
 
 ```gro
 @MicronautTest(environments = ["mock"])
@@ -406,7 +406,7 @@ class CustomerControllerSpec extends Specification {
 
 In this test, we create a mock bean for `CustomerRepository`, note you have to declare type explicitly. In the `given` block, it setup the assumptions  and assertations in a single place. 
 
-Another great feature of Mongo is  the Gridfs support, for the home-use cloud application it is a simple alternative  of the  AWS S3.
+Another great feature of Mongo is  the Gridfs support. For those home-use cloud applications it is a simple alternative of AWS S3 storage service.
 
 Next we will create a simple upload and download endpoint to store binary data into Mongo Gridfs storage and retrieve it from the Gridfs storage.
 
