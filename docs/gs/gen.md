@@ -10,38 +10,37 @@ Open your browser, go to [Micronaut Launch](https://micronaut.io/launch/), you w
 
 ![launch](./launch.png)
 
-In the **Application Type** field, there are some options available in the dropdown menu, including **Micronaut Application**, **Command Line Application**, **gRPC Application**, **Funcation Application for serverless**, **Message-Driven Application**. For different purpose, you can choose one as template to generate the project skeleton. If you want to create a general web application, a RESTful API backend application, or a Microservice component, use the default **Micronaut Application**.
+In the **Application Type** field, there are several options available in the dropdown menu, including **Micronaut Application**, **Command Line Application**, **gRPC Application**, **Function Application for serverless**, **Message-Driven Application**. For different purposes, you can choose one to generate the project skeleton. If you want to create a general web application, a RESTful API backend application, or a Microservice component, use the default **Micronaut Application**.
 
 In the **Java version** field, it is highly recommended to choose the latest LTS version **17**.  
 
-If you want to customize the project artifact name and base package name, alter the value in the **Name** and **Package Name**.
+If you want to customize the application name (it is also the project artifact id) and base package name, alter the value in the **Name** and **Package Name** fields.
 
-Next, select the **Micronaut Version**(the latest version is recommended) and your favorite **Language**, **Build Tools** and **Test framework**.
+Next, select the **Micronaut Version**(for new project, the latest stable version is recommended) and your favorite programming **Language**(Java, Kotlin, Groovy), **Build Tools**(Maven, Gradle, Gradle with Kotlin Script) and **Test framework**(JUnit, Kotest, Spock).
 
-Click the **Features** button, in the popup panel, it lists all Micronaut integrated liraries/frameworks, choose those that you want to add to this project. 
+Click the **Features** button, it will popup a new window. In the popup window, it lists all Micronaut integrated libraries/frameworks. Filter and select those you want to use to build the application. 
 
 Before downloading the generated archive, click the **PREVIEW** button to preview the file structure in a popup window.
 
 Finally, hit the **GENERATE PROJECT** button to produce the project files into an archive for download.
 
-Extract the project files into your local disk, and import the files into your IDE.  
-
+Extract the project files from the download archive into your local disk, and import the files into your IDE.  
 
 ## Micronaut CLI
 
-You can also create a Micronaut project using Micronaut CLI, check [Micronaut Starter documentation](https://micronaut-projects.github.io/micronaut-starter/latest/guide/#installation) for details.
+You can also create a Micronaut project using Micronaut CLI, check [Micronaut documentation](https://micronaut-projects.github.io/micronaut-starter/latest/guide/#installation) for details.
 
-> Under Windows system, it is better to [install Cygwin](https://cygwin.com/install.html) to get Linux Bash like command experince.
+> Under Windows system, to get Linux bash-like command experience, you can [install Cygwin](https://cygwin.com/install.html) or enable WSL(Windows subsystem for Linux).
 
-Firstly install [SDKMan](https://sdkman.io/) which is a popular software management tool. 
+Firstly install [SDKMan](https://sdkman.io/), which is a popular software management tool for developers. 
 
-Open your teminal, and run the following command to install a copy SDKMan automaticially.
+Open your terminal, and run the following command to install SDKMan automatically.
 
 ```bash 
 $ curl -s "https://get.sdkman.io" | bash
 ```
 
-After it is installed successfully, run this command to initialize SDKMan configuration.
+After it is completed, run this command to initialize SDKMan configuration.
 
 ```bash
 $ source "$HOME/.sdkman/bin/sdkman-init.sh"
@@ -55,20 +54,20 @@ $ sdk version
 SDKMAN 5.12.4
 ```
 
-Next install Micronaut CLI from SDKMan reposiory.
+Next, install Micronaut CLI from the official SDKMan reposiory.
 
 ```bash 
 $ sdk install micronaut
 ```
 
-After it is completed, verify the installation.
+After it is done, verify the installation.
 
 ```bash 
 $ mn -V
 Micronaut Version: 3.1.0
 ```
 
-Get all options of `mn` command.
+Type `mn --help` command in the terminal to get all available options.
 
 ```bash 
 $mn --help
@@ -97,9 +96,9 @@ Commands:
 
 ```
 
-The *Commands* options is similar to the **Application Type** options in the **Micronaut Lauch** page.
+The *Commands* options are similar to the **Application Type** options in the **Micronaut Lauch** page.
 
-Try to create a new proejct using the `mn` command.
+Try to create a new project using the `mn` command.
 
 ```bash
 $ mn create-app demo -b gradle -f lombok,postgres,data-jpa,hibernate-jpa,testcontainers -l java -t=junit
@@ -107,7 +106,7 @@ $ mn create-app demo -b gradle -f lombok,postgres,data-jpa,hibernate-jpa,testcon
 | Application created at C:\tools\cygwin\home\hantsy\demo
 ```
 
-The generated project files are located in the demo folder. The fiels are almost same to the ones generated by the Micronaut Lauch page.
+The project files are generated into the *demo* folder under current path. The file structure is similar to the one generated by the **Micronaut Launch** page.
 
 You can use `mn create-app --help` to get the option details of the `create-app` command.
 
@@ -158,5 +157,5 @@ Let's have a look at *build.gradle*.
 
 It uses `com.github.johnrengelman.shadow` to package the application into a jar archive.
 
-The `micronaut` plugin handles the dependency injection at compile time via Java Compiler Annotation Processors. This plugin also includes other tasks, such building application into Docker image and GraalVM native image.
+The `io.micronaut.application` plugin handles the dependency injection at compile time via Java Compiler Annotation Processors. This plugin also includes other tasks, such building application into Docker image and GraalVM native executable binary.
 
