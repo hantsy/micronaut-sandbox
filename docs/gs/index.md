@@ -1,8 +1,10 @@
 # Getting Started
 
-In this chapter, we will write some real codes to explore the basic features. You will learn how to generate a project quickly from the official Micronaut Launch or Micronaut CLI.
+In this chapter, we will write some codes to explore the basic features. 
 
-The we will create several small projects to demonstrate varied combination of different language and data access technologies.
+You will learn how to generate a project skeleton quickly from the online service Micronaut Launch or Micronaut CLI.
+
+Then we will create several small projects to demonstrate building RESTful APIs with Micronaut, in the samples, we will use varied combination of different languages and data access technologies.
 
 * [Java + Micronaut Data JPA](./gs-rest.md)
 * [Kotlin + Micronaut Data Jdbc](./jdbc-kotlin.md)
