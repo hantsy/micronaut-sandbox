@@ -3,8 +3,20 @@ site_name: Micronaut by Example
 repo_url: https://github.com/hantsy/micronaut-sandbox
 repo_name: hantsy/micronaut-sandbox
 theme:
+  palette: 
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline 
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate 
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
   name: material
   features:
+    - search.suggest
     - navigation.expand
     - navigation.indexes
     # - toc.integrate
@@ -29,4 +41,15 @@ markdown_extensions:
       toc_depth: 3
       permalink: true      
 plugins:
+  - search
   - git-revision-date    
+  
+nav:
+  - Introduction to Micronaut:
+    - index.md
+  - Getting Started:
+    - gs/index.md
+    - Java + Micronaut Data JPA: gs/gs-rest.md   
+    - Kotlin + Micronaut Data JDBC: gs/jdbc-kotlin.md
+    - Kotlin Coroutine + Micronaut Data R2DBC: gs/r2dbc-koltin-co.md     
+    - Java + Micronaut Mongo Reactive: gs/mongo-reactive.md      
