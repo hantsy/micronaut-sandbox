@@ -4,13 +4,8 @@ A  personal sandbox project  to experience the new features of the [Micronaut  f
 
 ## Docs
 
-* [Building RESTful APIs with Micronaut](./docs/gs-rest.md)
+* Go to [hantsy.github.io/micronaut-sandbox/](hantsy.github.io/micronaut-sandbox/).
 
-## Sample Codes
-
-| Name | Description |
-|:-------------------|:-------------------------------------------------|
-|[post-service](https://github.com/hantsy/micronaut-sandbox/tree/master/post-service) |Simple CURD RESTful APIs|
 
 ## Build
 
