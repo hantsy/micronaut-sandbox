@@ -1,9 +1,13 @@
 site_name: Micronaut by Example
+
+repo_url: https://github.com/hantsy/micronaut-sandbox
 repo_name: hantsy/micronaut-sandbox
 theme:
   name: material
   features:
-    - toc.integrate
+    - navigation.expand
+    - navigation.indexes
+    # - toc.integrate
   icon:
     repo: fontawesome/brands/git-alt 
 
@@ -20,6 +24,9 @@ extra:
       link: https://github.com/hantsy   
 
 markdown_extensions:
+  - meta
   - toc:
       toc_depth: 3
       permalink: true      
+plugins:
+  - git-revision-date    
