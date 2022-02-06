@@ -4,7 +4,7 @@ A  personal sandbox project  to experience the new features of the [Micronaut  f
 
 ## Docs
 
-* Go to [hantsy.github.io/micronaut-sandbox/](hantsy.github.io/micronaut-sandbox/).
+* Go to [hantsy.github.io/micronaut-sandbox/](https://hantsy.github.io/micronaut-sandbox/).
 
 
 ## Build
