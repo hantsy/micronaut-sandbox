@@ -54,5 +54,5 @@ nav:
     - Generate a Project Skeleton: gs/gen.md 
     - Java + Micronaut Data JPA: gs/gs-rest.md   
     - Kotlin + Micronaut Data JDBC: gs/jdbc-kotlin.md
-    - Kotlin Coroutine + Micronaut Data R2DBC: gs/r2dbc-koltin-co.md     
+    - Kotlin Coroutine + Micronaut Data R2DBC: gs/r2dbc-kotlin-co.md    
     - Java + Micronaut Mongo Reactive: gs/mongo-reactive.md      
