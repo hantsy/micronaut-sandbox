@@ -8,66 +8,16 @@ Unlike Spring Boot, Micronaut process IOC at compile time and erases runtime ref
 
 For developers that new to Micronaut, it is easy to develop your applications using Micronaut if you have some knowledge of  Spring Boot. In this post, I will share my experience to create a simple Restful API application from scratch using Micronaut from a Spring developer view.
 
-## Generating project skeleton
 
-Similar to [Spring Initializr]( https://start.spring.io), Micronaut provides an online service named **Launch** to help your generate a project skeleton.
+## Generate a Project Skeleton
 
-Open your browser, go to [Micronaut Launch](https://micronaut.io/launch/), you will see the following screen.
+Open your browser and navigate to [Micronaut Launch](https://micronaut.io/launch) to generate a new project skeleton for this post. Select the following items on this page.
 
-![launch](./launch.png)
-
-In the **Java version** field, select the latest LTS version **17**.  Then click the **Features** button, add *lombok*, *data hibernate jpa*, *assertj*, *postgres*, *testcontainers*. Finally, hit the **GENERATE PROJECT** button to produce the project files into an archive for download.
-
-Extract the project files into disk, and import to your IDE.  
-
-> You can also create a Micronaut project using Micronaut CLI, check [Micronaut Starter documentation](https://micronaut-projects.github.io/micronaut-starter/latest/guide/#installation).
-
-## Exploring project structure
-
-Let's have a look at the files in the project.
-
-```bash
-.
-├── build.gradle
-├── gradle
-│   └── wrapper
-│       ├── gradle-wrapper.jar
-│       └── gradle-wrapper.properties
-├── gradle.properties
-├── gradlew
-├── gradlew.bat
-├── micronaut-cli.yml
-├── settings.gradle
-└── src
-    ├── main
-    │   ├── java
-    │   │   └── com
-    │   │       └── example
-    │   │           └── Application.java
-    │   └── resources
-    │       ├── application.yml
-    │       └── logback.xml
-    └── test
-        ├── java
-        │   └── com
-        │       └── example
-        │           └── DemoTest.java
-        └── resources
-            ├── application-test.yml
-            └── logback-test.xml
-```
-
-Besides Gradle build scripts related resources, it is similar to the Spring Boot project structure. 
-
-* The `Application` is the entry class of the application.
-* The *src/main/resources/application.yml* is the application configuration.
-* The  *src/main/resources/logback.xml*  is logging configuration.
-* The `DemoTest` is an example of using `@MicronautTest`. 
-* Under the *src/test/resources* folder, there are some config resources for test purpose.
-
-Let's have a look at *build.gradle*.
-
-It uses `com.github.johnrengelman.shadow` to package the application into a jar archive.  The `micronaut` plugin will process the dependency injection at compile time via Java Compiler Annotation Processors. This plugin also includes other tasks, such building application into Docker image and GraalVM native image.
+* Java version:  **17**
+* Language: **Java** 
+* Build tool: **Gradle**
+* Test framework: **Junit**
+* Included Features: **lombok**, **data hibernate jpa**, **assertj**, **postgres**, **testcontainers** etc.
 
 ## Declaring a Bean
 

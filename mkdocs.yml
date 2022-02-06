@@ -11,6 +11,8 @@ theme:
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate 
+      primary: pink
+      accent: pink
       toggle:
         icon: material/toggle-switch
         name: Switch to light mode
@@ -49,6 +51,7 @@ nav:
     - index.md
   - Getting Started:
     - gs/index.md
+    - Generate a Project Skeleton: gs/gen.md 
     - Java + Micronaut Data JPA: gs/gs-rest.md   
     - Kotlin + Micronaut Data JDBC: gs/jdbc-kotlin.md
     - Kotlin Coroutine + Micronaut Data R2DBC: gs/r2dbc-koltin-co.md     
