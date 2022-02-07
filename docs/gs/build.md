@@ -38,13 +38,3 @@ For example, run the following command to bootstrap a Postgres database instance
 ```bash 
 $ docker compose up postgres
 ```
-
-## Sample Codes
-
-All sample codes of this tutorial are available on Github.
-
-Get a copy of the source codes, and explore them yourself.
-
-```bash 
-$ git clone https://github.com/hantsy/micronaut-sandbox
-```

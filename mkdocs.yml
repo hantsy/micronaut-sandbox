@@ -47,8 +47,10 @@ plugins:
   - git-revision-date    
   
 nav:
-  - Introduction to Micronaut:
+  - Preface:
     - index.md
+  - Introduction to Mcironaut:
+    - intro.md  
   - Getting Started:
     - gs/index.md
     - Prerequisites: gs/prerequisites.md
