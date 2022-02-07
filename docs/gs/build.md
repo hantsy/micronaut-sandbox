@@ -1,28 +1,22 @@
 # Building and Running Application
 
-All sample codes of this tutorial are available on Github.
-
-```bash 
-$ git clone https://github.com/hantsy/micronaut-sandbox
-```
-
 There are several approaches to building and running the application.
 
 ## Using IDE 
 
-If you imported the project into an IDE, such as IDEA, it is easy to use the IDE built-in tools to build or rebuild the project. 
+In an IDE, such as IDEA, it is easy to use the IDE built-in tools to build or rebuild the whole project. Most of modern IDEs include incremental building for code changes automaticially.
 
 To run the application, open the entry class `Application`, click and run it directly like running a  Java application.
 
 ## Using Command Line
 
-If it is a Maven, run `mvn clean package` to build the application into a jar archive.
+If it is a Maven project, open terminal and run `mvn clean package` in the project root folder to build the application into a jar archive.
 
 ```bash 
-$mvn clean package
+$ mvn clean package
 ```
 
-Then run the generated jar to start up the application.
+Then run the build application.
 
 ```bash 
 $ java -jar target/demo.jar
@@ -45,3 +39,12 @@ For example, run the following command to bootstrap a Postgres database instance
 $ docker compose up postgres
 ```
 
+## Sample Codes
+
+All sample codes of this tutorial are available on Github.
+
+Get a copy of the source codes, and explore them yourself.
+
+```bash 
+$ git clone https://github.com/hantsy/micronaut-sandbox
+```
