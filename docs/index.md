@@ -23,10 +23,10 @@ $ git clone https://github.com/hantsy/micronaut-sandbox
 
 ## Contribution
 
-Any form contributions are welcome. You can file an issue or send a PR on Github. If my work is helpful, please help me to spread it out to your circles or [buy me a coffee](https://www.buymeacoffee.com/hantsy).:)
+Any formal contributions are welcome. You can file an issue or send a PR on Github. If my work is helpful, please help me to spread it out to your circles or [buy me a coffee](https://www.buymeacoffee.com/hantsy).:)
 
 ## About Me
 
-I am an independent freelancer from China with 20 years of software engineering experience. If you need some development and technical consulting service, please drop me an email, my email address is hantsy@gmail.com.
+My name is Hantsy, an independent freelancer from China, I have over 20 years of software engineering experience. If you need some development and technical consulting service, please drop me an email, my email address is [hantsy@gmail.com](mailto:hantsy@gmail.com).
 
 Enjoy reading!

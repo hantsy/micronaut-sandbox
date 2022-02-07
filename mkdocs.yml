@@ -50,7 +50,9 @@ nav:
   - Preface:
     - index.md
   - Introduction to Mcironaut:
-    - intro.md  
+    - intro/index.md
+    - "What is Micronaut?": intro/what.md
+    - "Why Micronaut?": intro/why    
   - Getting Started:
     - gs/index.md
     - Prerequisites: gs/prerequisites.md
