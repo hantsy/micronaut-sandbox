@@ -1,5 +1,7 @@
 # Why Micronaut?
 
+Micronaut developers adopts the good parts from the existing Java frameworks, such as Grails, Spring Boot,Quarkus. So even Micronaut is relatedly young, but it includes powerful and concise APIs for developers.
+
 Here we list some highlight features, 
 
 * The Micronaut Data and controller APIs are similar to Spring Data and Spring WebMvc. For relational database support, Micronaut Data provides more powerful and united annotations to both Jdbc and R2dbc, and it brings the programmatic JPA `Specification` to Jdbc/R2dbc queries. 

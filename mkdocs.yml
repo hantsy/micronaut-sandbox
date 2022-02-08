@@ -62,3 +62,9 @@ nav:
     - "Example: Kotlin + Micronaut Data JDBC": gs/jdbc-kotlin.md
     - "Example: Kotlin Coroutine + Micronaut Data R2DBC": gs/r2dbc-kotlin-co.md    
     - "Example: Java + Micronaut Mongo Reactive": gs/mongo-reactive.md      
+  - Testing:
+    - test/index.md
+    - JUnit: test/junit.md
+    - KoTest: test/kotest.md
+    - Spock: test/spock.md
+    
