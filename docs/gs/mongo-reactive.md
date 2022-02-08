@@ -1,4 +1,4 @@
-# Building Micronaut applications with Micronaut Mongo Reative 
+# Building RESTful API with Micronaut Mongo Reative 
 
 In this post, we will explore the Micronaut Mongo Reactive feature. Unlike the Data JPA and R2dbc, the Mongo Reactive feature is not part of the Micronaut Data project. Micronaut Mongo Reactive is a light-weight wrapper of the official Mongo Java Drivers, and provides autoconfiguration of `MongoClient` from application properties.
 

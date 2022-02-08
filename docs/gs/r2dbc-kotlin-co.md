@@ -1,4 +1,4 @@
-# Building Micronaut applications with Micronaut Data R2dbc and Kotlin Coroutines
+# Building RESTful API with Micronaut Data R2dbc and Kotlin Coroutines
 
 In this post, we will continue to explore Micronaut Data  R2dbc,  and rewrite the previous Data Jdbc/Kotlin example with Data R2dbc and Kotlin Coroutines. In contrast to Jdbc, R2dbc is another RDBMS database connection specification but provides asynchronous none-blocking API for users. R2dbc API is totally compatible with Reactive Streams specification. Kotlin Coroutines is an official Kotlin extension provides an event-loop based asynchronous programming model.
 

@@ -1,4 +1,4 @@
-# Building Micronaut applications with Data Jdbc and Kotlin
+# Building RESTful API with Micronaut Data Jdbc and Kotlin
 
 Micronaut Data also has great support for Jdbc and R2dbc. In this post, we will explore the Micronaut Data Jdbc and write the example in Kotlin language, and finally we will test the components with Kotest.
 

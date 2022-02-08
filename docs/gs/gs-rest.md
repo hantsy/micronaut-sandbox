@@ -1,17 +1,12 @@
-# Building Restful APIs with Micronaut
+# Building RESTful API with Micronaut Data JPA
 
-Similar to Spring Boot, Micronaut is a JVM based framework and designated for building Microservice and cloud native applications.
+In this section, we are building a RESTful API backend application with Micronaut Data JPA. If you have some experience with Spring Boot and Spring Data JPA, it is easy to update yourself to use Micronaut to archive the same purpose.
 
-Unlike Spring Boot, Micronaut process IOC at compile time and erases runtime reflection, so it is easier to build native image. 
+## Preparing Project Skeleton
 
-> Spring also started a Spring native project, but it is in the early stage.
+Open your browser and navigate to [Micronaut Launch](https://micronaut.io/launch), follow [Generating Project Skeleton](./gen) guide and generate a new project skeleton.
 
-For developers that new to Micronaut, it is easy to develop your applications using Micronaut if you have some knowledge of  Spring Boot. In this post, I will share my experience to create a simple Restful API application from scratch using Micronaut from a Spring developer view.
-
-
-## Generate a Project Skeleton
-
-Open your browser and navigate to [Micronaut Launch](https://micronaut.io/launch) to generate a new project skeleton for this post. Select the following items on this page.
+Fill the following fields in the [Micronaut Launch](https://micronaut.io/launch) page, leave other as it is.
 
 * Java version:  **17**
 * Language: **Java** 
@@ -19,33 +14,14 @@ Open your browser and navigate to [Micronaut Launch](https://micronaut.io/launch
 * Test framework: **Junit**
 * Included Features: **lombok**, **data hibernate jpa**, **assertj**, **postgres**, **testcontainers** etc.
 
-## Declaring a Bean
+Import the generated project into your IDE.
 
-In Micronaut, it used  JSR330(aka @Inject) specification to annotate the injectable beans. JSR330 originally is lead by SpringSource(now VMware) and Google. 
 
-> Spring also has built-in JSR330 support, by default it is not activated. You should add `inject` artifact in your project dependencies to enable it.
+## Configuring Database
 
-When a class is annotated with `@Singleton` means there is only one instance shared in the application scope, `@Prototype` will produce a new instance for every injection.
+Open *src/main/resources/application.yml*, the `datasources` is configured by default.
 
-Micronaut provides a `@Factory` to produces simple beans in groups, for example.
-
-```java
-@Factory
-class MyConfig{
-    
-    @Singleton
-    public Foo foo(){}
-    
-    @Singleton
-    public Bar bar(){}
-}
-```
-
-As described in former sections,  Micronaut process IOC at compile time. When building the application,  explore the project *build/classes* folder, you will find there are a lot of extra classes generated at compile time which names are start with a USD("**$**") symbol.
-
-## Setup database
-
-Open *src/main/resources/application.yml*, the `datasources` is configured when generating the project.  Change the properties according to your environment.
+Change the properties according to your environment.
 
 ```yaml
 datasources:
@@ -59,7 +35,7 @@ datasources:
 jpa.default.properties.hibernate.hbm2ddl.auto: update
 ```
 
-Create a docker compose file to bootstrap Postgres in docker container.
+Create a Docker Compose file. Define the following Postgres service.
 
 ```yaml
 version: '3.7' # specify docker-compose version
@@ -79,19 +55,33 @@ services:
       - ./pg-initdb.d:/docker-entrypoint-initdb.d
 ```
 
-Start up Postgres database.
+Then start the Postgres database instance in the Docker container.
 
 ```bash
 docker compose up postgres
 ```
 
-## Data Accessing with Micronaut Data
+## Introduction to Micronaut Data
 
-We added *data-jpa* feature when generating the project, which enables Micronaut data support. If you have experience of Spring Data JPA , it is easy to migrate to Micronaut Data.
+When generating the project, we have add **data-jpa** feature into the dependencies, which enables Micronaut Data JPA support. 
 
-I have used a simple blog application in the former examples when demonstrating other frameworks. In this post, I will reuse the blog application concept.  
+Similar to Spring Data architecture,  Micronaut Data also provides a common abstraction for the basic data operations, For example, there is a `Repository` interface to indicate it is a  `Repository` for JPA entities,  and its sub interfaces, such as `CrudRepository` and `PagingAndSortRepsoitory` includes richer operations. 
 
-Basically it includes two JPA entities, `Post` and `Comment`, it is a `OneToMany` relation.
+ Micronaut Data JPA has similar APIs with Spring Data JPA, it also contains the pragmatic criteria builder to execute query via custom `Specificaiton`.
+
+Currently  Micronaut Data project only supports relational database, it includes 3 modules: Data JPA, Data JDBC, Data R2DBC,  read [the official documentation](https://micronaut-projects.github.io/micronaut-data/latest/guide/) for more details.
+
+In this post, we focus on the Micronaut Data JPA.
+
+Next, we will create a JPA entity and create a Repository for the entity, then create a  Controller to produce RESTful API endpoints for it.
+
+## Creating  JPA Entity
+
+I have used a simple blog application in the past years  to demonstrate different frameworks. In this post, I will reuse the blog application concept.  
+
+Basically it includes two JPA entities, `Post` and `Comment`, it is an one-to-many relation.
+
+Firstly let's have a look at the `Post`  entity class.
 
 ```java
 @Getter
@@ -145,7 +135,22 @@ public class Post implements Serializable {
                 '}';
     }
 }
+```
+An JPA entity should  be annotated with an  `@Entity` annotation,  optionally, adding a `@Table` to specify the table metadata.
 
+An entity should include a none-arguments constructor. 
+
+An entity should have an identifier field with an `@Id` annotation. To assign a value to the id field automatically, you can select a strategy type by specifying the `strategy` attribute of  the `@GgeneratedValue` annotation,  it could be `AUTO`, `IDENTITY`, `SEQUENCE` and `TABLE`, else you can define your own  generator by set the value of `generator` attribute. In the above `Post` entity, we use the Hibernate built-in `uuid2` strategy to generate a UUID value and assign it  to the id field before persisting.
+
+With the annotations from  Lombok project, eg. `@Getter`, `@Setter`, `@NoArgsConstructor`, `@AllArgsConstructor` and `@Builder`, it helps you to erase the tedious Java Bean properties,  and keep your codes clean. When building the project, Lombok annotation processor will participate into the compiling progress and generate getters and setters, varied constructors, and a builder class used to create an entity.
+
+Use IDE to generate `equals` and `hasCode` according to the business requirements. 
+
+> Be careful of using Lombok @Data to generate all facilities, especially in the entity in an inheritance structure or containing custom `equals` and `hasCode`  to identify an entity.
+
+Similar to the `Post` entity, create anther entity named  `Comment`.
+
+```java
 // Comment entity 
 @Getter
 @Setter
@@ -195,10 +200,18 @@ public class Comment implements Serializable {
 }
 
 ```
+The `Post` and `Comment` association is a simple bi-direction one-to-many relation. 
 
-They are standard JPA `@Entity` classes.  
+On the **one** side, aka  in`Post` entity,  a `@OneToMany` annotation is added to the *comments* which is a `List`,  the `cascade` attribute defines the behiavor to process the **many** side when performing a persist, merge, delete operation on  the **one** side, here we use `ALL` to setup all cascade rules will be applied.  The  `orphanRemoval=true` setting tells the persistence context to clear the `Comment` orphans when deleting a `Post` . The `@OrderColumn` will persist the inserted position of comments. 
+On the **many** side aka in the `Comment` entity, a `@ManyToOne` annotation is added on the `post` field. The `@JoinColumn` set the column which stores the foreign key constraints by the `Post` id .
 
-An JPA entity class should be annotated with an `@Entity` annotation, and includes a `@Id` field to identify this entity and a none-arguments constructor. Here we use Lombok to generate setters and getters, and constructors at compile time. We use IDE to generate `equals` and `hasCode` according to the business requirements.  
+Besides one-tomany relation (`@OneToMany`and `@ManyToOne`), JPA specification includes two other relations, aka  one-to-one (`@OneToOne`)  and many-to-many (`@ManyToMany`).
+
+We've just demonstrated a simple entity association case here, it is bi-direction one-to-many relation.  Please note, one-to-one, one-to-many, and many-to-many can be set as *single direction*,  and you can use a  secondary table as *connecting table* in the  one-to-one and one-to-many relations.
+
+> We can not cover every details of JPA specifiction here. If you are new to JPA, [Java persistence with Hibernate](https://www.manning.com/books/java-persistence-with-hibernate) is a good book to start your  JPA journey.
+
+## Creating Repsoitory
 
 ```java
 @Repository
