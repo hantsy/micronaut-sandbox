@@ -429,7 +429,7 @@ You can set media types using *consumes* or *produces*  attributes in these anno
 
 In the `PostController` , we have two methods.  The `getAll` method serves the */posts* endpoint, and the `getById(id)` serves the */posts/{id}* endpoint.
 
-### Testing Endpoints using cURL
+#### Testing Endpoints using cURL
 
 Startup the application via Gradle command.
 
@@ -467,7 +467,7 @@ curl http://localhost:8080/posts/b6fb90ab-2719-498e-a5fd-93d0c7669fdf
 
 > Micronaut CLI provides commands to generate skeleton for controller, repository, bean, test, etc.  Run `mn --help` in **the project root folder** to get all available commands.
 
-### Handling Exception 
+#### Handling Exception 
 
 In the above `PostController`, if there is no posts found for the given post id, it returns a 404 HTTP status directly. In a real-world application, we can use a custom exception to envelope the exception case. 
 
@@ -550,7 +550,7 @@ Open a terminal,  use `curl` command to test the `/posts/{id}` endpoint with a n
 }
 ```
 
-### Handling Pagination
+#### Handling Pagination
 
 Change the `getAll` method of `PostController` to the following.
 
@@ -613,7 +613,7 @@ Let's use `curl` to test the */posts* endpoint again.
 
 The `Page`  JSON results look a little tedious,  let's customize a Jackson `JsonSerializer` to clean up the JSON data string.
 
-### Customizing JsonSerializer
+#### Customizing JsonSerializer
 
 Create a `PageJsonSerializer` to process the `Page` object as you expected.
 
@@ -660,7 +660,7 @@ Run the application, and hint */posts* endpoint again.
 }
 ```
 
-## Creating Post
+### Creating Post
 
  We have discussed how to query posts by keyword and get a single post by id, in this section, we are moving on to creating a new post.
 
@@ -715,7 +715,7 @@ Run the application, try to add a post via `curl`, and then access the newly cre
 }
 ```
 
-### Validating Request Body
+#### Validating Request Body
 
 Generally, in a real-world application, we have to ensure the request data satisfies requirements. Micronaut has built-in Bean Validation support.
 
