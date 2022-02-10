@@ -21,9 +21,9 @@ Import the generated project into your IDE.
 
 ### Configuring Database
 
-In this project we are using Postgres as database. You can download a copy of Postgres and install it in your local system, then  create a new database to serve the application.
+In this project, we are using Postgres as a database. You can download a copy of Postgres and install it in your local system, then create a new database to serve the application.
 
-Open *src/main/resources/application.yml*, there is a  *default* datasource  is configured by default.
+Open *src/main/resources/application.yml*, there is a  *default* data source  is configured by default.
 
 Change the properties according to your environment.
 
@@ -39,7 +39,7 @@ datasources:
 jpa.default.properties.hibernate.hbm2ddl.auto: update
 ```
 
-Alternatively you can serve a Postgres datasse in Docker quickly. 
+Alternatively, you can serve a Postgres database in Docker quickly. 
 
 ### Serving  Postgres Database in Docker
 
@@ -78,7 +78,7 @@ Similar to Spring Data architecture,  Micronaut Data also provides a common abst
 
 Micronaut Data JPA has similar APIs with Spring Data JPA, it also contains a pragmatic criteria builder to execute query via custom `Specificaiton`.
 
-Currently  Micronaut Data project only supports relational database, it includes 3 modules: Data JPA, Data JDBC, Data R2DBC,  read [the official documentation](https://micronaut-projects.github.io/micronaut-data/latest/guide/) for more details.
+Currently, Micronaut Data project only supports relational databases, it includes 3 modules: Data JPA, Data JDBC, Data R2DBC,  read [the official documentation](https://micronaut-projects.github.io/micronaut-data/latest/guide/) for more details.
 
 In this post, we focus on the Micronaut Data JPA.
 
@@ -86,9 +86,9 @@ Next, we will create a JPA entity and create a Repository for the entity, then c
 
 ### Creating  JPA Entity
 
-I have used a simple blog application in the past years  to demonstrate different frameworks. In this post, I will reuse the blog application concept.  
+I have used a simple blog application in the past years to demonstrate different frameworks. In this post, I will reuse the blog application concept.  
 
-Basically it includes two JPA entities, `Post` and `Comment`, it is an one-to-many relation.
+It includes two JPA entities, `Post` and `Comment`, it is a one-to-many relation.
 
 Firstly let's have a look at the `Post`  entity class.
 
@@ -145,19 +145,19 @@ public class Post implements Serializable {
     }
 }
 ```
-An JPA entity should  be annotated with an  `@Entity` annotation,  optionally, adding a `@Table` to specify the table metadata.
+A JPA entity should be annotated with an  `@Entity` annotation,  optionally adding a `@Table` to specify the table metadata.
 
 An entity should include a none-arguments constructor. 
 
-An entity should have an identifier field with an `@Id` annotation. To assign a value to the id field automatically, you can select a strategy type by specifying the `strategy` attribute of  the `@GgeneratedValue` annotation,  it could be `AUTO`, `IDENTITY`, `SEQUENCE` and `TABLE`, else you can define your own  generator by set the value of `generator` attribute. In the above `Post` entity, we use the Hibernate built-in `uuid2` strategy to generate a UUID value and assign it  to the id field before persisting.
+An entity should have an identifier field with an `@Id` annotation. To assign a value to the id field automatically, you can select a strategy type by specifying the `strategy` attribute of the `@GgeneratedValue` annotation,  it could be `AUTO`, `IDENTITY`, `SEQUENCE` and `TABLE`, else you can define your own generator by setting the value of `generator` attribute. In the above `Post` entity, we use the Hibernate built-in `uuid2` strategy to generate a UUID value and assign it to the id field before persisting.
 
-With the annotations from  Lombok project, eg. `@Getter`, `@Setter`, `@NoArgsConstructor`, `@AllArgsConstructor` and `@Builder`, it helps you to erase the tedious Java Bean properties,  and keep your codes clean. When building the project, Lombok annotation processor will participate into the compiling progress and generate getters and setters, varied constructors, and a builder class used to create an entity.
+With the annotations from the Lombok project, eg. `@Getter`, `@Setter`, `@NoArgsConstructor`, `@AllArgsConstructor` and `@Builder`, it helps you to erase the tedious methods for getting and setting the Java Bean properties,  and keep your codes clean. When building the project, Lombok annotation processor will participate into the compiling progress and generate getters and setters, varied constructors, and a builder class used to create an entity.
 
 Use IDE to generate `equals` and `hasCode` according to the business requirements. 
 
 > Be careful of using Lombok @Data to generate all facilities, especially in the entity in an inheritance structure or containing custom `equals` and `hasCode`  to identify an entity.
 
-Similar to the `Post` entity, create anther entity named  `Comment`.
+Similar to the `Post` entity, create another entity named  `Comment`.
 
 ```java
 // Comment entity 
@@ -212,11 +212,11 @@ public class Comment implements Serializable {
 The `Post` and `Comment` association is a simple bi-direction one-to-many relation. 
 
 On the **one** side, aka  in`Post` entity,  a `@OneToMany` annotation is added to the *comments* which is a `List`,  the `cascade` attribute defines the behiavor to process the **many** side when performing a persist, merge, delete operation on  the **one** side, here we use `ALL` to setup all cascade rules will be applied.  The  `orphanRemoval=true` setting tells the persistence context to clear the `Comment` orphans when deleting a `Post` . The `@OrderColumn` will persist the inserted position of comments. 
-On the **many** side aka in the `Comment` entity, a `@ManyToOne` annotation is added on the `post` field. The `@JoinColumn` set the column which stores the foreign key constraints by the `Post` id .
+On the **many** side aka in the `Comment` entity, a `@ManyToOne` annotation is added on the `post` field. The `@JoinColumn` set the column which stores the foreign key constraints by the `Post` id.
 
-Besides one-tomany relation (`@OneToMany`and `@ManyToOne`), JPA specification includes two other relations, aka  one-to-one (`@OneToOne`)  and many-to-many (`@ManyToMany`).
+Besides one-to-many relation (`@OneToMany`and `@ManyToOne`), JPA specification includes two other relations, aka one-to-one (`@OneToOne`)  and many-to-many (`@ManyToMany`).
 
-We've just demonstrated a simple entity association case here, it is bi-direction one-to-many relation.  Please note, one-to-one, one-to-many, and many-to-many can be set as *single direction*,  and you can use a  secondary table as *connecting table* in the  one-to-one and one-to-many relations.
+We've just demonstrated a simple entity association case here, it is a bi-direction one-to-many relation.  Please note, one-to-one, one-to-many, and many-to-many can be set as *single direction*,  and you can use a  secondary table as *connecting table* in the one-to-one and one-to-many relations.
 
 > We can not cover every details of JPA specifiction here. If you are new to JPA, [Java persistence with Hibernate](https://www.manning.com/books/java-persistence-with-hibernate) is a good book to start your  JPA journey.
 
@@ -231,9 +231,9 @@ public interface PostRepository extends JpaRepository<Post, UUID>{
 }
 ```
 
-The `JpaRepository` overrides some existing methods in the  parent`CrudRepository`and `PageableRepository`, and adds some JPA specific methods, such as `flush` used to flush the persistence context by force.
+The `JpaRepository` overrides some existing methods in the parent `CrudRepository`and `PageableRepository`, and adds some JPA-specific methods, such as `flush` used to flush the persistence context by force.
 
-Note, in Micronaut Data, a Repository bean must be annotated with  a `@Repository` annotation. In a multi-datasources environment, you can specify the datasource identifier name to ensure this repository to use certain DataSource to connect to database. 
+Note, in Micronaut Data, a Repository bean must be annotated with a `@Repository` annotation. In a multi-datasource environment, you can specify the datasource identifier name to ensure this repository uses the certain DataSource to connect to the database. 
 
 For example, `@Repository("orders")` to connect the **orders** datasource defined in the *application.yml* configuration.
 
@@ -253,11 +253,11 @@ public interface CommentRepository extends JpaRepository<Comment, UUID> {
 }
 ```
 
-The `findByPost`is used to filter comments by a specific *post* argument. Similar to Spring Data JPA,  Micronaut Data support fluent query methods derived from property expression.
+The `findByPost` is used to filter comments by a specific *post* argument. Similar to Spring Data JPA,  Micronaut Data support fluent query methods derived from property expression.
 
-Similar to Spring Data, Micronaut Data provides pagination for long query result, the `findAll` accepts a `Pageable` parameter, and returns a `Page` result.
+Similar to Spring Data, Micronaut Data provides pagination for a long query result, the `findAll` accepts a `Pageable` parameter and returns a `Page` result.
 
-Micronaut Data also includes a `Specification`  to adopt JPA Criteria APIs for complex type-safe query.
+Micronaut Data also includes a `Specification`  to adopt JPA Criteria APIs for the complex type-safe query.
 
 ### Query by Specification
 
@@ -272,7 +272,7 @@ public interface PostRepository extends JpaRepository<Post, UUID>, JpaSpecificat
 
 The `JpaSpecificationExecutor` provides extra methods to accept a `Specification` as parameters.
 
-Create a specific `PostSpecifications` to group all specifications for querying posts.  Currently only add one for query by keyword and status.
+Create a specific `PostSpecifications` to group all specifications for querying posts. Currently, only add one for query by keyword and status.
 
 ```java
 public class PostSpecifications {
@@ -305,7 +305,7 @@ public class PostSpecifications {
 }
 ```
 
-The `filterByKeywordAndStatus` specificaiton provides optional keyword and status to filter the posts.  The `Post_` is a metadata class generated by Hibernate metadata generating tools.  
+The `filterByKeywordAndStatus` specification provides optional *keyword* and *status* to filter the posts.  The `Post_` is a metadata class generated by Hibernate metadata generating tools.  
 
 Add the following `annotationProcessor` in the project dependencies.
 
@@ -313,7 +313,7 @@ Add the following `annotationProcessor` in the project dependencies.
 annotationProcessor('org.hibernate:hibernate-jpamodelgen:5.6.5.Final')
 ```
 
-For those who are familiar with JPA `EntityManager` and prefer to use literal query string to handle complex queries,  In Micronaut Data, it is easy  to use them in the Repository directly.
+For those who are familiar with JPA `EntityManager` and prefer to use literal query string to handle complex queries,  In Micronaut Data, it is easy to use them in the Repository directly.
 
 ###  Custom Query with EntityManager 
 
@@ -333,9 +333,9 @@ public abstract class PostRepository implements JpaRepository<Post, UUID>, JpaSp
 }
 ```
 
-In the above `findAllByTitleContains` method, it uses `EntityManager` to execute a custom literial query.
+In the above `findAllByTitleContains` method, it uses `EntityManager` to execute a custom literal query.
 
-In contrast, to use `EntityManager`in your custom queries,  in Spring Data JPA, you  need to create a `PostRepositoryCustom` interface and a `PostRepositoryImpl` implementation class. Obviously Micronaut Data simplifies the work.
+In contrast, to use `EntityManager` in your custom queries,  in Spring Data JPA, you need to create a `PostRepositoryCustom` interface and a `PostRepositoryImpl` implementation class. Micronaut Data simplifies the work.
 
 
 ### Initializing Sample Data
@@ -370,12 +370,11 @@ public class DataInitializer implements ApplicationEventListener<ApplicationStar
 }
 ```
 
-In the above codes, use `TransactionOperations` to wrap a serise of operations into a transaction to make sure it happens before the sucessor operations.
-
+In the above codes, use `TransactionOperations` to wrap a series of operations into a transaction to ensure it happens before the successor operations.
 
 ## Exposing RESTful API
 
-Follow the REST conventions and Richardson Mature Model,  we design a series of HTTP API endpoints that satisfies the  Richardson Mature Model Level 2.
+Following the REST conventions and Richardson Mature Model, we design a series of HTTP API endpoints that satisfies the  Richardson Mature Model Level 2.
 
 | URI                  | HTTP Method | Description                                                  |
 | -------------------- | ----------- | ------------------------------------------------------------ |
@@ -420,25 +419,25 @@ public class PostController {
 }
 ```
 
-A controller is annotated with `@Controller`, you can set a base `uri` that can be applied on all methods. 
+Usually, a controller is annotated with `@Controller`, you can set a base `uri` that applies to all methods. 
 
 > Note,  There is no `@RestController` in Micronaut.
 
-The `@Get`, `@Post`,`@Put`, `@Delete` annotations are used to handle varied HTTP methods, it is similar to the Spring's `@GetMapping`, `@PostMapping`, etc.  
+The `@Get`, `@Post`,`@Put`, `@Delete` annotations are used to handle varied HTTP methods, it is similar to Spring's `@GetMapping`, `@PostMapping`, etc.  
 
-You can set media types using *consumes* or *produces*  attributes in these annotations to limit the request and response  content type, or use extra standalone annotations `@Consumes` and `@Produces` on the methods.
+You can set media types using *consumes* or *produces*  attributes in these annotations to limit the request and response content type, or use extra standalone annotations `@Consumes` and `@Produces` on the methods.
 
 In the `PostController` , we have two methods.  The `getAll` method serves the */posts* endpoint, and the `getById(id)` serves the */posts/{id}* endpoint.
 
 ### Testing Endpoints using cURL
 
-Start up  the application via Gradle command.
+Startup the application via Gradle command.
 
 ```bash 
 ./gradlew run
 ```
 
-> Do not forget  to start up Postgres database firstly.
+> Do not forget to start up Postgres database firstly.
 
 Open a terminal,  use `curl` command to test the `/posts` endpoint.
 
@@ -470,7 +469,7 @@ curl http://localhost:8080/posts/b6fb90ab-2719-498e-a5fd-93d0c7669fdf
 
 ### Handling Exception 
 
-In the above `PostController`, if there is no posts found for the given post id, it return a 404 HTTP status directly.  In a real world application, we can use an custom exception to envelope the exception case. 
+In the above `PostController`, if there is no posts found for the given post id, it returns a 404 HTTP status directly. In a real-world application, we can use a custom exception to envelope the exception case. 
 
 Like Spring WebMVC, Micronaut provides similar exception handling mechanism. 
 
@@ -520,7 +519,7 @@ public class PostNotFoundExceptionHandler implements ExceptionHandler<PostNotFou
 }
 ```
 
-Open your terminal,  use `curl` command to test the `/posts/{id}` endpoint with an none-existing id.
+Open a terminal,  use `curl` command to test the `/posts/{id}` endpoint with a non-existing id.
 
 ```bash
 # curl http://localhost:8080/posts/b6fb90ab-2719-498e-a5fd-93d0c7669fdf -v
@@ -550,8 +549,6 @@ Open your terminal,  use `curl` command to test the `/posts/{id}` endpoint with 
   }
 }
 ```
-
-
 
 ### Handling Pagination
 
@@ -614,7 +611,7 @@ Let's use `curl` to test the */posts* endpoint again.
 }
 ```
 
-The `Page`  JSON results looks a little tedious,  let's customize a  Jackson `JsonSerializer` to clean up the JSON data str.
+The `Page`  JSON results look a little tedious,  let's customize a Jackson `JsonSerializer` to clean up the JSON data string.
 
 ### Customizing JsonSerializer
 
@@ -641,7 +638,7 @@ public class PageJsonSerializer extends JsonSerializer<Page<?>> {
 
 ```
 
-Run the application , and hint  */posts* endpoint again.
+Run the application, and hint */posts* endpoint again.
 
 ```bash
 # curl http://localhost:8080/posts
@@ -665,9 +662,9 @@ Run the application , and hint  */posts* endpoint again.
 
 ## Creating Post
 
- We have discussed how to query posts by key word and get single post by id,  in this section, we will focus on creating a new post.
+ We have discussed how to query posts by keyword and get a single post by id, in this section, we are moving on to creating a new post.
 
-According the REST convention, we will use a POST HTTP method  to send a request on endpoint */posts*, it accepts JSON data as request body. 
+According to the REST convention, we use a POST HTTP method to send a request on endpoint */posts*, it accepts JSON data as the request body. 
 
 ```
 @io.micronaut.http.annotation.Post(uri = "/", consumes = MediaType.APPLICATION_JSON)
@@ -679,9 +676,18 @@ public HttpResponse<Void> create(@Body CreatePostCommand dto) {
 }
 ```
 
-The request body is deserialized as a POJO by built-in Jackson `JsonDesearilizer`s, it is annotated with a `@Body` annotation to indicate which target class it will be desearilized to.  After the post data is saved, set the response header `Location` value to the URI of the newly created post.
+The `CreatePostCommand` is a Record class.
 
-Run the application, and try to add a post via `curl`, and then access the newly created post.
+```java
+@Introspected
+public record CreatePostCommand(@NotBlank String title, @NotBlank String content) {
+}
+```
+The *immutable* characteristic of a Record is a good match with the DTO pattern. The `Introspected` annotation marks Micronaut plugin process the Bean validation at build time.
+
+The request body is deserialized as a POJO by built-in Jackson `JsonDesearilizer`s, it is annotated with a `@Body` annotation to indicate which target class (`CreatePostCommand`) it should be deserialized to. After the post data is saved, set the response header `Location` value to the URI of the newly created post.
+
+Run the application, try to add a post via `curl`, and then access the newly created post.
 
 ```bash
 # curl -X POST -v  -H "Content-Type:application/json" http://localhost:8080/posts -d "{\"title\":\"test title\",\"content\":\"test content\"}"
@@ -711,7 +717,7 @@ Run the application, and try to add a post via `curl`, and then access the newly
 
 ### Validating Request Body
 
-Generally, in a real world application, we have to ensure the request data satisfies requirements. Micronaut has built-in Bean Validation support.
+Generally, in a real-world application, we have to ensure the request data satisfies requirements. Micronaut has built-in Bean Validation support.
 
 In the above `CreatPostCommand` class, add Bean Validation annotations on the fields.
 
@@ -721,7 +727,7 @@ public record CreatePostCommand(@NotBlank String title, @NotBlank String content
 }
 ```
 
-You have to add `@Introspected` annotation to let Micronaut plugin to preprocess bean validation annotations at compile time, thus Bean Validation will work without any Java Reflection APIs at runtime time.
+You have to add `@Introspected` annotation to let Micronaut plugin to preprocess bean validation annotations at build time, thus Bean Validation works without any Java Reflection APIs at runtime time.
 
 Add a `@Validated` on the `PostController` class to enable validation in the whole class.  
 
@@ -735,7 +741,7 @@ public class PostController {
 }
 ```
 
-Open a terminal, try to create a Post with a empty  *content* field.
+Open a terminal, try to create a Post with an empty  *content* field.
 
 ```bash
 curl -X POST -v  -H "Content-Type:application/json" http://localhost:8080/posts -d "{\"title\":\"test title\",\"content\":\"\"}"
@@ -769,9 +775,38 @@ curl -X POST -v  -H "Content-Type:application/json" http://localhost:8080/posts 
 }
 ```
 
-## Deleting Post
+### Updating Existing Post
 
-According to REST convention, to delete a single post, send a `DELETE` request on `/posts/{id}`, if it is successful, returns a 204 status. If the `id` is not existed, returns a `404` instead.
+Follow the REST convention, to update an existing post, send a `PUT` to the */posts/{id}* endpoint.  If it is successful, it returns a 204 status. If the post does not exist, return a 404 status code instead.
+
+The request body is the change data(encoded to JSON or XML,etc.) and should be validated by Bean Validator, if the validation fails, it returns 400 status and sends the validation errors to the response body. The validation exception is handled by the Micronaut exception handler automatically.
+
+```java
+@Put(uri = "/{id}", consumes = MediaType.APPLICATION_JSON)
+@Transactional
+public HttpResponse<?> update(@PathVariable UUID id, @Body @Valid UpdatePostCommand dto) {
+    return posts.findById(id)
+        .map(p -> {
+            p.setTitle(dto.title());
+            p.setContent(dto.content());
+            this.posts.save(p);
+            return HttpResponse.noContent();
+        })
+        .orElseThrow(() -> new PostNotFoundException(id));
+    //.orElseGet(HttpResponse::notFound);
+}
+```
+Similar to `CreatePostCommand`, `UpdatePostCommand` is  a record used to transfer data from reuqest.
+
+```java
+@Introspected
+public record UpdatePostCommand(@NotBlank String title, @NotBlank String content) {
+}
+```
+
+### Deleting Post
+
+According to REST convention, to delete a single post, send a `DELETE` request on `/posts/{id}`, if it is successful, returns a 204 status. If the `id` does not exist, it returns a `404` instead.
 
 Add the following codes to the `PostController`.
 
@@ -791,7 +826,7 @@ public HttpResponse<?> deleteById(@PathVariable UUID id) {
 
 ## Processing Subresources
 
-In our application, the a `Comment` resource, it should be a subresource of `Post` resource when adding comments or fetching comments of a specific post, we can design comments resource like this.
+In our application, the `Comment` resource should be a subresource of `Post` resource. When adding comments or fetching comments of a specific `Post`, design the following comments APIs.
 
 * `POST /posts/{id}/comments` , add  a `Comment` resource to a specific `Post`.
 * `GET /posts/{id}/comments`, get all comments of a certain `Post` which id value is the path variable `id`.
@@ -811,7 +846,7 @@ public HttpResponse<?> getCommentsByPostId(@PathVariable UUID id) {
 
 @io.micronaut.http.annotation.Post(uri = "/{id}/comments", consumes = MediaType.APPLICATION_JSON)
 @Transactional
-public HttpResponse<?> create(@PathVariable UUID id, @Body @Valid CreateCommentCommand dto) {
+public HttpResponse<?> createComment(@PathVariable UUID id, @Body @Valid CreateCommentCommand dto) {
 
     return posts.findById(id)
         .map(post -> {

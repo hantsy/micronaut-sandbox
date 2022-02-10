@@ -69,6 +69,20 @@ public class PostController {
         //.orElseGet(HttpResponse::notFound);
     }
 
+    @Put(uri = "/{id}", consumes = MediaType.APPLICATION_JSON)
+    @Transactional
+    public HttpResponse<?> update(@PathVariable UUID id, @Body @Valid UpdatePostCommand dto) {
+        return posts.findById(id)
+                .map(p -> {
+                    p.setTitle(dto.title());
+                    p.setContent(dto.content());
+                    this.posts.save(p);
+                    return HttpResponse.noContent();
+                })
+                .orElseThrow(() -> new PostNotFoundException(id));
+        //.orElseGet(HttpResponse::notFound);
+    }
+
     @Delete(uri = "/{id}", produces = MediaType.APPLICATION_JSON)
     @Transactional
     public HttpResponse<?> deleteById(@PathVariable UUID id) {
@@ -95,7 +109,7 @@ public class PostController {
 
     @io.micronaut.http.annotation.Post(uri = "/{id}/comments", consumes = MediaType.APPLICATION_JSON)
     @Transactional
-    public HttpResponse<?> create(@PathVariable UUID id, @Body @Valid CreateCommentCommand dto) {
+    public HttpResponse<?> createComment(@PathVariable UUID id, @Body @Valid CreateCommentCommand dto) {
 
         return posts.findById(id)
                 .map(post -> {

@@ -57,6 +57,7 @@ nav:
     - gs/index.md
     - Prerequisites: gs/prerequisites.md
     - Generating Project Skeleton: gs/gen.md 
+    - Understanding Dependency Injection: gs/di.md
     - Building & Running Application: gs/build.md
     - "Example: Java + Micronaut Data JPA": gs/gs-rest.md   
     - "Example: Kotlin + Micronaut Data JDBC": gs/jdbc-kotlin.md
