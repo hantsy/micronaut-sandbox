@@ -1,6 +1,7 @@
 package com.example;
 
 import io.micronaut.context.ApplicationContext;
+import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import jakarta.inject.Singleton;
 import org.junit.jupiter.api.Test;
@@ -24,12 +25,12 @@ public class FactoryTest {
 @Factory
 class FooBar {
 
-    @Singleton
+    @Bean
     public Foo foo() {
         return new Foo();
     }
 
-    @Singleton
+    @Bean
     public Bar bar() {
         return new Bar();
     }

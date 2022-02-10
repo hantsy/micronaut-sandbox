@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-@MicronautTest(environments = Environment.TEST)
+@MicronautTest(environments = "mock")
 public class PostControllerTest {
 
     @Inject
