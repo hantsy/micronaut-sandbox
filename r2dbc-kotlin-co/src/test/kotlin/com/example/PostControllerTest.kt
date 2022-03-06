@@ -7,13 +7,16 @@ import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
+import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.kotest.MicronautKotestExtension.getMock
 import io.micronaut.test.extensions.kotest.annotation.MicronautTest
 import io.mockk.*
 import kotlinx.coroutines.flow.flowOf
+import org.junit.jupiter.api.assertThrows
 import java.time.LocalDateTime
 import java.util.*
+
 
 @MicronautTest(environments = ["mock"])
 class PostControllerTest(
@@ -56,10 +59,11 @@ class PostControllerTest(
                 )
             )
         val request = HttpRequest.POST("/posts", CreatePostCommand(title = "", content = ""))
-        val response: HttpResponse<Any> = client.toBlocking().exchange(request)
+        val exception: HttpClientResponseException = assertThrows {
+            val response: HttpResponse<Any> = client.toBlocking().exchange(request)
+        }
 
-        response.status shouldBe HttpStatus.BAD_REQUEST
-
+        exception.status shouldBe HttpStatus.BAD_REQUEST
         coVerify(exactly = 0) { posts.findAll() }
     }
 }) {
