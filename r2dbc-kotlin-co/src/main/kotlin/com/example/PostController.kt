@@ -7,11 +7,14 @@ import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.PathVariable
+import io.micronaut.validation.Validated
 import kotlinx.coroutines.flow.Flow
 import java.net.URI
 import java.util.*
+import javax.validation.Valid
 
 @Controller("/posts")
+@Validated
 class PostController(private val posts: PostRepository) {
 
     @Get(uri = "/", produces = [MediaType.APPLICATION_JSON])
@@ -24,8 +27,9 @@ class PostController(private val posts: PostRepository) {
     }
 
     @io.micronaut.http.annotation.Post(consumes = [MediaType.APPLICATION_JSON])
-    suspend fun create(@Body body: Post): HttpResponse<Any> {
-        val saved = posts.save(body)
+    suspend fun create(@Body @Valid body: CreatePostCommand): HttpResponse<Any> {
+        val data = Post(title = body.title, content = body.content)
+        val saved = posts.save(data)
         return created(URI.create("/posts/" + saved.id))
     }
 }

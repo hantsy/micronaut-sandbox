@@ -2,6 +2,8 @@ package com.example
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
+import io.micronaut.http.HttpRequest
+import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
@@ -39,6 +41,26 @@ class PostControllerTest(
         response.body()!![0].title shouldBe "test title"
 
         coVerify(exactly = 1) { posts.findAll() }
+    }
+
+    test("create post with invalid input data") {
+        val posts = getMock(postRepository)
+        coEvery { posts.save(any<Post>()) }
+            .returns(
+                Post(
+                    id = UUID.randomUUID(),
+                    title = "test title",
+                    content = "test content",
+                    status = Status.DRAFT,
+                    createdAt = LocalDateTime.now()
+                )
+            )
+        val request = HttpRequest.POST("/posts", CreatePostCommand(title = "", content = ""))
+        val response: HttpResponse<Any> = client.toBlocking().exchange(request)
+
+        response.status shouldBe HttpStatus.BAD_REQUEST
+
+        coVerify(exactly = 0) { posts.findAll() }
     }
 }) {
     @MockBean(PostRepository::class)
