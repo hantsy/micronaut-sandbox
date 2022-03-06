@@ -4,5 +4,5 @@ In the homepage of [Micronaut](https://www.micronaut.io), it describes Micronaut
 
 > A modern, JVM-based, full-stack framework for building modular, easily testable microservice and serverless applications.
 
-In contrast to the competitors, eg. Spring Boot， Micronaut is relatedly new to developers, and it adopts the good parts of the existing frameworks.
+Micronaut is relatedly new to Java developers, and it adopts the good part of the existing frameworks, such as Grails, Spring Boot, etc.
 
