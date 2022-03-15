@@ -37,5 +37,5 @@ jobs:
     
       - name: Execute Gradle build
         run: |
-          cd album-service
+          cd jdbc-kotlin
           ./gradlew build
