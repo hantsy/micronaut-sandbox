@@ -1,7 +1,7 @@
 plugins {
     id("groovy")
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("io.micronaut.application") version "3.2.2"
+    id("io.micronaut.application") version "3.3.0"
 }
 
 version = "0.1"
@@ -44,7 +44,7 @@ dependencies {
     annotationProcessor("io.micronaut:micronaut-http-validation")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.4.15")
+    testImplementation("io.projectreactor:reactor-test:3.4.16")
 
     //test
     testImplementation("org.testcontainers:mongodb")

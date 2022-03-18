@@ -26,22 +26,18 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
           
       - name: Start up databases via Docker Compose 
         run: |
             docker-compose up -d postgres
-            docker ps -a              
-      - name: Build with Gradle
-        run: |
-          cd jdbc-kotlin
-          chmod a+x ./gradlew
-          ./gradlew build
+            docker ps -a    
+            
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+            arguments: build
+            build-root-directory: jdbc-kotlin   
+#       - name: Execute Gradle build
+#         run: |
+#           cd jdbc-kotlin
+#           ./gradlew build
