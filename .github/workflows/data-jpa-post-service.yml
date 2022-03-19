@@ -1,16 +1,16 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
-name: r2dbc-kotlin-co
+name: post-service
 
 on:
   push:
     paths:
-      - "r2dbc-kotlin-co/**"
+      - "data-jpa-post-service/**"
     branches:
       - master
   pull_request:
     paths:
-      - "r2dbc-kotlin-co/**"
+      - "data-jpa-post-service/**"
     types:
       - opened
       - synchronize
@@ -35,10 +35,10 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
         # with:
-          # arguments: build
-          # build-root-directory: r2dbc-kotlin-co
+            # arguments: build
+            # build-root-directory: post-service
       - name: Execute Gradle build
         run: |
-          cd r2dbc-kotlin-co
+          cd data-jpa-post-service
           chmod +x gradlew
           ./gradlew build

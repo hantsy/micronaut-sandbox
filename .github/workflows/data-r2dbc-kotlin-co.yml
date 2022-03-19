@@ -1,16 +1,16 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
-name: jdbc-kotlin
+name: r2dbc-kotlin-co
 
 on:
   push:
     paths:
-      - "jdbc-kotlin/**"
+      - "data-r2dbc-kotlin-co/**"
     branches:
       - master
   pull_request:
     paths:
-      - "jdbc-kotlin/**"
+      - "data-r2dbc-kotlin-co/**"
     types:
       - opened
       - synchronize
@@ -30,15 +30,15 @@ jobs:
       - name: Start up databases via Docker Compose 
         run: |
             docker-compose up -d postgres
-            docker ps -a    
+            docker ps -a              
             
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
         # with:
-            # arguments: build
-            # build-root-directory: jdbc-kotlin   
+          # arguments: build
+          # build-root-directory: r2dbc-kotlin-co
       - name: Execute Gradle build
         run: |
-          cd jdbc-kotlin
+          cd data-r2dbc-kotlin-co
           chmod +x gradlew
           ./gradlew build
