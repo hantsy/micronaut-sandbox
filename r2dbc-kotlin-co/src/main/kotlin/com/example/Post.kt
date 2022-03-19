@@ -1,11 +1,11 @@
 package com.example
 
 import io.micronaut.data.annotation.*
-import io.micronaut.data.model.DataType
+import io.micronaut.data.annotation.Relation.Cascade
 import io.micronaut.data.model.naming.NamingStrategies
 import java.time.LocalDateTime
 import java.util.*
-import javax.validation.groups.ConvertGroup
+import kotlin.collections.List
 
 @MappedEntity(value = "posts", namingStrategy = NamingStrategies.UnderScoreSeparatedLowerCase::class)
 data class Post(
@@ -14,5 +14,15 @@ data class Post(
     var title: String,
     var content: String,
     var status: Status? = Status.DRAFT,
-    @field:DateCreated var createdAt: LocalDateTime? = LocalDateTime.now()
-)
+    @field:DateCreated var createdAt: LocalDateTime? = LocalDateTime.now(),
+    @field:Relation(
+        value = Relation.Kind.ONE_TO_MANY,
+        mappedBy = "post",
+        cascade = [Cascade.ALL]
+    ) var comments: List<Comment> = emptyList<Comment>()
+) {
+    fun addComment(data: Comment) {
+        data.post = this
+        this.comments += data
+    }
+}

@@ -6,6 +6,7 @@ import io.kotest.inspectors.forAny
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.comparables.shouldBeEqualComparingTo
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldContain
 import io.micronaut.context.env.Environment
 import io.micronaut.data.r2dbc.operations.R2dbcOperations
@@ -52,6 +53,18 @@ class PostRepositoryTest(
             all.map { it.title }.forAny { it shouldContain "test" }
         }
 
+    }
+
+    "persist post and comments" {
+        val data = Post(
+            title = "test title", content = "test content"
+        )
+        data.addComment(Comment(content = "test content"))
+        val saved = posts.save(data)
+        saved.id shouldNotBe null
+
+        val found = posts.findById(saved.id!!)
+        found?.comments?.size shouldBe 1
     }
 
     "find by title" {
