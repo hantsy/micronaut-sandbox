@@ -34,7 +34,8 @@ class PostControllerTest(
                         title = "test title",
                         content = "test content",
                         status = Status.DRAFT,
-                        createdAt = LocalDateTime.now()
+                        createdAt = LocalDateTime.now(),
+                        comments = emptyList()
                     )
                 )
             )
@@ -55,7 +56,8 @@ class PostControllerTest(
                     title = "test title",
                     content = "test content",
                     status = Status.DRAFT,
-                    createdAt = LocalDateTime.now()
+                    createdAt = LocalDateTime.now(),
+                    comments = emptyList()
                 )
             )
         val request = HttpRequest.POST("/posts", CreatePostCommand(title = "", content = ""))

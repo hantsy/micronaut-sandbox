@@ -34,10 +34,11 @@ jobs:
             
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
-        with:
-          arguments: build
-          build-root-directory: r2dbc-kotlin-co
-#       - name: Execute Gradle build
-#         run: |
-#           cd r2dbc-kotlin-co
-#           ./gradlew build
+        # with:
+          # arguments: build
+          # build-root-directory: r2dbc-kotlin-co
+      - name: Execute Gradle build
+        run: |
+          cd r2dbc-kotlin-co
+          chmod +x gradlew
+          ./gradlew build

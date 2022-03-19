@@ -13,6 +13,7 @@ import io.micronaut.data.r2dbc.operations.R2dbcOperations
 import io.micronaut.test.extensions.kotest.annotation.MicronautTest
 import io.micronaut.transaction.reactive.ReactiveTransactionStatus
 import io.r2dbc.spi.Connection
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.slf4j.Logger
@@ -23,9 +24,11 @@ import reactor.test.StepVerifier
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @MicronautTest(environments = [Environment.TEST], startApplication = false)
 class PostRepositoryTest(
     private val posts: PostRepository,
+    private val comments: CommentRepository,
     private val template: R2dbcOperations
 ) : StringSpec({
 
@@ -56,15 +59,22 @@ class PostRepositoryTest(
     }
 
     "persist post and comments" {
-        val data = Post(
-            title = "test title", content = "test content"
-        )
-        data.addComment(Comment(content = "test content"))
-        val saved = posts.save(data)
-        saved.id shouldNotBe null
+        val data = Post("test title", "test content")
+        data.addComment(Comment("test content"))
 
-        val found = posts.findById(saved.id!!)
-        found?.comments?.size shouldBe 1
+        runBlocking {
+            val saved = posts.save(data)
+            log.debug("saved post: $saved")
+            saved.id shouldNotBe null
+
+            val found = posts.findById(saved.id!!)
+            log.debug("found post: $found")
+            found!!.title shouldBe "test title"
+            log.debug("comments of post::: ${found!!.comments}")
+
+            val commentsData = comments.findByPost(found)
+            commentsData.toList().size shouldBe 1
+        }
     }
 
     "find by title" {

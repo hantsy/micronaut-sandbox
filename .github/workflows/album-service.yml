@@ -33,10 +33,11 @@ jobs:
             docker ps -a              
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
-        with:
-            arguments: build
-            build-root-directory: album-service
-#       - name: Execute Gradle build
-#         run: |
-#           cd album-service
-#           ./gradlew build
+        # with:
+            # arguments: build
+            # build-root-directory: album-service
+      - name: Execute Gradle build
+        run: |
+          cd album-service
+          chmod +x gradlew
+          ./gradlew build

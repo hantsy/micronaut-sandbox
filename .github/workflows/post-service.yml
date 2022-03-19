@@ -34,10 +34,11 @@ jobs:
             
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
-        with:
-            arguments: build
-            build-root-directory: post-service
-#       - name: Execute Gradle build
-#         run: |
-#           cd post-service
-#           ./gradlew build
+        # with:
+            # arguments: build
+            # build-root-directory: post-service
+      - name: Execute Gradle build
+        run: |
+          cd post-service
+          chmod +x gradlew
+          ./gradlew build
