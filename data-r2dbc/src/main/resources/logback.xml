@@ -13,6 +13,7 @@
         <appender-ref ref="STDOUT" />
     </root>
     <logger level="debug" name="com.example"/>
+    <logger level="trace" name="io.micronaut.flyway"></logger>
     <logger level="debug" name="io.micronaut.data"></logger>
     <logger level="trace" name="io.micronaut.data.query"></logger>
 </configuration>

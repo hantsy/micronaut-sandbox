@@ -17,4 +17,7 @@ public record Customer(
         Address address,
         @Version Long version
 ) {
+    public static Customer of(String name, Integer age, Address address) {
+        return new Customer(null, name, age, address, null);
+    }
 }

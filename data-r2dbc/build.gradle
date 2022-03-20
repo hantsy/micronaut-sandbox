@@ -22,7 +22,8 @@ dependencies {
 
     //flyway
     implementation("io.micronaut.flyway:micronaut-flyway")
-    implementation("org.postgresql:postgresql")
+    implementation("io.micronaut.data:micronaut-data-jdbc")
+    runtimeOnly("org.postgresql:postgresql")
 
     //lombok
     compileOnly("org.projectlombok:lombok")
@@ -44,9 +45,14 @@ dependencies {
     annotationProcessor("io.micronaut:micronaut-http-validation")
 
     // test
+    testImplementation("org.assertj:assertj-core")
+    testImplementation("org.mockito:mockito-core")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
+
+    // reactor test
+    testImplementation("io.projectreactor:reactor-test:3.4.16")
 
 }
 
