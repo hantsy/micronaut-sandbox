@@ -18,16 +18,16 @@ dependencies {
     // micronaut framework
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-validation")
-    compileOnly("io.micronaut:micronaut-http-validation")
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut.groovy:micronaut-runtime-groovy")
 
     // data mongodb
-    implementation("io.micronaut.data:micronaut-data-mongodb:3.3.0-M1")
+    implementation("io.micronaut.data:micronaut-data-mongodb:3.3.0-RC1")
     implementation("io.micronaut.mongodb:micronaut-mongo-sync")
 
     // annotation processor
-    compileOnly("io.micronaut.data:micronaut-data-document-processor:3.3.0-M1")
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    annotationProcessor("io.micronaut.data:micronaut-data-document-processor:3.3.0-RC1")
 
     // log
     runtimeOnly("ch.qos.logback:logback-classic")
