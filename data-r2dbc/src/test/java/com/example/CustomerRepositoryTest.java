@@ -1,13 +1,13 @@
 package com.example;
 
 import io.micronaut.context.ApplicationContext;
-import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.MountableFile;
 import reactor.test.StepVerifier;
 
 import java.util.Map;
@@ -19,8 +19,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CustomerRepositoryTest {
 
     @Container
-    static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer<>("postgres:12");
-    //.withCopyFileToContainer(MountableFile.forClasspathResource("init.sql"), "/docker-entrypoint-initdb.d/init.sql");
+    static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer<>("postgres:12")
+            .withCopyFileToContainer(
+                    MountableFile.forClasspathResource("init.sql"),
+                    "/docker-entrypoint-initdb.d/init.sql"
+            );
 
     private static ApplicationContext context;
 
@@ -39,7 +42,7 @@ class CustomerRepositoryTest {
         );
 
         // run Flyway.migrate to create schema.
-        context.getBean(Flyway.class).migrate();
+        //context.getBean(Flyway.class).migrate();
 
     }
 
@@ -60,6 +63,4 @@ class CustomerRepositoryTest {
                 .consumeNextWith(it -> assertThat(it.name()).isEqualTo("customer_test"))
                 .verifyComplete();
     }
-
-
 }
