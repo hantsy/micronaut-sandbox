@@ -1,6 +1,6 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "7.1.1"
-    id("io.micronaut.application") version "3.3.0"
+    id("io.micronaut.application") version "3.2.2"
 }
 
 version = "0.1"
@@ -22,11 +22,12 @@ dependencies {
 
     //flyway
     implementation("io.micronaut.flyway:micronaut-flyway")
-    implementation("io.micronaut.data:micronaut-data-jdbc")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     runtimeOnly("org.postgresql:postgresql")
 
     //lombok
     compileOnly("org.projectlombok:lombok")
+    testCompileOnly("org.projectlombok:lombok")
 
     //r2dbc
     implementation("io.micronaut.data:micronaut-data-r2dbc")
@@ -42,6 +43,7 @@ dependencies {
 
     // annotation processor
     annotationProcessor("org.projectlombok:lombok")
+    testAnnotationProcessor("org.projectlombok:lombok")
     annotationProcessor("io.micronaut:micronaut-http-validation")
 
     // test

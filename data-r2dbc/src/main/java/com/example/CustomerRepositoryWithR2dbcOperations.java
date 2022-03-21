@@ -29,20 +29,20 @@ public class CustomerRepositoryWithR2dbcOperations {
     Flux<Customer> findAll() {
         var sql = "SELECT *  FROM  customers ";
         return Flux.from(
-                r2dbcOperations.withConnection(
-                        connection -> Flux.from(connection.createStatement(sql).execute())
-                                .flatMap(r -> r.map(MAPPING_FUNCTION))
-                                .doOnTerminate(() -> Mono.from(connection.close()).then())
+                r2dbcOperations.withConnection(connection -> Flux
+                        .from(connection.createStatement(sql).execute())
+                        .flatMap(r -> r.map(MAPPING_FUNCTION))
+                        .doOnTerminate(() -> Mono.from(connection.close()).then())
                 )
         );
     }
 
     Mono<Customer> findById(UUID id) {
-        var sql = "SELECT *  FROM  customers WHERE id=:id ";
+        var sql = "SELECT *  FROM  customers WHERE id=? ";
         return Mono.from(
                 r2dbcOperations.withConnection(connection -> Mono
                         .from(connection.createStatement(sql)
-                                .bind("id", id)
+                                .bind(0, id)
                                 .execute()
                         )
                         .flatMap(r -> Mono.from(r.map(MAPPING_FUNCTION)))
@@ -52,21 +52,22 @@ public class CustomerRepositoryWithR2dbcOperations {
     }
 
     Mono<UUID> save(Customer data) {
-        var sql = "INSERT INTO customers(name, age, street, city, zip, version) VALUES (:name, :age, :street, :city, :zip, version+1) RETURNING id ";
+        var sql = "INSERT INTO customers(name, age, street, city, zip) VALUES (?, ?, ?, ?, ?) RETURNING id ";
         return Mono.from(
                 r2dbcOperations.withTransaction(status ->
                         Mono.just(status.getConnection())
-                                .flatMap(connection -> Mono.from(connection.createStatement(sql)
-                                                        .bind("name", data.name())
-                                                        .bind("age", data.age())
-                                                        .bind("street", data.address().street())
-                                                        .bind("city", data.address().street())
-                                                        .bind("zip", data.address().zip())
-                                                        .returnGeneratedValues("id")
-                                                        .execute()
-                                                )
-                                                .flatMap(r -> Mono.from(r.map((row, rowMetadata) -> row.get("id", UUID.class))))
-                                                .switchIfEmpty(Mono.empty())
+                                .flatMap(connection -> Mono
+                                        .from(connection.createStatement(sql)
+                                                .bind(0, data.name())
+                                                .bind(1, data.age())
+                                                .bind(2, data.address().street())
+                                                .bind(3, data.address().street())
+                                                .bind(4, data.address().zip())
+                                                .returnGeneratedValues("id")
+                                                .execute()
+                                        )
+                                        .flatMap(r -> Mono.from(r.map((row, rowMetadata) -> row.get("id", UUID.class))))
+                                        .switchIfEmpty(Mono.empty())
                                 )
 
                 )
@@ -78,7 +79,8 @@ public class CustomerRepositoryWithR2dbcOperations {
         return Mono.from(
                 r2dbcOperations.withTransaction(status ->
                         Mono.just(status.getConnection())
-                                .flatMap(connection -> Mono.from(connection.createStatement(sql).execute())
+                                .flatMap(connection -> Mono
+                                        .from(connection.createStatement(sql).execute())
                                         .flatMap(result -> Mono.from(result.getRowsUpdated()))
                                 )
                 )
@@ -86,13 +88,15 @@ public class CustomerRepositoryWithR2dbcOperations {
     }
 
     Mono<Integer> deleteById(UUID id) {
-        var sql = "DELETE FROM customers WHERE id=:id";
+        var sql = "DELETE FROM customers WHERE id=?";
         return Mono.from(
                 r2dbcOperations.withTransaction(status ->
                         Mono.just(status.getConnection())
-                                .flatMap(connection -> Mono.from(connection.createStatement(sql)
-                                                .bind("id", id)
-                                                .execute())
+                                .flatMap(connection -> Mono
+                                        .from(connection.createStatement(sql)
+                                                .bind(0, id)
+                                                .execute()
+                                        )
                                         .flatMap(result -> Mono.from(result.getRowsUpdated()))
                                 )
                 )

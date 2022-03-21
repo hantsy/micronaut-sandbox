@@ -10,10 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 @Singleton
+@Requires(notEnv = "mock")
 @RequiredArgsConstructor
 @Slf4j
 public class SampleDataInitializer {
-    private final CustomerRepositoryWithRepositoryInterface customers;
+    private final CustomerRepository customers;
 
     @EventListener()
     public void init(ServerStartupEvent event) {
@@ -26,8 +27,8 @@ public class SampleDataInitializer {
                         )
                 )
                 .subscribe(
-                        data -> log.debug("saved data: {0}", data),
-                        error -> log.error("error: {0}", error),
+                        data -> log.debug("saved data: {}", data),
+                        error -> log.error("error: {}", error),
                         () -> log.debug("done initialization")
                 );
     }
