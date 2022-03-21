@@ -23,11 +23,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@MicronautTest(environments = "mock")
+@MicronautTest(environments = "mock", transactional = false)
 class CustomerControllerTest {
 
     @MockBean(CustomerRepositoryWithJdbcOperations.class)
-    CustomerRepositoryWithJdbcOperations mockedCustomerRepository() {
+    CustomerRepositoryWithJdbcOperations customerRepositoryWithJdbcOperations() {
         return mock(CustomerRepositoryWithJdbcOperations.class);
     }
 
