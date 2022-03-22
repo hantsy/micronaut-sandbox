@@ -32,7 +32,6 @@ public class CustomerRepositoryWithR2dbcOperations {
                 r2dbcOperations.withConnection(connection -> Flux
                         .from(connection.createStatement(sql).execute())
                         .flatMap(r -> r.map(MAPPING_FUNCTION))
-                        .doOnTerminate(() -> Mono.from(connection.close()).then())
                 )
         );
     }
