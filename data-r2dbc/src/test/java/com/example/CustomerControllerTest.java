@@ -72,7 +72,7 @@ class CustomerControllerTest {
                         )
                 );
 
-        var request = HttpRequest.GET(UriBuilder.of("/posts/{id}").expand(Map.of("id", UUID.randomUUID())));
+        var request = HttpRequest.GET(UriBuilder.of("/{id}").expand(Map.of("id", UUID.randomUUID())));
         client.exchange(request, Argument.of(Customer.class))
                 .as(StepVerifier::create)
                 .consumeNextWith(res -> {
@@ -91,7 +91,7 @@ class CustomerControllerTest {
         when(this.customerRepository.findById(any(UUID.class)))
                 .thenReturn(Mono.empty());
 
-        var request = HttpRequest.GET(UriBuilder.of("/posts/{id}").expand(Map.of("id", UUID.randomUUID())));
+        var request = HttpRequest.GET(UriBuilder.of("/{id}").expand(Map.of("id", UUID.randomUUID())));
         client.exchange(request, Argument.of(Customer.class))
                 .as(StepVerifier::create)
                 .consumeErrorWith(r -> {

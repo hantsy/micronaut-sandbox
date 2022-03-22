@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 //@MicronautTest(application = Application.class, startApplication = false)
 @Testcontainers
 @Slf4j
-class CustomerRepositoryTest {
+class CustomerRepositoryWithConnectionFactoryTest {
 
     @Container
     static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer<>("postgres:12");
@@ -76,6 +76,11 @@ class CustomerRepositoryTest {
         log.debug("generated id: {}", uuid);
 
         customerRepository.findById(uuid)
+                .as(StepVerifier::create)
+                .consumeNextWith(it -> assertThat(it.name()).isEqualTo("customer_test"))
+                .verifyComplete();
+
+        customerRepository.findAll()
                 .as(StepVerifier::create)
                 .consumeNextWith(it -> assertThat(it.name()).isEqualTo("customer_test"))
                 .verifyComplete();

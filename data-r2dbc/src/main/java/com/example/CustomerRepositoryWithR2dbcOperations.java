@@ -38,7 +38,7 @@ public class CustomerRepositoryWithR2dbcOperations {
     }
 
     Mono<Customer> findById(UUID id) {
-        var sql = "SELECT *  FROM  customers WHERE id=? ";
+        var sql = "SELECT *  FROM  customers WHERE id=$1 ";
         return Mono.from(
                 r2dbcOperations.withConnection(connection -> Mono
                         .from(connection.createStatement(sql)
@@ -52,7 +52,8 @@ public class CustomerRepositoryWithR2dbcOperations {
     }
 
     Mono<UUID> save(Customer data) {
-        var sql = "INSERT INTO customers(name, age, street, city, zip) VALUES (?, ?, ?, ?, ?) RETURNING id ";
+        //var sql = "INSERT INTO customers(name, age, street, city, zip) VALUES (?, ?, ?, ?, ?) RETURNING id ";
+        var sql = "INSERT INTO customers (name, age, street, city, zip) VALUES ($1, $2, $3, $4, $5)";
         return Mono.from(
                 r2dbcOperations.withTransaction(status ->
                         Mono.just(status.getConnection())
@@ -88,7 +89,7 @@ public class CustomerRepositoryWithR2dbcOperations {
     }
 
     Mono<Integer> deleteById(UUID id) {
-        var sql = "DELETE FROM customers WHERE id=?";
+        var sql = "DELETE FROM customers WHERE id=$1";
         return Mono.from(
                 r2dbcOperations.withTransaction(status ->
                         Mono.just(status.getConnection())
