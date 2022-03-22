@@ -1,9 +1,10 @@
 package com.example
 
-
+import groovy.transform.ToString
 import io.micronaut.data.annotation.Embeddable
 
 @Embeddable
+@ToString
 class Address {
     String street, city, zip
 

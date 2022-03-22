@@ -21,6 +21,10 @@ dependencies {
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut.groovy:micronaut-runtime-groovy")
 
+    //reactor
+    implementation("io.micronaut.reactor:micronaut-reactor")
+    implementation("io.micronaut.reactor:micronaut-reactor-http-client")
+
     // data mongodb
     implementation("io.micronaut.data:micronaut-data-mongodb:3.3.0")
     implementation("io.micronaut.mongodb:micronaut-mongo-sync")
@@ -36,6 +40,8 @@ dependencies {
     testImplementation("org.testcontainers:mongodb")
     testImplementation("org.testcontainers:spock")
     testImplementation("org.testcontainers:testcontainers")
+    // reactor test
+    testImplementation("io.projectreactor:reactor-test:3.4.16")
 }
 
 
