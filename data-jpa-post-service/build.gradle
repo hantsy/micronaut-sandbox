@@ -1,6 +1,6 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("io.micronaut.application") version "3.3.0"
+    id("io.micronaut.application") version "3.3.1"
 }
 
 version = "0.1"
