@@ -58,7 +58,7 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test:3.4.16")
 
     // rest-assured
-    testImplementation("io.rest-assured:rest-assured:4.5.1")
+    testImplementation("io.rest-assured:rest-assured:5.0.0")
 
 }
 
