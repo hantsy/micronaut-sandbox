@@ -11,6 +11,7 @@ group = "com.example"
 
 val kotlinVersion = project.properties.get("kotlinVersion")
 val kotlinCoVersion = project.properties.get("kotlinCoVersion")
+val kotestVersion = project.properties.get("kotestVersion")
 
 repositories {
     mavenCentral()
@@ -64,8 +65,11 @@ dependencies {
     // https://mvnrepository.com/artifact/io.projectreactor/reactor-test
     testImplementation("io.projectreactor:reactor-test:3.4.16")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlinCoVersion}")
-    //testImplementation("org.testcontainers:r2dbc")
-    //testImplementation("org.testcontainers:testcontainers")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:r2dbc")
+    testImplementation("org.postgresql:postgresql")
+    testImplementation("io.kotest.extensions:kotest-extensions-testcontainers:1.2.1")
 }
 
 application {

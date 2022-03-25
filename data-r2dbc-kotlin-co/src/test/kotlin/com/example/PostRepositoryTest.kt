@@ -70,7 +70,7 @@ class PostRepositoryTest(
             val found = posts.findById(saved.id!!)
             log.debug("found post: $found")
             found!!.title shouldBe "test title"
-            log.debug("comments of post::: ${found!!.comments}")
+            log.debug("comments of post::: ${found.comments}")
 
             val commentsData = comments.findByPost(found)
             commentsData.toList().size shouldBe 1
@@ -79,8 +79,9 @@ class PostRepositoryTest(
 
     "find by title" {
         val sql = "insert into posts(title, content, status) values ($1, $2, $3)";
+        // see: https://github.com/micronaut-projects/micronaut-data/discussions/1405
         Mono
-            .from(template.withTransaction { status: ReactiveTransactionStatus<Connection> ->
+            .fromDirect(template.withTransaction { status: ReactiveTransactionStatus<Connection> ->
                 Mono.from(
                     status.connection.createStatement(sql)
                         .bind(0, "test title")
@@ -89,17 +90,21 @@ class PostRepositoryTest(
                         .execute()
                 ).flatMap { Mono.from(it.rowsUpdated) }
             })
+            .log()
             .`as` { StepVerifier.create(it) }
             .consumeNextWith { it shouldBeEqualComparingTo 1 }
             .verifyComplete()
 
         runBlocking {
-            val all = posts.findAll(Specifications.titleLike("test")).toList()
+            val all = posts.findAll().toList()
             log.debug("all posts size:{}", all.size)
-            all shouldHaveSize 1
+
+            val all1 = posts.findAll(Specifications.titleLike("test")).toList()
+            log.debug("all posts size filter by title=test:{}", all1.size)
+            all1 shouldHaveSize 1
 
             val all2 = posts.findAll(Specifications.titleLike("test2")).toList()
-            log.debug("all2 posts size:{}", all2.size)
+            log.debug("all2 posts size filter by title=test2:{}", all2.size)
             all2 shouldHaveSize 0
         }
 
@@ -213,6 +218,7 @@ class PostRepositoryTest(
     }
 
     override fun beforeEach(testCase: TestCase) {
+        log.debug("call beforeEach...")
         val sql = "delete from posts";
 
         val latch = CountDownLatch(1)
@@ -238,5 +244,6 @@ class PostRepositoryTest(
 
         latch.await(5000, TimeUnit.MILLISECONDS)
     }
+
 }
 
