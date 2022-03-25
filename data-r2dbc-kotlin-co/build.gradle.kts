@@ -69,7 +69,7 @@ dependencies {
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:r2dbc")
     testImplementation("org.postgresql:postgresql")
-    testImplementation("io.kotest.extensions:kotest-extensions-testcontainers:1.2.1")
+    //testImplementation("io.kotest.extensions:kotest-extensions-testcontainers:1.2.1")
 }
 
 application {
