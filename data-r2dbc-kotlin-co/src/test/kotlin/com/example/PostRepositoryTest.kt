@@ -35,7 +35,7 @@ class PostRepositoryTest(
     "save and find posts" {
         val sql = "insert into posts(title, content, status) values ($1, $2, $3)";
         Mono
-            .from(template.withTransaction { status: ReactiveTransactionStatus<Connection> ->
+            .fromDirect(template.withTransaction { status: ReactiveTransactionStatus<Connection> ->
                 Mono.from(
                     status.connection.createStatement(sql)
                         .bind(0, "test title")
