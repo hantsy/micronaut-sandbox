@@ -29,7 +29,7 @@ micronaut {
 dependencies {
 
     // javaee/jakarta ee spec
-    implementation("jakarta.annotation:jakarta.annotation-api:2.0.0")
+    implementation("jakarta.annotation:jakarta.annotation-api:2.1.0")
     implementation("jakarta.persistence:jakarta.persistence-api:3.0.0")
 
     //micronaut framework
