@@ -1,0 +1,27 @@
+micronaut:
+  application:
+    name: demo
+datasources:
+  default:
+    url: jdbc:postgresql://localhost:5432/blogdb
+    driverClassName: org.postgresql.Driver
+    username: user
+    password: password
+netty:
+  default:
+    allocator:
+      max-order: 3
+dataSource:
+  url: jdbc:postgresql://localhost:5432/blogdb
+  driverClassName: org.postgresql.Driver
+  username: user
+  password: password
+  pooled: true
+  jmxExport: true
+hibernate:
+  hbm2ddl:
+    auto: update
+  cache:
+    queries: false
+    use_second_level_cache: false
+    use_query_cache: false

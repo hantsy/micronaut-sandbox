@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.example
+testFramework: spock
+sourceLanguage: groovy
+buildTool: gradle
+features: [annotation-api, app-name, gradle, groovy, groovy-application, hibernate-gorm, hibernate-validator, http-client, jackson-databind, jdbc-hikari, logback, micronaut-build, multi-tenancy, multi-tenancy-gorm, netty-server, postgres, reactor, reactor-http-client, readme, shade, spock, testcontainers, yaml]
