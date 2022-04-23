@@ -45,7 +45,7 @@ dependencies {
     //apt
     annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
-    annotationProcessor('org.hibernate:hibernate-jpamodelgen:5.6.7.Final')
+    annotationProcessor('org.hibernate:hibernate-jpamodelgen:5.6.8.Final')
 
     //test
     testImplementation("org.assertj:assertj-core")
@@ -55,10 +55,10 @@ dependencies {
     testImplementation("org.mockito:mockito-core")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.4.16")
+    testImplementation("io.projectreactor:reactor-test:3.4.17")
 
     // rest-assured
-    testImplementation("io.rest-assured:rest-assured:5.0.0")
+    testImplementation("io.rest-assured:rest-assured:5.0.1")
 
 }
 
