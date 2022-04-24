@@ -25,7 +25,6 @@ dependencies {
 
     // gorm and hibernate
     implementation("io.micronaut.groovy:micronaut-hibernate-gorm")
-    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     runtimeOnly("org.apache.tomcat:tomcat-jdbc")
     runtimeOnly("org.postgresql:postgresql")
 
@@ -41,6 +40,7 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
 
     //test
+    //testImplementation("io.micronaut.sql:micronaut-jdbc-hikari")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:spock")
     testImplementation("org.testcontainers:testcontainers")

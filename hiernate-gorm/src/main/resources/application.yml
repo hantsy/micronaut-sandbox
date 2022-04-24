@@ -1,12 +1,12 @@
 micronaut:
   application:
     name: demo
-datasources:
-  default:
-    url: jdbc:postgresql://localhost:5432/blogdb
-    driverClassName: org.postgresql.Driver
-    username: user
-    password: password
+#datasources:
+#  default:
+#    url: jdbc:postgresql://localhost:5432/blogdb
+#    driverClassName: org.postgresql.Driver
+#    username: user
+#    password: password
 netty:
   default:
     allocator:
