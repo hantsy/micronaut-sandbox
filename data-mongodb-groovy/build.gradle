@@ -26,7 +26,7 @@ dependencies {
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
 
     // data mongodb
-    implementation("io.micronaut.data:micronaut-data-mongodb:3.4.0")
+    implementation("io.micronaut.data:micronaut-data-mongodb:3.4.1")
     implementation("io.micronaut.mongodb:micronaut-mongo-sync")
 
     // annotation processor
