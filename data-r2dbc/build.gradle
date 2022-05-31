@@ -32,7 +32,7 @@ dependencies {
     //r2dbc
     implementation("io.micronaut.data:micronaut-data-r2dbc")
     //implementation("io.micronaut.r2dbc:micronaut-r2dbc-core")
-    runtimeOnly("io.r2dbc:r2dbc-postgresql")
+    runtimeOnly("org.postgresql:r2dbc-postgresql")
 
     // httpclient and ReactorHttpClient
     implementation("io.micronaut:micronaut-http-client")
