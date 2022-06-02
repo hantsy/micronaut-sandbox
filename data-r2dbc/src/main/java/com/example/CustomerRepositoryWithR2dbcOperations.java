@@ -13,7 +13,7 @@ import java.util.function.BiFunction;
 
 @Singleton
 @RequiredArgsConstructor
-public class CustomerRepositoryWithR2dbcOperations {
+public class CustomerRepositoryWithR2dbcOperations implements CustomCustomerRepository {
     public static final BiFunction<Row, RowMetadata, Customer> MAPPING_FUNCTION = (row, rowMetadata) -> {
         var id = row.get("id", UUID.class);
         var name = row.get("name", String.class);
@@ -26,7 +26,8 @@ public class CustomerRepositoryWithR2dbcOperations {
     };
     private final R2dbcOperations r2dbcOperations;
 
-    Flux<Customer> findAll() {
+    @Override
+    public Flux<Customer> findAll() {
         var sql = "SELECT *  FROM  customers ";
         return Flux.from(
                 r2dbcOperations.withConnection(connection -> Flux
@@ -36,7 +37,8 @@ public class CustomerRepositoryWithR2dbcOperations {
         );
     }
 
-    Mono<Customer> findById(UUID id) {
+    @Override
+    public Mono<Customer> findById(UUID id) {
         var sql = "SELECT *  FROM  customers WHERE id=$1 ";
         return Mono.from(
                 r2dbcOperations.withConnection(connection -> Mono
@@ -50,7 +52,8 @@ public class CustomerRepositoryWithR2dbcOperations {
         );
     }
 
-    Mono<UUID> save(Customer data) {
+    @Override
+    public Mono<UUID> save(Customer data) {
         //var sql = "INSERT INTO customers(name, age, street, city, zip) VALUES (?, ?, ?, ?, ?) RETURNING id ";
         var sql = "INSERT INTO customers (name, age, street, city, zip) VALUES ($1, $2, $3, $4, $5)";
         return Mono.from(
@@ -74,7 +77,8 @@ public class CustomerRepositoryWithR2dbcOperations {
         );
     }
 
-    Mono<Integer> deleteAll() {
+    @Override
+    public Mono<Long> deleteAll() {
         var sql = "DELETE  FROM customers";
         return Mono.from(
                 r2dbcOperations.withTransaction(status ->
@@ -87,7 +91,8 @@ public class CustomerRepositoryWithR2dbcOperations {
         );
     }
 
-    Mono<Integer> deleteById(UUID id) {
+    @Override
+    public Mono<Long> deleteById(UUID id) {
         var sql = "DELETE FROM customers WHERE id=$1";
         return Mono.from(
                 r2dbcOperations.withTransaction(status ->

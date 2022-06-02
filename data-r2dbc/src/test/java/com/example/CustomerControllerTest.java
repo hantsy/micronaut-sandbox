@@ -27,11 +27,11 @@ import static org.mockito.Mockito.*;
 class CustomerControllerTest {
 
     @Inject
-    CustomerRepositoryWithConnectionFactory customerRepository;
+    CustomCustomerRepository customerRepository;
 
-    @MockBean(CustomerRepositoryWithConnectionFactory.class)
-    CustomerRepositoryWithConnectionFactory mockedCustomerRepository() {
-        return mock(CustomerRepositoryWithConnectionFactory.class);
+    @MockBean(CustomCustomerRepository.class)
+    CustomCustomerRepository mockedCustomerRepository() {
+        return mock(CustomCustomerRepository.class);
     }
 
     @Inject

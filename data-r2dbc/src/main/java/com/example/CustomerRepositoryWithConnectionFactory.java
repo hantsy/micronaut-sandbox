@@ -1,5 +1,6 @@
 package com.example;
 
+import io.micronaut.context.annotation.Primary;
 import io.r2dbc.spi.ConnectionFactory;
 import io.r2dbc.spi.Row;
 import io.r2dbc.spi.RowMetadata;
@@ -15,7 +16,8 @@ import java.util.function.BiFunction;
 @Singleton
 @RequiredArgsConstructor
 @Slf4j
-public class CustomerRepositoryWithConnectionFactory {
+@Primary
+public class CustomerRepositoryWithConnectionFactory implements CustomCustomerRepository {
     public static final BiFunction<Row, RowMetadata, Customer> MAPPING_FUNCTION = (row, rowMetadata) -> {
         log.debug("row: {}, metadata: {}", row, rowMetadata);
         var id = row.get("id", UUID.class);
@@ -29,7 +31,8 @@ public class CustomerRepositoryWithConnectionFactory {
     };
     private final ConnectionFactory connectionFactory;
 
-    Flux<Customer> findAll() {
+    @Override
+    public Flux<Customer> findAll() {
         var sql = "SELECT *  FROM  customers ";
         return Mono.from(connectionFactory.create())
                 .flatMapMany(connection -> Flux
@@ -39,7 +42,8 @@ public class CustomerRepositoryWithConnectionFactory {
                 );
     }
 
-    Mono<Customer> findById(UUID id) {
+    @Override
+    public Mono<Customer> findById(UUID id) {
         var sql = "SELECT * FROM customers WHERE id=$1 ";
         return Mono.from(connectionFactory.create())
                 .flatMap(connection -> Mono
@@ -53,7 +57,8 @@ public class CustomerRepositoryWithConnectionFactory {
                 );
     }
 
-    Mono<UUID> save(Customer data) {
+    @Override
+    public Mono<UUID> save(Customer data) {
         var sql = "INSERT INTO customers (name, age, street, city, zip) VALUES ($1, $2, $3, $4, $5)";
         return Mono.from(connectionFactory.create())
                 .flatMap(connection -> Mono
@@ -73,7 +78,8 @@ public class CustomerRepositoryWithConnectionFactory {
                 );
     }
 
-    Mono<Integer> deleteAll() {
+    @Override
+    public Mono<Long> deleteAll() {
         var sql = "DELETE FROM customers";
         return Mono.from(connectionFactory.create())
                 .flatMap(connection -> Mono
@@ -83,7 +89,8 @@ public class CustomerRepositoryWithConnectionFactory {
                 );
     }
 
-    Mono<Integer> deleteById(UUID id) {
+    @Override
+    public Mono<Long> deleteById(UUID id) {
         var sql = "DELETE  FROM customers WHERE id=$1";
         return Mono.from(connectionFactory.create())
                 .flatMap(connection -> Mono
