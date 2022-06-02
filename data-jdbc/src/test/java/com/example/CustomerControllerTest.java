@@ -26,13 +26,13 @@ import static org.mockito.Mockito.*;
 @MicronautTest(environments = "mock", transactional = false)
 class CustomerControllerTest {
 
-    @MockBean(CustomerRepositoryWithJdbcOperations.class)
-    CustomerRepositoryWithJdbcOperations customerRepositoryWithJdbcOperations() {
-        return mock(CustomerRepositoryWithJdbcOperations.class);
+    @MockBean(CustomCustomerRepository.class)
+    CustomCustomerRepository customerRepositoryWithJdbcOperations() {
+        return mock(CustomCustomerRepository.class);
     }
 
     @Inject
-    CustomerRepositoryWithJdbcOperations customerRepositoryWithJdbcOperations;
+    CustomCustomerRepository customerRepository;
 
     @Inject
     @Client("/customers")
@@ -41,7 +41,7 @@ class CustomerControllerTest {
     @Test
     @DisplayName("get all customers")
     public void testGetAllCustomers() {
-        when(this.customerRepositoryWithJdbcOperations.findAll())
+        when(this.customerRepository.findAll())
                 .thenReturn(
                         List.of(
                                 new Customer(UUID.randomUUID(), "Jack", 20, new Address("xian", "xian", "510000"), 1L),
@@ -58,14 +58,14 @@ class CustomerControllerTest {
                 })
                 .verifyComplete();
 
-        verify(this.customerRepositoryWithJdbcOperations, times(1)).findAll();
-        verifyNoInteractions(this.customerRepositoryWithJdbcOperations);
+        verify(this.customerRepository, times(1)).findAll();
+        verifyNoInteractions(this.customerRepository);
     }
 
     @Test
     @DisplayName("get a customer by id")
     public void testGetCustomerById() {
-        when(this.customerRepositoryWithJdbcOperations.findById(any(UUID.class)))
+        when(this.customerRepository.findById(any(UUID.class)))
                 .thenReturn(
                         Optional.of(
                                 new Customer(UUID.randomUUID(), "Jack", 20, new Address("xian", "xian", "510000"), 1L)
@@ -81,14 +81,14 @@ class CustomerControllerTest {
                 })
                 .verifyComplete();
 
-        verify(this.customerRepositoryWithJdbcOperations, times(1)).findById(any(UUID.class));
-        verifyNoInteractions(this.customerRepositoryWithJdbcOperations);
+        verify(this.customerRepository, times(1)).findById(any(UUID.class));
+        verifyNoInteractions(this.customerRepository);
     }
 
     @Test
     @DisplayName("get a customer by a non-existing id")
     public void testGetCustomerByNonExistingId() {
-        when(this.customerRepositoryWithJdbcOperations.findById(any(UUID.class)))
+        when(this.customerRepository.findById(any(UUID.class)))
                 .thenReturn(Optional.empty());
 
         var request = HttpRequest.GET(UriBuilder.of("/{id}").expand(Map.of("id", UUID.randomUUID())));
@@ -100,8 +100,8 @@ class CustomerControllerTest {
                 })
                 .verify();
 
-        verify(this.customerRepositoryWithJdbcOperations, times(1)).findById(any(UUID.class));
-        verifyNoInteractions(this.customerRepositoryWithJdbcOperations);
+        verify(this.customerRepository, times(1)).findById(any(UUID.class));
+        verifyNoInteractions(this.customerRepository);
     }
 
 }

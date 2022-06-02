@@ -1,6 +1,9 @@
 package com.example;
 
 import io.micronaut.context.ApplicationContext;
+import io.micronaut.context.Qualifier;
+import io.micronaut.context.annotation.Primary;
+import io.micronaut.inject.qualifiers.Qualifiers;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,12 +52,12 @@ class CustomerRepositoryWithConnectionFactoryTest {
     }
 
     //@Inject
-    CustomerRepositoryWithConnectionFactory customerRepository;
+    CustomCustomerRepository customerRepository;
 
 
     @BeforeEach
     public void setup() {
-        customerRepository = context.getBean(CustomerRepositoryWithConnectionFactory.class);
+        customerRepository = context.getBean(CustomCustomerRepository.class);
     }
 
     @lombok.SneakyThrows

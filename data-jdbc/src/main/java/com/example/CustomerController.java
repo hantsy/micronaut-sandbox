@@ -14,7 +14,7 @@ import static io.micronaut.http.HttpResponse.*;
 @Controller("/customers")
 @RequiredArgsConstructor
 public class CustomerController {
-    private final CustomerRepositoryWithJdbcOperations customerRepository;
+    private final CustomCustomerRepository customerRepository;
 
     @Get
     HttpResponse<List<Customer>> all() {

@@ -17,7 +17,7 @@ import java.util.function.Function;
 
 @Singleton
 @RequiredArgsConstructor
-public class CustomerRepositoryWithJdbcOperations {
+public class CustomerRepositoryWithJdbcOperations implements CustomCustomerRepository {
     public static final Function<ResultSet, Customer> MAPPING_FUNCTION = (rs) -> {
         try {
             var id = rs.getObject("id", UUID.class);
@@ -37,8 +37,9 @@ public class CustomerRepositoryWithJdbcOperations {
 
     private final JdbcOperations jdbcOperations;
 
+    @Override
     @Transactional
-    List<Customer> findAll() {
+    public List<Customer> findAll() {
         var sql = "SELECT * FROM customers ";
         return jdbcOperations.prepareStatement(sql, statement -> {
             var rs = statement.executeQuery();
@@ -50,8 +51,9 @@ public class CustomerRepositoryWithJdbcOperations {
         });
     }
 
+    @Override
     @Transactional
-    Optional<Customer> findById(UUID id) {
+    public Optional<Customer> findById(UUID id) {
         var sql = "SELECT *  FROM  customers WHERE id=? ";
         return jdbcOperations.prepareStatement(sql, statement -> {
             statement.setObject(1, id);
@@ -63,7 +65,8 @@ public class CustomerRepositoryWithJdbcOperations {
         });
     }
 
-    UUID save(Customer data) {
+    @Override
+    public UUID save(Customer data) {
         var sql = "INSERT INTO customers(name, age, street, city, zip) VALUES (?, ?, ?, ?, ?) RETURNING id ";
 
         return txManager.executeWrite(status -> {
@@ -85,7 +88,8 @@ public class CustomerRepositoryWithJdbcOperations {
         });
     }
 
-    Integer deleteAll() {
+    @Override
+    public Integer deleteAll() {
         var sql = "DELETE  FROM customers";
         return txManager.executeWrite(status -> {
             var stmt = status.getConnection().prepareStatement(sql);
@@ -93,7 +97,8 @@ public class CustomerRepositoryWithJdbcOperations {
         });
     }
 
-    Integer deleteById(UUID id) {
+    @Override
+    public Integer deleteById(UUID id) {
         var sql = "DELETE FROM customers WHERE id=?";
         return txManager.executeWrite(status -> {
             var stmt = status.getConnection().prepareStatement(sql);

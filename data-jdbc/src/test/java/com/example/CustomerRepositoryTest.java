@@ -39,11 +39,11 @@ class CustomerRepositoryTest {
     }
 
     //@Inject
-    CustomerRepositoryWithJdbcOperations customerRepository;
+    CustomCustomerRepository customerRepository;
 
     @BeforeEach
     public void setup() {
-        customerRepository = context.getBean(CustomerRepositoryWithJdbcOperations.class);
+        customerRepository = context.getBean(CustomCustomerRepository.class);
     }
 
     @Test
