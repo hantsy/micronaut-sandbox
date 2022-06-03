@@ -63,9 +63,12 @@ class CustomerRepositoryTest {
         var latch = new CountDownLatch(1);
         AtomicReference<UUID> id = new AtomicReference<>();
         customerRepository.save(Customer.of("customer_test", 20, Address.of("test", "NY", "210000")))
-                .doOnTerminate(latch::countDown)
+                //.doOnTerminate(latch::countDown)
                 .subscribe(
-                        data -> id.set(data),
+                        data -> {
+                            id.set(data);
+                            latch.countDown();
+                        },
                         err -> log.error("error", err),
                         () -> log.debug("done for inserting")
                 );
