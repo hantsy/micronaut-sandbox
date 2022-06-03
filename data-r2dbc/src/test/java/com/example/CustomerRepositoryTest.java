@@ -1,9 +1,6 @@
 package com.example;
 
 import io.micronaut.context.ApplicationContext;
-import io.micronaut.context.Qualifier;
-import io.micronaut.context.annotation.Primary;
-import io.micronaut.inject.qualifiers.Qualifiers;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 //@MicronautTest(application = Application.class, startApplication = false)
 @Testcontainers
 @Slf4j
-class CustomerRepositoryWithConnectionFactoryTest {
+class CustomerRepositoryTest {
 
     @Container
     static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer<>("postgres:12");

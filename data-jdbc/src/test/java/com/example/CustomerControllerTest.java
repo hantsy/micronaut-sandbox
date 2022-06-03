@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 class CustomerControllerTest {
 
     @MockBean(CustomCustomerRepository.class)
-    CustomCustomerRepository customerRepositoryWithJdbcOperations() {
+    CustomCustomerRepository mockedCustomerRepository() {
         return mock(CustomCustomerRepository.class);
     }
 
@@ -59,7 +59,7 @@ class CustomerControllerTest {
                 .verifyComplete();
 
         verify(this.customerRepository, times(1)).findAll();
-        verifyNoInteractions(this.customerRepository);
+        //verifyNoInteractions(this.customerRepository);
     }
 
     @Test
@@ -82,7 +82,7 @@ class CustomerControllerTest {
                 .verifyComplete();
 
         verify(this.customerRepository, times(1)).findById(any(UUID.class));
-        verifyNoInteractions(this.customerRepository);
+        //verifyNoInteractions(this.customerRepository);
     }
 
     @Test
@@ -101,7 +101,7 @@ class CustomerControllerTest {
                 .verify();
 
         verify(this.customerRepository, times(1)).findById(any(UUID.class));
-        verifyNoInteractions(this.customerRepository);
+        //verifyNoInteractions(this.customerRepository);
     }
 
 }
