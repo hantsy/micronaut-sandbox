@@ -4,7 +4,6 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.core.test.TestCase
 import io.kotest.inspectors.forAny
 import io.kotest.matchers.collections.shouldHaveSize
-import io.kotest.matchers.comparables.shouldBeEqualComparingTo
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldContain
@@ -46,7 +45,7 @@ class PostRepositoryTest(
             })
             .log()
             .`as` { StepVerifier.create(it) }
-            .consumeNextWith { it shouldBeEqualComparingTo 1 }
+            .consumeNextWith { it shouldBe 1L }
             .verifyComplete()
 
         runBlocking {
@@ -92,7 +91,7 @@ class PostRepositoryTest(
             })
             .log()
             .`as` { StepVerifier.create(it) }
-            .consumeNextWith { it shouldBeEqualComparingTo 1 }
+            .consumeNextWith { it shouldBe 1L }
             .verifyComplete()
 
         runBlocking {
@@ -128,8 +127,8 @@ class PostRepositoryTest(
                 Flux.from(statement.execute()).flatMap { Flux.from(it.rowsUpdated) }
             })
             .`as` { StepVerifier.create(it) }
-            .consumeNextWith { it shouldBeEqualComparingTo 1 }
-            .consumeNextWith { it shouldBeEqualComparingTo 1 }
+            .consumeNextWith { it shouldBe 1L }
+            .consumeNextWith { it shouldBe 1L }
             .verifyComplete()
 
         runBlocking {
@@ -163,8 +162,8 @@ class PostRepositoryTest(
                 Flux.from(statement.execute()).flatMap { Flux.from(it.rowsUpdated) }
             })
             .`as` { StepVerifier.create(it) }
-            .consumeNextWith { it shouldBeEqualComparingTo 1 }
-            .consumeNextWith { it shouldBeEqualComparingTo 1 }
+            .consumeNextWith { it shouldBe 1L }
+            .consumeNextWith { it shouldBe 1L }
             .verifyComplete()
 
         runBlocking {
@@ -197,8 +196,8 @@ class PostRepositoryTest(
                 Flux.from(statement.execute()).flatMap { Flux.from(it.rowsUpdated) }
             })
             .`as` { StepVerifier.create(it) }
-            .consumeNextWith { it shouldBeEqualComparingTo 1 }
-            .consumeNextWith { it shouldBeEqualComparingTo 1 }
+            .consumeNextWith { it shouldBe 1L }
+            .consumeNextWith { it shouldBe 1L }
             .verifyComplete()
 
         runBlocking {

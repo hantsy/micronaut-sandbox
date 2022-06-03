@@ -5,6 +5,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.core.test.TestCase
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.comparables.shouldBeEqualComparingTo
+import io.kotest.matchers.shouldBe
 import io.micronaut.context.env.Environment
 import io.micronaut.data.r2dbc.operations.R2dbcOperations
 import io.micronaut.test.extensions.kotest.annotation.MicronautTest
@@ -46,7 +47,7 @@ class PostRepositoryWithTestcontainersTest(
                 ).flatMap { Mono.from(it.rowsUpdated) }
             })
             .`as` { StepVerifier.create(it) }
-            .consumeNextWith { it shouldBeEqualComparingTo 1 }
+            .consumeNextWith { it shouldBe 1L }
             .verifyComplete()
 
         runBlocking {
@@ -65,7 +66,7 @@ class PostRepositoryWithTestcontainersTest(
     companion object {
         private val log: Logger = LoggerFactory.getLogger(PostRepositoryWithTestcontainersTest::class.java)
         private val postgreSQLContainer: PostgreSQLContainer<*> = PostgreSQLContainer<Nothing>("postgres:12")
-            .withCopyFileToContainer(
+            .withCopyToContainer(
                 MountableFile.forClasspathResource("init.sql"),
                 "/docker-entrypoint-initdb.d/init.sql"
             )
