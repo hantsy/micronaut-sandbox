@@ -63,7 +63,7 @@ dependencies {
 
     // test
     // https://mvnrepository.com/artifact/io.projectreactor/reactor-test
-    testImplementation("io.projectreactor:reactor-test:3.4.19")
+    testImplementation("io.projectreactor:reactor-test:3.4.21")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlinCoVersion}")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
