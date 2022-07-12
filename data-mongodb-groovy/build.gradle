@@ -41,7 +41,7 @@ dependencies {
     testImplementation("org.testcontainers:spock")
     testImplementation("org.testcontainers:testcontainers")
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.4.19")
+    testImplementation("io.projectreactor:reactor-test:3.4.21")
 }
 
 
