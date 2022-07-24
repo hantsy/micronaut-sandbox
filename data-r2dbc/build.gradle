@@ -1,6 +1,6 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("io.micronaut.application") version "3.4.1"
+    id("io.micronaut.application") version "3.5.1"
 }
 
 version = "0.1"
@@ -54,7 +54,7 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.4.19")
+    testImplementation("io.projectreactor:reactor-test:3.4.21")
 
 }
 

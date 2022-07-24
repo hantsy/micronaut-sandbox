@@ -1,9 +1,9 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.7.0"
-    id("org.jetbrains.kotlin.kapt") version "1.7.0"
+    id("org.jetbrains.kotlin.jvm") version "1.7.10"
+    id("org.jetbrains.kotlin.kapt") version "1.7.10"
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("io.micronaut.application") version "3.4.1"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.7.0"
+    id("io.micronaut.application") version "3.5.1"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.7.10"
 }
 
 version = "0.1"
@@ -63,7 +63,7 @@ dependencies {
 
     // test
     // https://mvnrepository.com/artifact/io.projectreactor/reactor-test
-    testImplementation("io.projectreactor:reactor-test:3.4.19")
+    testImplementation("io.projectreactor:reactor-test:3.4.21")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlinCoVersion}")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
