@@ -38,11 +38,9 @@ class CustomerRepositoryTest {
                 Map.of("datasources.default.url", postgreSQLContainer.getJdbcUrl(),
                         "datasources.default.username", postgreSQLContainer.getUsername(),
                         "datasources.default.password", postgreSQLContainer.getPassword(),
-                        "r2dbc.datasources.default.url", "r2dbc:postgresql://"
-                                + postgreSQLContainer.getHost() + ":" + postgreSQLContainer.getFirstMappedPort()
-                                + "/" + postgreSQLContainer.getDatabaseName(),
-                        "r2dbc.datasources.default.username", postgreSQLContainer.getUsername(),
-                        "r2dbc.datasources.default.password", postgreSQLContainer.getPassword()
+                        "jpa.default.properties.hibernate.connection.url", postgreSQLContainer.getJdbcUrl(),
+                        "jpa.default.properties.hibernate.connection.username", postgreSQLContainer.getUsername(),
+                        "jpa.default.properties.hibernate.connection.password", postgreSQLContainer.getPassword()
                 )
         );
     }
