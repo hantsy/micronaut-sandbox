@@ -1,0 +1,80 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("io.micronaut.application") version "3.4.1"
+}
+
+version = "0.1"
+group = "com.example"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    //jakarta specs
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    implementation("jakarta.persistence:jakarta.persistence-api:2.2")
+
+    //micronaut
+    implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut:micronaut-jackson-databind")
+
+    // hibernate reactive
+    implementation("io.micronaut.data:micronaut-data-hibernate-reactive:3.5.0")
+    implementation("io.vertx:vertx-pg-client")
+
+    implementation("io.micronaut:micronaut-http-client")
+    // reactor http client
+    implementation("io.micronaut.reactor:micronaut-reactor")
+    implementation("io.micronaut.reactor:micronaut-reactor-http-client")
+
+    //lombok
+    compileOnly("org.projectlombok:lombok")
+    testCompileOnly("org.projectlombok:lombok")
+
+    // annotation processor
+    annotationProcessor("org.projectlombok:lombok")
+    testAnnotationProcessor("org.projectlombok:lombok")
+    annotationProcessor("io.micronaut.data:micronaut-data-processor")
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    annotationProcessor("jakarta.persistence:jakarta.persistence-api:2.2")
+
+    // logging
+    runtimeOnly("ch.qos.logback:logback-classic")
+
+    // test
+    testImplementation("org.assertj:assertj-core")
+    testImplementation("org.mockito:mockito-core")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:testcontainers")
+
+    // reactor test
+    testImplementation("io.projectreactor:reactor-test:3.4.21")
+
+
+
+}
+
+
+application {
+    mainClass.set("com.example.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+graalvmNative.toolchainDetection = false
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("com.example.*")
+    }
+}
+
+
+
