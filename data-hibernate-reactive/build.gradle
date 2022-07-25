@@ -14,7 +14,7 @@ dependencies {
 
     //jakarta specs
     implementation("jakarta.annotation:jakarta.annotation-api")
-    implementation("jakarta.persistence:jakarta.persistence-api:2.2")
+    implementation("jakarta.persistence:jakarta.persistence-api:2.2.3")
 
     //micronaut
     implementation("io.micronaut:micronaut-validation")
@@ -40,7 +40,7 @@ dependencies {
     testAnnotationProcessor("org.projectlombok:lombok")
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
     annotationProcessor("io.micronaut:micronaut-http-validation")
-    annotationProcessor("jakarta.persistence:jakarta.persistence-api:2.2")
+    annotationProcessor("jakarta.persistence:jakarta.persistence-api:2.2.3")
 
     // logging
     runtimeOnly("ch.qos.logback:logback-classic")
