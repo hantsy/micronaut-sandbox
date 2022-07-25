@@ -15,6 +15,7 @@ val kotestVersion = project.properties.get("kotestVersion")
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://repo.spring.io/milestone") }
 }
 
 micronaut {
