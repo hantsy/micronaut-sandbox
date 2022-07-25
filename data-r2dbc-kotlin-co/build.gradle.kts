@@ -37,6 +37,7 @@ dependencies {
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut.data:micronaut-data-r2dbc:3.5.0")
     runtimeOnly("org.postgresql:r2dbc-postgresql:1.0.0.RC1")
+    implementation("io.projectreactor:reactor-core:3.5.0-M4")
 
     //kotlin support
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
@@ -62,7 +63,7 @@ dependencies {
 
     // test
     // https://mvnrepository.com/artifact/io.projectreactor/reactor-test
-    testImplementation("io.projectreactor:reactor-test:3.4.21")
+    testImplementation("io.projectreactor:reactor-test:3.5.0-M4")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlinCoVersion}")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
