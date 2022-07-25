@@ -30,14 +30,13 @@ dependencies {
 
     // javaee/jakarta ee spec
     implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
-    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
 
     //micronaut framework
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-validation")
-    implementation("io.micronaut.data:micronaut-data-r2dbc")
-    runtimeOnly("org.postgresql:r2dbc-postgresql")
+    implementation("io.micronaut.data:micronaut-data-r2dbc:3.5.0")
+    runtimeOnly("org.postgresql:r2dbc-postgresql:1.0.0.RC1")
 
     //kotlin support
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
