@@ -122,7 +122,6 @@ class PostRepositoryTest(
                 statement.bind(0, "test2 title")
                     .bind(1, "test2 content")
                     .bind(2, "DRAFT")
-                    .add()
 
                 Flux.from(statement.execute()).flatMap { Flux.from(it.rowsUpdated) }
             })
@@ -157,7 +156,7 @@ class PostRepositoryTest(
                     .bind(0, "test2 title")
                     .bind(1, "test2 content")
                     .bind(2, "PENDING_MODERATED")
-                    .add()
+
 
                 Flux.from(statement.execute()).flatMap { Flux.from(it.rowsUpdated) }
             })
@@ -191,7 +190,7 @@ class PostRepositoryTest(
                     .bind(0, "test2 title")
                     .bind(1, "test2 content")
                     .bind(2, "DRAFT")
-                    .add()
+
 
                 Flux.from(statement.execute()).flatMap { Flux.from(it.rowsUpdated) }
             })
