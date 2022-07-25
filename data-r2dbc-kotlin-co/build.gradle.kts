@@ -31,6 +31,7 @@ dependencies {
 
     // javaee/jakarta ee spec
     implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
+    implementation("jakarta.persistence:jakarta.persistence-api:3.0.0")
 
     //micronaut framework
     implementation("io.micronaut:micronaut-http-client")
@@ -94,4 +95,8 @@ tasks {
             freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
         }
     }
+}
+
+kapt{
+    correctErrorTypes=true
 }
