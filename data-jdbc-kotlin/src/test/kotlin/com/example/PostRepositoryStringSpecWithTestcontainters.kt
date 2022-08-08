@@ -22,7 +22,7 @@ import org.testcontainers.utility.MountableFile
 
 @MicronautTest(environments = [Environment.TEST], startApplication = false)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)// required for TestPropertyProvider to reassign properties.
-class PostRepositoryStringSpec(
+class PostRepositoryStringSpecWithTestcontainters(
     private val posts: PostRepository,
     private val template: JdbcOperations,
     private val tx: TransactionOperations<Any>
@@ -137,7 +137,7 @@ class PostRepositoryStringSpec(
 
 }) {
     companion object {
-        private val log: Logger = LoggerFactory.getLogger(PostRepositoryStringSpec::class.java)
+        private val log: Logger = LoggerFactory.getLogger(PostRepositoryStringSpecWithTestcontainters::class.java)
         private val postgreSQLContainer: PostgreSQLContainer<*> = PostgreSQLContainer<Nothing>("postgres:12")
             .withCopyToContainer(
                 MountableFile.forClasspathResource("init.sql"),
