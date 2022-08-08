@@ -26,7 +26,7 @@ micronaut {
 dependencies {
     // javaee/jakartaee specs
     implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
-    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+    implementation("jakarta.persistence:jakarta.persistence-api:3.0.0")
 
     // micronaut framework
     implementation("io.micronaut:micronaut-http-client")
@@ -54,8 +54,8 @@ dependencies {
     kapt("io.micronaut.data:micronaut-data-processor")
 
     //test
-//    testImplementation("org.testcontainers:postgresql:1.16.2")
-//    testImplementation("org.testcontainers:testcontainers:1.16.2")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
     testImplementation("io.mockk:mockk")
 //    testApi("org.junit.jupiter:junit-jupiter-api")
 //    testImplementation("org.junit.jupiter:junit-jupiter-engine")

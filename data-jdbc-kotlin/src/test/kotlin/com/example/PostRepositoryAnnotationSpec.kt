@@ -18,7 +18,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 @MicronautTest(environments = [Environment.TEST], startApplication = false)
-open class PostRepositoryAnnotationSpec() : AnnotationSpec() {
+open class PostRepositoryAnnotationSpec : AnnotationSpec() {
     companion object {
         private val log: Logger = LoggerFactory.getLogger(PostControllerTest::class.java)
     }
@@ -42,7 +42,7 @@ open class PostRepositoryAnnotationSpec() : AnnotationSpec() {
         }
 
         val cnt = tx.executeWrite(callback)
-        println("deleted $cnt");
+        println("deleted $cnt")
     }
 
     @Test
