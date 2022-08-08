@@ -17,7 +17,7 @@ object Specifications {
     }
 
     fun byKeyword(q: String): QuerySpecification<Post> {
-        return QuerySpecification<Post> { root, query, criteriaBuilder ->
+        return QuerySpecification<Post> { root, _, criteriaBuilder ->
             criteriaBuilder.or(
                 criteriaBuilder.like(root.get("title"), "%$q%"),
                 criteriaBuilder.like(root.get("content"), "%$q%")
@@ -33,7 +33,7 @@ object Specifications {
     }
 
     fun removeAllRejected(): DeleteSpecification<Post> {
-        return DeleteSpecification<Post> {root, query, criteriaBuilder ->
+        return DeleteSpecification<Post> { root, _, criteriaBuilder ->
             criteriaBuilder.equal(root.get<Status>("status"), Status.REJECTED)
         }
     }
