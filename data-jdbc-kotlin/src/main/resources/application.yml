@@ -10,7 +10,10 @@ datasources:
     #schema-generate: CREATE_DROP
     schema-generate: NONE
     dialect: POSTGRES
-
+netty:
+  default:
+    allocator:
+      max-order: 3
 jackson:
   serialization:
     indentOutput: true
