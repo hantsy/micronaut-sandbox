@@ -39,7 +39,7 @@ dependencies {
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut.data:micronaut-data-r2dbc:3.7.2")
     runtimeOnly("org.postgresql:r2dbc-postgresql:1.0.0.RC1")
-    implementation("io.projectreactor:reactor-core:3.5.0-M4")
+    implementation("io.projectreactor:reactor-core:3.5.0-M5")
 
     //kotlin support
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
