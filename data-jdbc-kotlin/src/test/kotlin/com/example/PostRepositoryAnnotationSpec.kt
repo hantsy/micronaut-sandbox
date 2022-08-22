@@ -1,7 +1,6 @@
 package com.example
 
 import io.kotest.core.spec.style.AnnotationSpec
-import io.kotest.core.test.TestCase
 import io.kotest.inspectors.forAny
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.comparables.shouldBeEqualComparingTo
