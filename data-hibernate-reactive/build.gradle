@@ -21,7 +21,7 @@ dependencies {
     implementation("io.micronaut:micronaut-jackson-databind")
 
     // hibernate reactive
-    implementation("io.micronaut.data:micronaut-data-hibernate-reactive:3.7.3")
+    implementation("io.micronaut.data:micronaut-data-hibernate-reactive:3.8.0")
     implementation("io.vertx:vertx-pg-client")
     //see: https://github.com/eclipse-vertx/vertx-sql-client/issues/1059
     implementation("com.ongres.scram:client:2.1")
