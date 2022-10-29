@@ -1,6 +1,6 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("io.micronaut.application") version "3.5.1"
+    id("io.micronaut.application") version "3.6.2"
 }
 
 version = "0.1"
@@ -45,7 +45,7 @@ dependencies {
     //apt
     annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
-    annotationProcessor('org.hibernate:hibernate-jpamodelgen:5.6.10.Final')
+    annotationProcessor('org.hibernate:hibernate-jpamodelgen:5.6.12.Final')
 
     //test
     testImplementation("org.assertj:assertj-core")
@@ -55,10 +55,10 @@ dependencies {
     testImplementation("org.mockito:mockito-core")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.4.22")
+    testImplementation("io.projectreactor:reactor-test:3.4.24")
 
     // rest-assured
-    testImplementation("io.rest-assured:rest-assured:5.1.1")
+    testImplementation("io.rest-assured:rest-assured:5.2.0")
 
 }
 
