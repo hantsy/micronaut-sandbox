@@ -65,7 +65,7 @@ dependencies {
     implementation("io.micronaut:micronaut-validation")
 
     //database
-    implementation("io.micronaut.data:micronaut-data-jdbc:3.8.1")
+    implementation("io.micronaut.data:micronaut-data-jdbc:3.9.1")
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     runtimeOnly("org.postgresql:postgresql")
 
