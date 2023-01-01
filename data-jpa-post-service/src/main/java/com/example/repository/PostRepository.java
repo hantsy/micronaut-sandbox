@@ -6,7 +6,7 @@ import io.micronaut.data.jpa.repository.JpaRepository;
 import io.micronaut.data.jpa.repository.JpaSpecificationExecutor;
 import lombok.RequiredArgsConstructor;
 
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.UUID;
 
