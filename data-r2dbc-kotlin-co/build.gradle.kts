@@ -2,7 +2,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.8.0"
     id("org.jetbrains.kotlin.kapt") version "1.8.0"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.8.0"
-    
+
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("io.micronaut.application") version "3.6.7"
     id("io.micronaut.test-resources") version "3.6.7"
@@ -33,7 +33,7 @@ dependencies {
 
     // javaee/jakarta ee spec
     implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
-    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+    implementation("jakarta.persistence:jakarta.persistence-api:2.2.3")
 
     //micronaut framework
     implementation("io.micronaut:micronaut-http-client")
