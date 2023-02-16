@@ -79,4 +79,6 @@ micronaut {
     }
 }
 
-
+test {
+    useJUnitPlatform()
+}

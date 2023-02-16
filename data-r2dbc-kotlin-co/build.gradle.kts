@@ -97,6 +97,9 @@ tasks {
             freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
         }
     }
+    test{
+        useJUnitPlatform()
+    }
 }
 
 kapt{
