@@ -40,7 +40,7 @@ dependencies {
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut.data:micronaut-data-r2dbc:3.9.6")
-    runtimeOnly("org.postgresql:r2dbc-postgresql:1.0.0.RELEASE")
+    runtimeOnly("org.postgresql:r2dbc-postgresql:1.0.1.RELEASE")
     implementation("io.projectreactor:reactor-core:3.5.3")
 
     //kotlin support
