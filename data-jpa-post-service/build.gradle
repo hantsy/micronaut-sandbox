@@ -80,3 +80,7 @@ dockerfile {
 dockerBuild {
     images.add("hantsy/mn-demo")
 }
+
+test {
+    useJUnitPlatform()
+}

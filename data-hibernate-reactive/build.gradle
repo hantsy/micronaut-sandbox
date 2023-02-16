@@ -77,3 +77,8 @@ micronaut {
         annotations("com.example.*")
     }
 }
+
+// see: https://github.com/micronaut-projects/micronaut-core/discussions/8772
+test {
+    useJUnitPlatform()
+}

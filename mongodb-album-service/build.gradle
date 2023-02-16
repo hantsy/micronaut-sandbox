@@ -62,7 +62,9 @@ java {
 }
 
 // see: https://stackoverflow.com/questions/9356543/logging-while-testing-through-gradle/35457740#s
+// see: https://github.com/micronaut-projects/micronaut-core/discussions/8772
 test {
+    useJUnitPlatform()
     testLogging {
         // set options for log level LIFECYCLE
         events "failed", "skipped", "passed"
@@ -92,4 +94,3 @@ test {
 //        }
 //    }
 }
-

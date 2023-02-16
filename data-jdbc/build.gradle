@@ -76,4 +76,7 @@ micronaut {
     }
 }
 
-
+// see: https://github.com/micronaut-projects/micronaut-core/discussions/8772
+test {
+    useJUnitPlatform()
+}
