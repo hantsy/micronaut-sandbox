@@ -47,7 +47,7 @@ dependencies {
     //apt
     annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
-    annotationProcessor('org.hibernate:hibernate-jpamodelgen:5.6.15.Final')
+    annotationProcessor('org.hibernate:hibernate-jpamodelgen:6.1.7.Final')
 
     //test
     testImplementation("org.assertj:assertj-core")
