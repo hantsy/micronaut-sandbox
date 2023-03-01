@@ -5,7 +5,7 @@ plugins {
 
     id("com.github.johnrengelman.shadow") version "8.1.0"
     id("io.micronaut.application") version "3.7.3"
-    id("io.micronaut.test-resources") version "3.7.3"
+    id("io.micronaut.test-resources") version "3.7.4"
 }
 
 version = "0.1"
