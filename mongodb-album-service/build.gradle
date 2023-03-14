@@ -44,7 +44,7 @@ dependencies {
     annotationProcessor("io.micronaut:micronaut-http-validation")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.5.3")
+    testImplementation("io.projectreactor:reactor-test:3.5.4")
 
     //test
     testImplementation("org.testcontainers:mongodb")
