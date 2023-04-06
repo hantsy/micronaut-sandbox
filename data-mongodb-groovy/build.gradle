@@ -27,7 +27,7 @@ dependencies {
 
     // data mongodb
     implementation("io.micronaut.data:micronaut-data-mongodb:3.9.7")
-    implementation('org.mongodb:mongodb-driver-sync:4.9.0')
+    implementation('org.mongodb:mongodb-driver-sync:4.9.1')
 
     // annotation processor
     compileOnly("io.micronaut:micronaut-http-validation")
