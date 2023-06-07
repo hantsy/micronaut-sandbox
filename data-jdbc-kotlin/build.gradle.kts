@@ -1,5 +1,5 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.8.21"
+    id("org.jetbrains.kotlin.jvm") version "1.8.22"
     id("org.jetbrains.kotlin.kapt") version "1.8.21"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.8.21"
     id("com.github.johnrengelman.shadow") version "8.1.1"
