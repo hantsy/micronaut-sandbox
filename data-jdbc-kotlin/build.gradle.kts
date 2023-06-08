@@ -1,10 +1,10 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.8.10"
-    id("org.jetbrains.kotlin.kapt") version "1.8.10"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.8.10"
-    id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("io.micronaut.application") version "3.7.2"
-    id("io.micronaut.test-resources") version "3.7.2"
+    id("org.jetbrains.kotlin.jvm") version "1.8.22"
+    id("org.jetbrains.kotlin.kapt") version "1.8.22"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.8.22"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.micronaut.application") version "3.7.10"
+    id("io.micronaut.test-resources") version "3.7.10"
 }
 
 version = "0.1"
@@ -66,7 +66,7 @@ dependencies {
     implementation("io.micronaut:micronaut-validation")
 
     //database
-    implementation("io.micronaut.data:micronaut-data-jdbc:3.9.6")
+    implementation("io.micronaut.data:micronaut-data-jdbc:3.10.0")
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     runtimeOnly("org.postgresql:postgresql")
 

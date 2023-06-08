@@ -1,6 +1,6 @@
 plugins {
-    id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("io.micronaut.application") version "3.7.2"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.micronaut.application") version "3.7.10"
 }
 
 version = "0.1"
@@ -21,7 +21,7 @@ dependencies {
     implementation("io.micronaut:micronaut-jackson-databind")
 
     // hibernate reactive
-    implementation("io.micronaut.data:micronaut-data-hibernate-reactive:3.9.6")
+    implementation("io.micronaut.data:micronaut-data-hibernate-reactive:3.10.0")
     implementation("io.vertx:vertx-pg-client")
     //see: https://github.com/eclipse-vertx/vertx-sql-client/issues/1059
     implementation("com.ongres.scram:client:2.1")
@@ -52,7 +52,7 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.5.3")
+    testImplementation("io.projectreactor:reactor-test:3.5.6")
 
 
 

@@ -1,11 +1,10 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.8.10"
-    id("org.jetbrains.kotlin.kapt") version "1.8.10"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.8.10"
-
-    id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("io.micronaut.application") version "3.7.2"
-    id("io.micronaut.test-resources") version "3.7.2"
+    id("org.jetbrains.kotlin.jvm") version "1.8.22"
+    id("org.jetbrains.kotlin.kapt") version "1.8.22"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.8.22"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.micronaut.application") version "3.7.10"
+    id("io.micronaut.test-resources") version "3.7.10"
 }
 
 version = "0.1"
@@ -39,9 +38,9 @@ dependencies {
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-validation")
-    implementation("io.micronaut.data:micronaut-data-r2dbc:3.9.6")
-    runtimeOnly("org.postgresql:r2dbc-postgresql:1.0.0.RELEASE")
-    implementation("io.projectreactor:reactor-core:3.5.3")
+    implementation("io.micronaut.data:micronaut-data-r2dbc:3.10.0")
+    runtimeOnly("org.postgresql:r2dbc-postgresql:1.0.1.RELEASE")
+    implementation("io.projectreactor:reactor-core:3.5.6")
 
     //kotlin support
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
@@ -67,7 +66,7 @@ dependencies {
 
     // test
     // https://mvnrepository.com/artifact/io.projectreactor/reactor-test
-    testImplementation("io.projectreactor:reactor-test:3.5.3")
+    testImplementation("io.projectreactor:reactor-test:3.5.6")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlinCoVersion}")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
