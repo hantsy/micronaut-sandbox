@@ -1,6 +1,7 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "3.7.10"
+    id("io.micronaut.application") version "4.0.0-M4"
+    id("io.micronaut.test-resources") version "4.0.0-M4"
 }
 
 version = "0.1"
@@ -30,9 +31,7 @@ dependencies {
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-validation")
-    implementation("io.micronaut.data:micronaut-data-hibernate-jpa") {
-        exclude group: "javax.persistence", module: "javax.persistence-api"
-    }
+    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     runtimeOnly("org.postgresql:postgresql")
 
@@ -47,7 +46,9 @@ dependencies {
     //apt
     annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
-    annotationProcessor('org.hibernate:hibernate-jpamodelgen:6.2.4.Final')
+    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
+    annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
+    annotationProcessor("org.hibernate:hibernate-jpamodelgen:6.2.4.Final")
 
     //test
     testImplementation("org.assertj:assertj-core")
