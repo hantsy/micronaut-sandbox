@@ -8,7 +8,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.micronaut.context.env.Environment
 import io.micronaut.data.jdbc.runtime.JdbcOperations
-import io.micronaut.test.extensions.kotest.annotation.MicronautTest
+import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import io.micronaut.transaction.TransactionCallback
 import io.micronaut.transaction.TransactionOperations
 import io.micronaut.transaction.TransactionStatus
@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory
 @MicronautTest(environments = [Environment.TEST], startApplication = false)
 open class PostRepositoryAnnotationSpec : AnnotationSpec() {
     companion object {
-        private val log: Logger = LoggerFactory.getLogger(PostControllerTest::class.java)
+        private val log: Logger = LoggerFactory.getLogger(PostControllerFunSpec::class.java)
     }
 
     @Inject

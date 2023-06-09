@@ -6,8 +6,8 @@ import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.test.annotation.MockBean
-import io.micronaut.test.extensions.kotest.MicronautKotestExtension.getMock
-import io.micronaut.test.extensions.kotest.annotation.MicronautTest
+import io.micronaut.test.extensions.kotest5.MicronautKotest5Extension.getMock
+import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -61,25 +61,25 @@ class PostControllerTest(
 */
 //see: https://stackoverflow.com/questions/69644880/how-to-mock-a-bean-in-a-test-written-in-micronaut-kotest
 @MicronautTest(environments = ["mock"])
-class PostControllerTest(
-    private val postsBean: PostRepository,
-    @Client("/") private var client: HttpClient
+class PostControllerFunSpec(
+        private val postsBean: PostRepository,
+        @Client("/") private var client: HttpClient
 ) : FunSpec({
 
     test("test get posts endpoint") {
         val posts = getMock(postsBean)
         every { posts.findAll() }
-            .returns(
-                listOf(
-                    Post(
-                        id = UUID.randomUUID(),
-                        title = "test title",
-                        content = "test content",
-                        status = Status.DRAFT,
-                        createdAt = LocalDateTime.now()
-                    )
+                .returns(
+                        listOf(
+                                Post(
+                                        id = UUID.randomUUID(),
+                                        title = "test title",
+                                        content = "test content",
+                                        status = Status.DRAFT,
+                                        createdAt = LocalDateTime.now()
+                                )
+                        )
                 )
-            )
         val response = client.toBlocking().exchange("/posts", Array<Post>::class.java)
 
         response.status shouldBe HttpStatus.OK

@@ -8,12 +8,12 @@ import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.runtime.EmbeddedApplication
-import io.micronaut.test.extensions.kotest.annotation.MicronautTest
+import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 
 @MicronautTest
 class IntegrationTests(
-    private val application: EmbeddedApplication<*>,
-    @Client("/") private val client: HttpClient
+        private val application: EmbeddedApplication<*>,
+        @Client("/") private val client: HttpClient
 ) : StringSpec({
 
     "test the server is running" {

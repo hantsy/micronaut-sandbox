@@ -11,6 +11,6 @@ CREATE TABLE IF NOT EXISTS posts
 
 ALTER TABLE posts
     DROP CONSTRAINT IF EXISTS pk_posts;
--- add primary key  constraints
+
 ALTER TABLE posts
     ADD CONSTRAINT pk_posts PRIMARY KEY (id);
