@@ -28,6 +28,11 @@ class IntegrationTestsWithJava11HttpClient {
     EmbeddedServer embeddedServer;
 
     @Test
+    void serverIsRunning() {
+        assertThat(embeddedServer.isRunning()).isTrue();
+    }
+
+    @Test
     void testGetAllPosts() {
         this.httpClient
                 .sendAsync(

@@ -5,12 +5,13 @@ micronaut:
     port: 8080
 datasources:
   default:
-    url: jdbc:postgresql://localhost:5432/blogdb
+#    url: jdbc:postgresql://localhost:5432/blogdb
+#    username: user
+#    password: password
     driverClassName: org.postgresql.Driver
-    username: user
-    password: password
-    schema-generate: CREATE_DROP
+#    schema-generate: CREATE_DROP
     dialect: POSTGRES
+    db-type: postgres
 jpa.default.properties.hibernate.hbm2ddl.auto: update
 
 jackson:

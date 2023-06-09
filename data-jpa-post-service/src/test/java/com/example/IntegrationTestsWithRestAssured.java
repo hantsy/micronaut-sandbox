@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -23,6 +24,11 @@ class IntegrationTestsWithRestAssured {
     @BeforeEach
     void setUp() {
         RestAssured.port = embeddedServer.getPort();
+    }
+
+    @Test
+    void serverIsRunning() {
+        assertThat(embeddedServer.isRunning()).isTrue();
     }
 
     @Test
