@@ -1,15 +1,31 @@
 micronaut:
   application:
     name: demo
+datasources:
+  default:
+    #    url: jdbc:postgresql://localhost:5432/blogdb
+    #    username: user
+    #    password: password
+    driverClassName: org.postgresql.Driver
+    schema-generate: NONE
+    dialect: POSTGRES
+    db-type: postgres
+flyway:
+  datasources:
+    default:
+      enabled: true
+      baseline-version: 0
+      baseline-on-migrate: true
 r2dbc:
   datasources:
     default:
       #schema-generate: CREATE_DROP
       schema-generate: NONE
       dialect: POSTGRES
-      url: r2dbc:postgresql://localhost:5432/blogdb
-      username: user
-      password: password
+      db-type: postgres
+#      url: r2dbc:postgresql://localhost:5432/blogdb
+#      username: user
+#      password: password
 
 jackson:
   serialization:

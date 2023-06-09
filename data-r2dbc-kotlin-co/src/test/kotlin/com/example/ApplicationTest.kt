@@ -10,7 +10,7 @@ import io.micronaut.http.client.annotation.Client
 import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.reactor.http.client.ReactorHttpClient
 import io.micronaut.runtime.EmbeddedApplication
-import io.micronaut.test.extensions.kotest.annotation.MicronautTest
+import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.reactive.awaitSingle
 import kotlinx.coroutines.runBlocking

@@ -1,7 +1,7 @@
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.8.21"
-    id("com.google.devtools.ksp") version "1.8.21-1.0.11"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.8.21"
+    id("com.google.devtools.ksp") version "1.8.21-1.0.11"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("io.micronaut.application") version "4.0.0-M4"
     id("io.micronaut.test-resources") version "4.0.0-M4"
@@ -36,14 +36,12 @@ dependencies {
 
     //micronaut framework
     implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut.reactor:micronaut-reactor")
+    implementation("io.micronaut.reactor:micronaut-reactor-http-client")
     implementation("io.micronaut.validation:micronaut-validation")
     implementation("io.micronaut.data:micronaut-data-r2dbc")
     runtimeOnly("org.postgresql:r2dbc-postgresql")
     implementation("io.projectreactor:reactor-core:3.5.6")
-
-    //reactor/reactivestreams httpclient
-    implementation("io.micronaut.reactor:micronaut-reactor")
-    implementation("io.micronaut.reactor:micronaut-reactor-http-client")
 
     //kotlin support
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
@@ -51,6 +49,14 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    //flyway
+    implementation("io.micronaut.flyway:micronaut-flyway")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+    runtimeOnly("org.postgresql:postgresql")
+
+    // yaml support
+    runtimeOnly("org.yaml:snakeyaml")
 
     //logging
     runtimeOnly("ch.qos.logback:logback-classic")

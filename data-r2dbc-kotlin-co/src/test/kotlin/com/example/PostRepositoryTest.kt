@@ -9,7 +9,7 @@ import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldContain
 import io.micronaut.context.env.Environment
 import io.micronaut.data.r2dbc.operations.R2dbcOperations
-import io.micronaut.test.extensions.kotest.annotation.MicronautTest
+import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import io.micronaut.transaction.reactive.ReactiveTransactionStatus
 import io.r2dbc.spi.Connection
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -215,7 +215,7 @@ class PostRepositoryTest(
         private val log: Logger = LoggerFactory.getLogger(PostRepositoryTest::class.java)
     }
 
-    override fun beforeEach(testCase: TestCase) {
+    override suspend fun beforeEach(testCase: TestCase) {
         log.debug("call beforeEach...")
         val sql = "delete from posts";
 

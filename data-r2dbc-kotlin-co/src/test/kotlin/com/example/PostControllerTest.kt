@@ -9,8 +9,8 @@ import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.test.annotation.MockBean
-import io.micronaut.test.extensions.kotest.MicronautKotestExtension.getMock
-import io.micronaut.test.extensions.kotest.annotation.MicronautTest
+import io.micronaut.test.extensions.kotest5.MicronautKotest5Extension.getMock
+import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import io.mockk.*
 import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.assertThrows
@@ -18,7 +18,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 
-@MicronautTest(environments = ["mock"], transactional=false)
+@MicronautTest(environments = ["mock"], transactional = false)
 class PostControllerTest(
     private val postRepository: PostRepository,
     @Client("/") private var client: HttpClient
