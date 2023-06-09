@@ -11,7 +11,7 @@ import io.micronaut.validation.Validated
 import kotlinx.coroutines.flow.Flow
 import java.net.URI
 import java.util.*
-import javax.validation.Valid
+import jakarta.validation.Valid
 
 @Controller("/posts")
 @Validated

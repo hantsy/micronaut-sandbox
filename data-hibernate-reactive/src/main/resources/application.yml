@@ -9,9 +9,9 @@ jpa:
         hbm2ddl:
           auto: create-drop
         connection:
-          url: jdbc:postgresql://localhost:5432/blogdb
-          username: user
-          password: password
+#          url: jdbc:postgresql://localhost:5432/blogdb
+#          username: user
+#          password: password
           db-type: postgres
 
 jackson:

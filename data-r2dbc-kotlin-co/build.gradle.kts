@@ -1,10 +1,10 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.8.22"
-    id("org.jetbrains.kotlin.kapt") version "1.8.22"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.8.22"
+    id("org.jetbrains.kotlin.jvm") version "1.8.21"
+    id("com.google.devtools.ksp") version "1.8.21-1.0.11"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.8.21"
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "3.7.10"
-    id("io.micronaut.test-resources") version "3.7.10"
+    id("io.micronaut.application") version "4.0.0-M4"
+    id("io.micronaut.test-resources") version "4.0.0-M4"
 }
 
 version = "0.1"
@@ -21,7 +21,7 @@ repositories {
 
 micronaut {
     runtime("netty")
-    testRuntime("kotest")
+    testRuntime("kotest5")
     processing {
         incremental(true)
         annotations("com.example.*")
@@ -36,43 +36,38 @@ dependencies {
 
     //micronaut framework
     implementation("io.micronaut:micronaut-http-client")
-    implementation("io.micronaut:micronaut-runtime")
-    implementation("io.micronaut:micronaut-validation")
-    implementation("io.micronaut.data:micronaut-data-r2dbc:3.10.0")
-    runtimeOnly("org.postgresql:r2dbc-postgresql:1.0.1.RELEASE")
+    implementation("io.micronaut.validation:micronaut-validation")
+    implementation("io.micronaut.data:micronaut-data-r2dbc")
+    runtimeOnly("org.postgresql:r2dbc-postgresql")
     implementation("io.projectreactor:reactor-core:3.5.6")
-
-    //kotlin support
-    implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
-    implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
-    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
-
-    //logging
-    runtimeOnly("ch.qos.logback:logback-classic")
 
     //reactor/reactivestreams httpclient
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
 
+    //kotlin support
+    implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
+    implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    //logging
+    runtimeOnly("ch.qos.logback:logback-classic")
+
     //kotlin coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoVersion}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${kotlinCoVersion}")
 
-    // annotation processor
-    kapt("io.micronaut:micronaut-http-validation")
-    kapt("io.micronaut.data:micronaut-data-processor")
+    // ksp
+    ksp("io.micronaut.data:micronaut-data-processor")
+    ksp("io.micronaut.validation:micronaut-validation-processor")
 
     // test
     // https://mvnrepository.com/artifact/io.projectreactor/reactor-test
     testImplementation("io.projectreactor:reactor-test:3.5.6")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlinCoVersion}")
-    testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("org.testcontainers:postgresql")
-    testImplementation("org.testcontainers:r2dbc")
-    testImplementation("org.postgresql:postgresql")
-    //testImplementation("io.kotest.extensions:kotest-extensions-testcontainers:1.2.1")
+    testResourcesService("org.postgresql:postgresql")
 }
 
 application {
@@ -99,8 +94,4 @@ tasks {
     test{
         useJUnitPlatform()
     }
-}
-
-kapt{
-    correctErrorTypes=true
 }

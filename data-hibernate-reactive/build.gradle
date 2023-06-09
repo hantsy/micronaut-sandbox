@@ -52,9 +52,6 @@ dependencies {
     // test
     testImplementation("org.assertj:assertj-core")
     testImplementation("org.mockito:mockito-core")
-    testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("org.testcontainers:postgresql")
-    testImplementation("org.testcontainers:testcontainers")
     testResourcesService("org.postgresql:postgresql")
 
     // reactor test

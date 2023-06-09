@@ -9,7 +9,9 @@ import io.micronaut.reactor.http.client.ReactorHttpClient;
 import io.micronaut.runtime.EmbeddedApplication;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import reactor.test.StepVerifier;
 
@@ -17,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @MicronautTest
+@Slf4j
 class ApplicationTest {
 
     @Inject
@@ -26,6 +29,11 @@ class ApplicationTest {
     @Client("/customers")
     ReactorHttpClient client;
 
+    @BeforeEach
+    void setup() {
+        log.debug("setup......");
+    }
+
     @Test
     void testItWorks() {
         Assertions.assertTrue(application.isRunning());
@@ -33,6 +41,7 @@ class ApplicationTest {
 
     @Test
     public void getAllCustomers() {
+        log.debug("get all customers...");
         var request = HttpRequest.GET("");
         client.exchange(request, Argument.listOf(Customer.class))
                 .as(StepVerifier::create)
