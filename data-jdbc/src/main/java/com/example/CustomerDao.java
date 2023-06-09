@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface CustomCustomerRepository {
+public interface CustomerDao {
     List<Customer> findAll();
 
     Optional<Customer> findById(UUID id);

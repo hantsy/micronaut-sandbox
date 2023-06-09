@@ -14,7 +14,7 @@ import static io.micronaut.http.HttpResponse.*;
 @Controller("/customers")
 @RequiredArgsConstructor
 public class CustomerController {
-    private final CustomCustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     @Get
     HttpResponse<List<Customer>> all() {
@@ -36,8 +36,7 @@ public class CustomerController {
 
     @Delete("{id}")
     MutableHttpResponse<Void> deleteById(@PathVariable UUID id) {
-        var deleted = customerRepository.deleteById(id);
-        if (deleted > 0) return noContent();
-        else return notFound();
+        customerRepository.deleteById(id);
+        return noContent();
     }
 }

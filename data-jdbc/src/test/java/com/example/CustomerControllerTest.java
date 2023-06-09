@@ -26,13 +26,13 @@ import static org.mockito.Mockito.*;
 @MicronautTest(environments = "mock", transactional = false)
 class CustomerControllerTest {
 
-    @MockBean(CustomCustomerRepository.class)
-    CustomCustomerRepository mockedCustomerRepository() {
-        return mock(CustomCustomerRepository.class);
+    @MockBean(CustomerRepository.class)
+    CustomerRepository mockedCustomerRepository() {
+        return mock(CustomerRepository.class);
     }
 
     @Inject
-    CustomCustomerRepository customerRepository;
+    CustomerRepository customerRepository;
 
     @Inject
     @Client("/customers")

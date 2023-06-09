@@ -17,7 +17,7 @@ import java.util.function.Function;
 
 @Singleton
 @RequiredArgsConstructor
-public class CustomerRepositoryWithJdbcOperations implements CustomCustomerRepository {
+public class CustomerDaoWithTxManager implements CustomerDao {
     public static final Function<ResultSet, Customer> MAPPING_FUNCTION = (rs) -> {
         try {
             var id = rs.getObject("id", UUID.class);
@@ -35,14 +35,12 @@ public class CustomerRepositoryWithJdbcOperations implements CustomCustomerRepos
     };
     private final SynchronousTransactionManager<Connection> txManager;
 
-    private final JdbcOperations jdbcOperations;
-
     @Override
-    @Transactional
     public List<Customer> findAll() {
         var sql = "SELECT * FROM customers ";
-        return jdbcOperations.prepareStatement(sql, statement -> {
-            var rs = statement.executeQuery();
+        return txManager.executeRead(status -> {
+            var stmt = status.getConnection().prepareStatement(sql);
+            var rs = stmt.executeQuery();
             var customers = new ArrayList<Customer>();
             while (rs.next()) {
                 customers.add(MAPPING_FUNCTION.apply(rs));
@@ -52,12 +50,12 @@ public class CustomerRepositoryWithJdbcOperations implements CustomCustomerRepos
     }
 
     @Override
-    @Transactional
     public Optional<Customer> findById(UUID id) {
         var sql = "SELECT *  FROM  customers WHERE id=? ";
-        return jdbcOperations.prepareStatement(sql, statement -> {
-            statement.setObject(1, id);
-            var resultSet = statement.executeQuery();
+        return txManager.executeRead(status -> {
+            var stmt = status.getConnection().prepareStatement(sql);
+            stmt.setObject(1, id);
+            var resultSet = stmt.executeQuery();
             if (resultSet.next()) {
                 return Optional.ofNullable(MAPPING_FUNCTION.apply(resultSet));
             }
