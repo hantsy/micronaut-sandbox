@@ -1,6 +1,7 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "3.7.10"
+    id("io.micronaut.application") version "4.0.0-M4"
+    id("io.micronaut.test-resources") version "4.0.0-M4"
 }
 
 version = "0.1"
@@ -13,12 +14,16 @@ repositories {
 dependencies {
     // jakarta specs
     implementation("jakarta.annotation:jakarta.annotation-api")
+    implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 
     //micronaut framework
-    implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut.validation:micronaut-validation")
     implementation("io.micronaut:micronaut-jackson-databind")
-    implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut.reactor:micronaut-reactor")
+    implementation("io.micronaut.reactor:micronaut-reactor-http-client")
+    implementation("io.micronaut:micronaut-http-client")
+    // yaml support
+    runtimeOnly("org.yaml:snakeyaml")
 
     //flyway
     implementation("io.micronaut.flyway:micronaut-flyway")
@@ -32,18 +37,14 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     testCompileOnly("org.projectlombok:lombok")
 
-    // httpclient and ReactorHttpClient
-    implementation("io.micronaut:micronaut-http-client")
-    implementation("io.micronaut.reactor:micronaut-reactor-http-client")
-
     //logging
     runtimeOnly("ch.qos.logback:logback-classic")
 
     // annotation processor
     annotationProcessor("org.projectlombok:lombok")
     testAnnotationProcessor("org.projectlombok:lombok")
-    annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
+    annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
 
     // test
     testImplementation("org.assertj:assertj-core")
@@ -54,7 +55,6 @@ dependencies {
 
     // reactor test
     testImplementation("io.projectreactor:reactor-test:3.5.6")
-
 }
 
 
