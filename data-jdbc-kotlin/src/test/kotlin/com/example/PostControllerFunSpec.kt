@@ -60,26 +60,26 @@ class PostControllerTest(
 }
 */
 //see: https://stackoverflow.com/questions/69644880/how-to-mock-a-bean-in-a-test-written-in-micronaut-kotest
-@MicronautTest(environments = ["mock"])
+@MicronautTest(environments = ["mock"], transactional = false)
 class PostControllerFunSpec(
-        private val postsBean: PostRepository,
-        @Client("/") private var client: HttpClient
+    private val postsBean: PostRepository,
+    @Client("/") private var client: HttpClient
 ) : FunSpec({
 
     test("test get posts endpoint") {
         val posts = getMock(postsBean)
         every { posts.findAll() }
-                .returns(
-                        listOf(
-                                Post(
-                                        id = UUID.randomUUID(),
-                                        title = "test title",
-                                        content = "test content",
-                                        status = Status.DRAFT,
-                                        createdAt = LocalDateTime.now()
-                                )
-                        )
+            .returns(
+                listOf(
+                    Post(
+                        id = UUID.randomUUID(),
+                        title = "test title",
+                        content = "test content",
+                        status = Status.DRAFT,
+                        createdAt = LocalDateTime.now()
+                    )
                 )
+            )
         val response = client.toBlocking().exchange("/posts", Array<Post>::class.java)
 
         response.status shouldBe HttpStatus.OK
@@ -89,5 +89,5 @@ class PostControllerFunSpec(
     }
 }) {
     @MockBean(PostRepository::class)
-    fun posts() = mockk<PostRepository>()
+    fun posts(): PostRepository = mockk<PostRepository>()
 }

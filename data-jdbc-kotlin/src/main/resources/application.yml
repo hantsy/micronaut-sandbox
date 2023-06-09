@@ -10,6 +10,14 @@ datasources:
     #schema-generate: CREATE_DROP
     schema-generate: NONE
     dialect: POSTGRES
+
+flyway:
+  datasources:
+    default:
+      enabled: true
+      baselineOnMigrate: true
+      baseline-version: 0
+
 netty:
   default:
     allocator:
