@@ -4,7 +4,7 @@ import io.micronaut.data.jdbc.runtime.JdbcOperations;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
