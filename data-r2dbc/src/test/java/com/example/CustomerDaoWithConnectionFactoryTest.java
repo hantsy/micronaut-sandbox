@@ -1,14 +1,15 @@
 package com.example;
 
-import io.micronaut.context.env.Environment;
+import io.micronaut.context.ApplicationContext;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
-import io.micronaut.test.support.TestPropertyProvider;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.test.StepVerifier;
 
 import java.util.Map;
@@ -20,16 +21,38 @@ import java.util.concurrent.atomic.AtomicReference;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@MicronautTest(application = Application.class, environments = Environment.TEST, startApplication = false)
+@MicronautTest(application = Application.class, startApplication = false)
 @Slf4j
-class CustomerRepositoryTest {
+class CustomerDaoWithConnectionFactoryTest {
+
+//    @Container
+//    static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer<>("postgres:12");
 
     @Inject
-    CustomerRepository customerRepository;
+    private ApplicationContext context;
+
+//    @BeforeAll
+//    static void beforeAll() {
+//        context = ApplicationContext.run(
+//                Map.of("datasources.default.url", postgreSQLContainer.getJdbcUrl(),
+//                        "datasources.default.username", postgreSQLContainer.getUsername(),
+//                        "datasources.default.password", postgreSQLContainer.getPassword(),
+//                        "r2dbc.datasources.default.url", "r2dbc:postgresql://"
+//                                + postgreSQLContainer.getHost() + ":" + postgreSQLContainer.getFirstMappedPort()
+//                                + "/" + postgreSQLContainer.getDatabaseName(),
+//                        "r2dbc.datasources.default.username", postgreSQLContainer.getUsername(),
+//                        "r2dbc.datasources.default.password", postgreSQLContainer.getPassword()
+//                )
+//        );
+//    }
+//
+//    //@Inject
+    CustomerDao customerRepository;
+
 
     @BeforeEach
     public void setup() {
-        log.debug("setup...");
+        customerRepository = context.getBean(CustomerDaoWithConnectionFactory.class);
     }
 
     @lombok.SneakyThrows
@@ -41,7 +64,7 @@ class CustomerRepositoryTest {
                 //.doOnTerminate(latch::countDown)
                 .subscribe(
                         data -> {
-                            id.set(data.id());
+                            id.set(data);
                             latch.countDown();
                         },
                         err -> log.error("error", err),
@@ -63,6 +86,4 @@ class CustomerRepositoryTest {
                 .consumeNextWith(it -> assertThat(it.name()).isEqualTo("customer_test"))
                 .verifyComplete();
     }
-
-
 }

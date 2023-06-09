@@ -16,8 +16,7 @@ import java.util.function.BiFunction;
 @Singleton
 @RequiredArgsConstructor
 @Slf4j
-@Primary
-public class CustomerRepositoryWithConnectionFactory implements CustomCustomerRepository {
+public class CustomerDaoWithConnectionFactory implements CustomerDao {
     public static final BiFunction<Row, RowMetadata, Customer> MAPPING_FUNCTION = (row, rowMetadata) -> {
         log.debug("row: {}, metadata: {}", row, rowMetadata);
         var id = row.get("id", UUID.class);

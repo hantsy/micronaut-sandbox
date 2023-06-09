@@ -23,15 +23,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@MicronautTest(transactional=false)
+@MicronautTest(environments = "mock", transactional=false)
 class CustomerControllerTest {
 
     @Inject
-    CustomCustomerRepository customerRepository;
+    CustomerRepository customerRepository;
 
-    @MockBean(CustomCustomerRepository.class)
-    CustomCustomerRepository mockedCustomerRepository() {
-        return mock(CustomCustomerRepository.class);
+    @MockBean(CustomerRepository.class)
+    CustomerRepository mockedCustomerRepository() {
+        return mock(CustomerRepository.class);
     }
 
     @Inject
@@ -59,7 +59,7 @@ class CustomerControllerTest {
                 .verifyComplete();
 
         verify(this.customerRepository, times(1)).findAll();
-        //verifyNoInteractions(this.customerRepository);
+        verifyNoMoreInteractions(this.customerRepository);
     }
 
     @Test
@@ -82,7 +82,7 @@ class CustomerControllerTest {
                 .verifyComplete();
 
         verify(this.customerRepository, times(1)).findById(any(UUID.class));
-        //verifyNoInteractions(this.customerRepository);
+        verifyNoMoreInteractions(this.customerRepository);
     }
 
     @Test
@@ -101,7 +101,7 @@ class CustomerControllerTest {
                 .verify();
 
         verify(this.customerRepository, times(1)).findById(any(UUID.class));
-        //verifyNoInteractions(this.customerRepository);
+        verifyNoMoreInteractions(this.customerRepository);
     }
 
 }

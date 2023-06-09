@@ -5,12 +5,13 @@ micronaut:
     port: 8080
 datasources:
   default:
-    url: jdbc:postgresql://localhost:5432/blogdb
+#    url: jdbc:postgresql://localhost:5432/blogdb
     driverClassName: org.postgresql.Driver
-    username: user
-    password: password
+#    username: user
+#    password: password
     schema-generate: NONE
     dialect: POSTGRES
+    db-type: postgres
 flyway:
   datasources:
     default:
@@ -20,9 +21,12 @@ flyway:
 r2dbc:
   datasources:
     default:
-      url: r2dbc:postgresql://localhost:5432/blogdb
-      username: user
-      password: password
+#      url: r2dbc:postgresql://localhost:5432/blogdb
+#      username: user
+#      password: password
+      dialect: POSTGRES
+      db-type: postgres
+
 
 netty:
   default:

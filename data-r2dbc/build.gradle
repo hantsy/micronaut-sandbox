@@ -1,6 +1,7 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "3.7.10"
+    id("io.micronaut.application") version "4.0.0-M4"
+    id("io.micronaut.test-resources") version "4.0.0-M4"
 }
 
 version = "0.1"
@@ -16,10 +17,12 @@ dependencies {
     implementation("jakarta.annotation:jakarta.annotation-api")
 
     //micronaut framework
-    implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut.validation:micronaut-validation")
     implementation("io.micronaut:micronaut-jackson-databind")
-    implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut.reactor:micronaut-reactor")
+
+    annotationProcessor("io.micronaut.data:micronaut-data-processor")
+    annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
 
     //flyway
     implementation("io.micronaut.flyway:micronaut-flyway")
@@ -31,10 +34,12 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok")
 
     //r2dbc
-    implementation("io.micronaut.data:micronaut-data-r2dbc:3.10.0")
-    //implementation("io.micronaut.r2dbc:micronaut-r2dbc-core")
-    runtimeOnly("org.postgresql:r2dbc-postgresql:1.0.1.RELEASE")
+    implementation("io.micronaut.data:micronaut-data-r2dbc")
+    runtimeOnly("org.postgresql:r2dbc-postgresql")
     implementation("io.projectreactor:reactor-core:3.5.6")
+
+    // yaml support
+    runtimeOnly("org.yaml:snakeyaml")
 
     // httpclient and ReactorHttpClient
     implementation("io.micronaut:micronaut-http-client")
@@ -46,7 +51,6 @@ dependencies {
     // annotation processor
     annotationProcessor("org.projectlombok:lombok")
     testAnnotationProcessor("org.projectlombok:lombok")
-    annotationProcessor("io.micronaut:micronaut-http-validation")
 
     // test
     testImplementation("org.assertj:assertj-core")
@@ -54,6 +58,7 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
+   // testResourcesService("org.postgresql:postgresql")
 
     // reactor test
     testImplementation("io.projectreactor:reactor-test:3.5.6")

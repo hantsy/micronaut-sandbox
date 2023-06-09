@@ -5,7 +5,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-public interface CustomCustomerRepository {
+public interface CustomerDao {
     Flux<Customer> findAll();
 
     Mono<Customer> findById(UUID id);

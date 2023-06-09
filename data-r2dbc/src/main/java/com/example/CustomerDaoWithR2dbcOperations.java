@@ -13,7 +13,7 @@ import java.util.function.BiFunction;
 
 @Singleton
 @RequiredArgsConstructor
-public class CustomerRepositoryWithR2dbcOperations implements CustomCustomerRepository {
+public class CustomerDaoWithR2dbcOperations implements CustomerDao {
     public static final BiFunction<Row, RowMetadata, Customer> MAPPING_FUNCTION = (row, rowMetadata) -> {
         var id = row.get("id", UUID.class);
         var name = row.get("name", String.class);

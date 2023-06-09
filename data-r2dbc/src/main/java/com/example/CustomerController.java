@@ -15,7 +15,7 @@ import static io.micronaut.http.HttpResponse.*;
 @Controller("/customers")
 @RequiredArgsConstructor
 public class CustomerController {
-    private final CustomCustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     @Get
     HttpResponse<Flux<Customer>> all() {
