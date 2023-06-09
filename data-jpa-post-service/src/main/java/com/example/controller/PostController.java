@@ -17,8 +17,8 @@ import io.micronaut.validation.Validated;
 import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.UUID;
 

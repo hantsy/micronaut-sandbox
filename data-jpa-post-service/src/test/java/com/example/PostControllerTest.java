@@ -4,7 +4,6 @@ import com.example.controller.dto.PostDetailsDto;
 import com.example.domain.Post;
 import com.example.repository.CommentRepository;
 import com.example.repository.PostRepository;
-import io.micronaut.context.env.Environment;
 import io.micronaut.data.jpa.repository.criteria.Specification;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
