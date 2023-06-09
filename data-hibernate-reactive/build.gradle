@@ -1,6 +1,7 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "3.7.10"
+    id("io.micronaut.application") version "4.0.0-M4"
+    id("io.micronaut.test-resources") version "4.0.0-M4"
 }
 
 version = "0.1"
@@ -13,18 +14,22 @@ repositories {
 dependencies {
 
     //jakarta specs
-    implementation("jakarta.annotation:jakarta.annotation-api")
+    implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
     implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+    implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 
     //micronaut
-    implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut.validation:micronaut-validation")
     implementation("io.micronaut:micronaut-jackson-databind")
 
     // hibernate reactive
-    implementation("io.micronaut.data:micronaut-data-hibernate-reactive:3.10.0")
+    implementation("io.micronaut.data:micronaut-data-hibernate-reactive")
     implementation("io.vertx:vertx-pg-client")
     //see: https://github.com/eclipse-vertx/vertx-sql-client/issues/1059
     implementation("com.ongres.scram:client:2.1")
+
+    // yaml support
+    runtimeOnly("org.yaml:snakeyaml")
 
     implementation("io.micronaut:micronaut-http-client")
     // reactor http client
@@ -39,7 +44,7 @@ dependencies {
 
     // annotation processor
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
-    annotationProcessor("io.micronaut:micronaut-http-validation")
+    annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
 
     // logging
     runtimeOnly("ch.qos.logback:logback-classic")
@@ -50,12 +55,10 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
+    testResourcesService("org.postgresql:postgresql")
 
     // reactor test
     testImplementation("io.projectreactor:reactor-test:3.5.6")
-
-
-
 }
 
 
@@ -74,6 +77,9 @@ micronaut {
     processing {
         incremental(true)
         annotations("com.example.*")
+    }
+    testResources {
+        additionalModules.add("hibernate-reactive-postgresql")
     }
 }
 

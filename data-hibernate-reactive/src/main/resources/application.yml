@@ -12,6 +12,7 @@ jpa:
           url: jdbc:postgresql://localhost:5432/blogdb
           username: user
           password: password
+          db-type: postgres
 
 jackson:
   serialization:

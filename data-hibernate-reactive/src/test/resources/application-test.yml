@@ -1,0 +1,1 @@
+jpa.default.properties.hibernate.connection.url: jdbc:tc:postgresql:14:///postgres
