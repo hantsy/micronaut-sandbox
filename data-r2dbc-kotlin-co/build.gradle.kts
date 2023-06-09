@@ -19,6 +19,11 @@ repositories {
     maven { url = uri("https://repo.spring.io/milestone") }
 }
 
+allOpen {
+    annotation("io.micronaut.http.annotation.Controller")
+    // annotations("com.another.Annotation", "com.third.Annotation")
+}
+
 micronaut {
     runtime("netty")
     testRuntime("kotest5")
