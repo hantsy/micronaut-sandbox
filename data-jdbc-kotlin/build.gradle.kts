@@ -89,8 +89,4 @@ dependencies {
     // Google KSP
     ksp("io.micronaut.validation:micronaut-validation-processor")
     ksp("io.micronaut.data:micronaut-data-processor")
-
-    //test
-    testImplementation("org.testcontainers:testcontainers")
-    testImplementation("org.testcontainers:postgresql")
 }

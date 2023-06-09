@@ -3,11 +3,11 @@ micronaut:
     name: demo
 datasources:
   default:
-    url: jdbc:postgresql://localhost:5432/blogdb
-    driverClassName: org.postgresql.Driver
-    username: user
-    password: password
+#    url: jdbc:postgresql://localhost:5432/blogdb
+#    username: user
+#    password: password
     #schema-generate: CREATE_DROP
+    driverClassName: org.postgresql.Driver
     schema-generate: NONE
     dialect: POSTGRES
 

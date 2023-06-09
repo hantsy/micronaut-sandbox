@@ -10,23 +10,17 @@ import io.kotest.matchers.string.shouldContain
 import io.micronaut.context.env.Environment
 import io.micronaut.data.jdbc.runtime.JdbcOperations
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
-import io.micronaut.test.support.TestPropertyProvider
 import io.micronaut.transaction.TransactionCallback
 import io.micronaut.transaction.TransactionOperations
 import io.micronaut.transaction.TransactionStatus
-import org.junit.jupiter.api.TestInstance
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.testcontainers.containers.PostgreSQLContainer
-import org.testcontainers.utility.MountableFile
 
 @MicronautTest(environments = [Environment.TEST], startApplication = false)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)// required for TestPropertyProvider to reassign properties.
-class PostRepositoryStringSpecWithTestcontainters(
-        private val posts: PostRepository,
-        private val template: JdbcOperations,
-        private val tx: TransactionOperations<Any>
-) : TestPropertyProvider, StringSpec({
+class PostRepositoryStringSpec(
+    private val posts: PostRepository,
+    private val template: JdbcOperations,
+    private val tx: TransactionOperations<Any>
+) : StringSpec({
 
     "test save and find posts" {
         val sql = "insert into posts(title, content, status) values (?, ?, ?)";
@@ -136,13 +130,9 @@ class PostRepositoryStringSpecWithTestcontainters(
     }
 
 }) {
+
     companion object {
-        private val log: Logger = LoggerFactory.getLogger(PostRepositoryStringSpecWithTestcontainters::class.java)
-        private val postgreSQLContainer: PostgreSQLContainer<*> = PostgreSQLContainer<Nothing>("postgres:14")
-                .withCopyToContainer(
-                        MountableFile.forClasspathResource("init.sql"),
-                        "/docker-entrypoint-initdb.d/init.sql"
-                )
+        private val log = LoggerFactory.getLogger(PostRepositoryStringSpec::class.java)
     }
 
     override suspend fun beforeEach(testCase: TestCase) {
@@ -157,14 +147,5 @@ class PostRepositoryStringSpecWithTestcontainters(
         println("deleted $cnt")
     }
 
-    override fun getProperties(): MutableMap<String, String> {
-        log.debug("call TestPropertyProvider.getProperties...")
-        return mutableMapOf(
-                "datasources.default.url" to postgreSQLContainer.jdbcUrl,
-                "datasources.default.username" to postgreSQLContainer.username,
-                "datasources.default.password" to postgreSQLContainer.password,
-                "datasources.default.driverClassName" to "org.postgresql.Driver"
-        )
-    }
 }
 
