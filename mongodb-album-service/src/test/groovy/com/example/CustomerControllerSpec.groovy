@@ -19,7 +19,7 @@ import reactor.test.StepVerifier
 import spock.lang.Specification
 import spock.lang.Unroll
 
-@MicronautTest(environments = ["mock"])
+@MicronautTest(environments = ["mock"], transactional = false)
 class CustomerControllerSpec extends Specification {
 
     @Inject

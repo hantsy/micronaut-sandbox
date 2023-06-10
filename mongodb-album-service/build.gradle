@@ -1,7 +1,8 @@
 plugins {
     id("groovy")
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "3.7.10"
+    id("io.micronaut.application") version "4.0.0-M4"
+    id("io.micronaut.test-resources") version "4.0.0-M4"
 }
 
 version = "0.1"
@@ -23,14 +24,19 @@ micronaut {
 dependencies {
     //spec
     implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
+	implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 
     //micronaut
-    implementation("io.micronaut:micronaut-runtime")
-    implementation("io.micronaut:micronaut-validation")
-    implementation("io.micronaut.mongodb:micronaut-mongo-reactive")
-    implementation("io.micronaut:micronaut-http-client")
-    implementation("io.micronaut.reactor:micronaut-reactor")
-    implementation("io.micronaut.reactor:micronaut-reactor-http-client")
+    implementation("io.micronaut.validation:micronaut-validation")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.groovy:micronaut-runtime-groovy")
+	implementation("io.micronaut.reactor:micronaut-reactor")
+    // data mongodb
+    implementation("io.micronaut.data:micronaut-data-mongodb")
+    implementation("org.mongodb:mongodb-driver-reactivestreams")
+
+    // yaml support
+    runtimeOnly("org.yaml:snakeyaml")
 
     //logging
     runtimeOnly("ch.qos.logback:logback-classic")
@@ -40,16 +46,17 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     testAnnotationProcessor("org.projectlombok:lombok")
 
-    //apt
-    annotationProcessor("io.micronaut:micronaut-http-validation")
+    //annotation processor
+    annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
+    annotationProcessor("io.micronaut.data:micronaut-data-document-processor")
 
     // reactor test
     testImplementation("io.projectreactor:reactor-test:3.5.6")
 
-    //test
-    testImplementation("org.testcontainers:mongodb")
-    testImplementation("org.testcontainers:spock")
-    testImplementation("org.testcontainers:testcontainers")
+    // http client/reactor httpClient
+	testImplementation("io.micronaut:micronaut-http-client")
+    testImplementation("io.micronaut.reactor:micronaut-reactor-http-client")
+
 }
 
 

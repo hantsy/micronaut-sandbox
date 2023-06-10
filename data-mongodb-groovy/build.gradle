@@ -16,16 +16,13 @@ dependencies {
     // jakarta specs
     implementation("jakarta.annotation:jakarta.annotation-api")
 
-    // micronaut framework
-
+    // micronaut
     implementation("io.micronaut.validation:micronaut-validation")
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut.groovy:micronaut-runtime-groovy")
     // data mongodb
     implementation("io.micronaut.data:micronaut-data-mongodb")
     implementation("org.mongodb:mongodb-driver-sync")
-
-
 
     // yaml support
     runtimeOnly("org.yaml:snakeyaml")
