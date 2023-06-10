@@ -1,7 +1,6 @@
 package com.example.photos;
 
 
-import com.mongodb.MongoClientSettings;
 import com.mongodb.client.model.*;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertManyResult;
@@ -13,7 +12,6 @@ import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.BsonValue;
-import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.pojo.Conventions;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.types.ObjectId;
