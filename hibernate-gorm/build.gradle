@@ -22,7 +22,7 @@ dependencies {
     implementation("io.micronaut.groovy:micronaut-runtime-groovy")
 
     // gorm and hibernate
-    implementation("io.micronaut.groovy:micronaut-hibernate-gorm:4.0.0-M2")
+    implementation("io.micronaut.groovy:micronaut-hibernate-gorm")
 	implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     runtimeOnly("org.apache.tomcat:tomcat-jdbc")
     runtimeOnly("org.postgresql:postgresql")
