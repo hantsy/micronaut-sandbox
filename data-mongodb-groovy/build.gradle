@@ -1,7 +1,8 @@
 plugins {
     id("groovy")
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "3.7.10"
+    id("io.micronaut.application") version "4.0.0-M4"
+    id("io.micronaut.test-resources") version "4.0.0-M4"
 }
 
 version = "0.1"
@@ -16,30 +17,31 @@ dependencies {
     implementation("jakarta.annotation:jakarta.annotation-api")
 
     // micronaut framework
-    implementation("io.micronaut:micronaut-http-client")
-    implementation("io.micronaut:micronaut-validation")
+
+    implementation("io.micronaut.validation:micronaut-validation")
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut.groovy:micronaut-runtime-groovy")
-
-    //reactor
-    implementation("io.micronaut.reactor:micronaut-reactor")
-    implementation("io.micronaut.reactor:micronaut-reactor-http-client")
-
     // data mongodb
-    implementation("io.micronaut.data:micronaut-data-mongodb:3.10.0")
-    implementation('org.mongodb:mongodb-driver-sync:4.9.1')
+    implementation("io.micronaut.data:micronaut-data-mongodb")
+    implementation("org.mongodb:mongodb-driver-sync")
+
+
+
+    // yaml support
+    runtimeOnly("org.yaml:snakeyaml")
 
     // annotation processor
-    compileOnly("io.micronaut:micronaut-http-validation")
-    compileOnly("io.micronaut.data:micronaut-data-document-processor:3.10.0")
+    compileOnly("io.micronaut.validation:micronaut-validation-processor")
+    compileOnly("io.micronaut.data:micronaut-data-document-processor")
 
     // log
     runtimeOnly("ch.qos.logback:logback-classic")
 
-    // test containers
-    testImplementation("org.testcontainers:mongodb")
-    testImplementation("org.testcontainers:spock")
-    testImplementation("org.testcontainers:testcontainers")
+    //httpclient/reactor http client
+    testImplementation("io.micronaut:micronaut-http-client")
+    testImplementation("io.micronaut.reactor:micronaut-reactor")
+    testImplementation("io.micronaut.reactor:micronaut-reactor-http-client")
+
     // reactor test
     testImplementation("io.projectreactor:reactor-test:3.5.6")
 }

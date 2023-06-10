@@ -13,7 +13,7 @@ import reactor.core.publisher.Flux
 import reactor.test.StepVerifier
 import spock.lang.Specification
 
-@MicronautTest
+@MicronautTest(transactional = false)
 class ApplicationSpec extends Specification {
 
     @Inject
