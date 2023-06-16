@@ -5,7 +5,7 @@ import io.micronaut.transaction.SynchronousTransactionManager;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

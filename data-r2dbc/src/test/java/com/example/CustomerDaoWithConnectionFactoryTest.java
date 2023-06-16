@@ -4,15 +4,10 @@ import io.micronaut.context.ApplicationContext;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.test.StepVerifier;
 
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -31,7 +26,7 @@ class CustomerDaoWithConnectionFactoryTest {
     @Inject
     private ApplicationContext context;
 
-//    @BeforeAll
+    //    @BeforeAll
 //    static void beforeAll() {
 //        context = ApplicationContext.run(
 //                Map.of("datasources.default.url", postgreSQLContainer.getJdbcUrl(),

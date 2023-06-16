@@ -7,7 +7,11 @@ import groovy.util.logging.Slf4j
 import io.micronaut.runtime.EmbeddedApplication
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
+import org.testcontainers.containers.GenericContainer
+import org.testcontainers.containers.MongoDBContainer
 import reactor.test.StepVerifier
+import spock.lang.AutoCleanup
+import spock.lang.Shared
 import spock.lang.Specification
 
 import java.time.Duration
@@ -17,17 +21,16 @@ import java.util.concurrent.TimeUnit
 @MicronautTest(startApplication = false)
 @Slf4j
 class CustomerRepositorySpec extends Specification {
-//
-// starting a postgres in docker with testcontainers.
-//
-//    @Shared
-//    @AutoCleanup
-//    GenericContainer mongo = new GenericContainer("mongo")
-//            .withExposedPorts(27017)
-//
-//    def setupSpec() {
-//        mongo.start()
-//    }
+
+   //starting a postgres in docker with testcontainers.
+    @Shared
+    @AutoCleanup
+    MongoDBContainer mongo = new MongoDBContainer("mongo:latest")
+            .withExposedPorts(27017)
+
+    def setupSpec() {
+        mongo.start()
+    }
 
 
     @Inject

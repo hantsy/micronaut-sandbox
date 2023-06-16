@@ -1,43 +1,42 @@
 package com.example
 
 import groovy.util.logging.Slf4j
+import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.context.ApplicationContext
 import io.micronaut.runtime.EmbeddedApplication
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
-import jakarta.inject.Inject
+import org.testcontainers.containers.GenericContainer
+import org.testcontainers.containers.MongoDBContainer
+import org.testcontainers.spock.Testcontainers
 import spock.lang.AutoCleanup
 import spock.lang.Shared
 import spock.lang.Specification
 
 @MicronautTest(startApplication = false, transactional = false)
+@Testcontainers
 @Slf4j
 class CustomerRepositorySpec extends Specification {
-//    @Shared
-//    @AutoCleanup
-//    ApplicationContext applicationContext
-//
-//    //starting a postgres in docker with testcontainers.
-//    @Shared
-//    @AutoCleanup
-//    GenericContainer mongo =
-//            new GenericContainer("mongo:4.0")
-//                    .withExposedPorts(27017)
-//
-//
-//
-//    def setupSpec() {
-//        mongo.start()
-//        applicationContext = ApplicationContext.builder((MongoSettings.MONGODB_URI): "mongodb://${mongo.containerIpAddress}:${mongo.getMappedPort(27017)}/mydb")
-//                .mainClass(CustomerRepositorySpec)
-//                .start()
-//    }
-//
+    @Shared
+    @AutoCleanup
+    ApplicationContext applicationContext
 
-    @Inject
+    //starting a postgres in docker with testcontainers.
+    @Shared
+    @AutoCleanup
+    MongoDBContainer mongo = new MongoDBContainer("mongo:latest")
+
+    def setupSpec() {
+       // mongo.start()
+        applicationContext = ApplicationContext.builder((MongoSettings.MONGODB_URI): "mongodb://${mongo.host}:${mongo.getFirstMappedPort}/mydb")
+               // .mainClass(CustomerRepositorySpec)
+                .build()
+    }
+
+    //@Inject
     CustomerRepository customerRepository;
 
     def setup() {
-        // customerRepository = applicationContext.getBean(CustomerRepository)
+        customerRepository = applicationContext.getBean(CustomerRepository)
         customerRepository.deleteAll()
     }
 

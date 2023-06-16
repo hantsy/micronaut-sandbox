@@ -18,7 +18,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 
-@MicronautTest(environments = ["mock"], transactional = false)
+@MicronautTest(environments = ["mock"])
 class PostControllerTest(
     private val postRepository: PostRepository,
     @Client("/") private var client: HttpClient

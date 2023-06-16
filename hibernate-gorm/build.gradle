@@ -1,8 +1,7 @@
 plugins {
     id("groovy")
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "4.0.0-M4"
-    //id("io.micronaut.test-resources") version "4.0.0-M4"
+    id("io.micronaut.application") version "3.7.9"
 }
 
 version = "0.1"
@@ -17,28 +16,31 @@ dependencies {
     implementation("jakarta.annotation:jakarta.annotation-api")
 
     //micronaut
+    implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut.beanvalidation:micronaut-hibernate-validator")
+
+    // groovy
     implementation("io.micronaut.groovy:micronaut-runtime-groovy")
 
     // gorm and hibernate
     implementation("io.micronaut.groovy:micronaut-hibernate-gorm")
-	implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     runtimeOnly("org.apache.tomcat:tomcat-jdbc")
     runtimeOnly("org.postgresql:postgresql")
-	
-	// yaml support
-    runtimeOnly("org.yaml:snakeyaml")
 
     // reactor and httpclient
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
 
+    // annotation processors
+    compileOnly("io.micronaut:micronaut-http-validation")
+
     // logging
     runtimeOnly("ch.qos.logback:logback-classic")
 
     //test
+    //testImplementation("io.micronaut.sql:micronaut-jdbc-hikari")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:spock")
     testImplementation("org.testcontainers:testcontainers")
@@ -61,9 +63,6 @@ micronaut {
         incremental(true)
         annotations("com.example.*")
     }
-//	testResources {
-//        additionalModules.add("jdbc-postgresql")
-//    }
 }
 
 test {
