@@ -1,6 +1,6 @@
-# micronaut-sandbox
+# Micronaut Sandbox
 
-A  personal sandbox project to experience the new features of the [Micronaut framework](https://micronaut.io).
+Personal playground of experiencing new features of [Micronaut framework](https://micronaut.io).
 
 
 ## Examples 
