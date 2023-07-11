@@ -52,7 +52,7 @@ dependencies {
     testImplementation("org.mockito:mockito-core")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.5.7")
+    testImplementation("io.projectreactor:reactor-test:3.5.8")
 }
 
 
