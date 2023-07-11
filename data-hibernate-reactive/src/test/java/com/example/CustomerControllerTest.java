@@ -26,7 +26,8 @@ import static org.mockito.Mockito.*;
 @MicronautTest(environments = "mock")
 class CustomerControllerTest {
 
-    @Inject CustomerRepository customerRepository;
+    @Inject
+    CustomerRepository customerRepository;
 
     @MockBean(CustomerRepository.class)
     CustomerRepository mockedCustomerRepository() {

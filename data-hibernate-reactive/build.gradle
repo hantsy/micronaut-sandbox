@@ -1,7 +1,6 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("io.micronaut.application") version "4.0.0-M8"
-    id("io.micronaut.test-resources") version "4.0.0-M8"
 }
 
 version = "0.1"
@@ -52,7 +51,9 @@ dependencies {
     // test
     testImplementation("org.assertj:assertj-core")
     testImplementation("org.mockito:mockito-core")
-    testResourcesService("org.postgresql:postgresql")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:testcontainers")
 
     // reactor test
     testImplementation("io.projectreactor:reactor-test:3.5.7")
@@ -74,9 +75,6 @@ micronaut {
     processing {
         incremental(true)
         annotations("com.example.*")
-    }
-    testResources {
-        additionalModules.add("hibernate-reactive-postgresql")
     }
 }
 
