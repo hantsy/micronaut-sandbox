@@ -51,7 +51,7 @@ dependencies {
     annotationProcessor("io.micronaut.data:micronaut-data-document-processor")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.5.7")
+    testImplementation("io.projectreactor:reactor-test:3.5.8")
     testImplementation("net.bytebuddy:byte-buddy:1.14.5")
 
     // test containers
