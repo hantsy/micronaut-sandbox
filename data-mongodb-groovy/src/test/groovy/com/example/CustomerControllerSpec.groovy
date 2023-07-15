@@ -12,7 +12,7 @@ import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import org.bson.types.ObjectId
-import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -57,7 +57,7 @@ class CustomerControllerSpec extends Specification {
         1 * customerRepository.findAll() >> List.of(Customer.of("Jack", 40, null), Customer.of("Rose", 20, null))
 
         when:
-        Flux<HttpResponse<List<Customer>>> responseFlux = client.exchange(HttpRequest.GET("/customers"), Argument.listOf(Customer)).log()
+        Mono<HttpResponse<List<Customer>>> responseFlux = client.exchange(HttpRequest.GET("/customers"), Argument.listOf(Customer)).log()
 
         then:
         StepVerifier.create(responseFlux)
@@ -76,7 +76,7 @@ class CustomerControllerSpec extends Specification {
 
         when:
         def body = Customer.of("Jack", 40, null)
-        Flux<HttpResponse<Void>> resFlux = client.exchange(HttpRequest.POST("/customers", body), Void).log()
+        Mono<HttpResponse<Void>> resFlux = client.exchange(HttpRequest.POST("/customers", body), Void).log()
 
         then:
         StepVerifier.create(resFlux)
@@ -93,7 +93,7 @@ class CustomerControllerSpec extends Specification {
         1 * customerRepository.findById(_) >> Optional.of(Customer.of("Jack", 40, null))
 
         when:
-        Flux<HttpResponse<Customer>> resFlux = client.exchange(HttpRequest.GET("/customers/" + ObjectId.get().toHexString()), Argument.of(Customer)).log()
+        Mono<HttpResponse<Customer>> resFlux = client.exchange(HttpRequest.GET("/customers/" + ObjectId.get().toHexString()), Argument.of(Customer)).log()
 
         then:
         StepVerifier.create(resFlux)
@@ -110,7 +110,7 @@ class CustomerControllerSpec extends Specification {
         1 * customerRepository.findById(_) >> Optional.ofNullable(null)
 
         when:
-        Flux<HttpResponse<String>> resFlux = client.exchange(HttpRequest.GET("/customers/" + ObjectId.get().toHexString()), String).log()
+        Mono<HttpResponse<String>> resFlux = client.exchange(HttpRequest.GET("/customers/" + ObjectId.get().toHexString()), String).log()
 
         then:
         StepVerifier.create(resFlux)
@@ -126,7 +126,7 @@ class CustomerControllerSpec extends Specification {
         1 * customerRepository.deleteById(_)
 
         when:
-        Flux<HttpResponse<Void>> resFlux = client.exchange(HttpRequest.DELETE("/customers/" + ObjectId.get().toHexString()), Void).log()
+        Mono<HttpResponse<Void>> resFlux = client.exchange(HttpRequest.DELETE("/customers/" + ObjectId.get().toHexString()), Void).log()
 
         then:
         StepVerifier.create(resFlux)

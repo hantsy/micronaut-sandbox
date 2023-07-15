@@ -34,9 +34,6 @@ jobs:
             
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
-        # with:
-          # arguments: build
-          # build-root-directory: data-mongodb-groovy
       - name: Execute Gradle build
         run: |
           cd data-mongodb-groovy
