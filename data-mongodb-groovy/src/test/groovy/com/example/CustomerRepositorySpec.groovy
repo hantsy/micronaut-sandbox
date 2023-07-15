@@ -5,7 +5,6 @@ import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.context.ApplicationContext
 import io.micronaut.runtime.EmbeddedApplication
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
-import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.spock.Testcontainers
 import spock.lang.AutoCleanup
@@ -23,17 +22,16 @@ class CustomerRepositorySpec extends Specification {
     //starting a postgres in docker with testcontainers.
     @Shared
     @AutoCleanup
-    MongoDBContainer mongo = new MongoDBContainer("mongo:latest")
+    MongoDBContainer mongo = new MongoDBContainer("mongo:4")
 
     def setupSpec() {
-       // mongo.start()
         applicationContext = ApplicationContext.builder((MongoSettings.MONGODB_URI): "mongodb://${mongo.host}:${mongo.getFirstMappedPort}/mydb")
-               // .mainClass(CustomerRepositorySpec)
+        // .mainClass(CustomerRepositorySpec)
                 .build()
     }
 
     //@Inject
-    CustomerRepository customerRepository;
+    CustomerRepository customerRepositorys
 
     def setup() {
         customerRepository = applicationContext.getBean(CustomerRepository)
