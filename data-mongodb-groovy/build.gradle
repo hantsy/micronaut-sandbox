@@ -1,7 +1,7 @@
 plugins {
     id("groovy")
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "4.0.0-M8"
+    id("io.micronaut.application") version "4.0.0"
     //id("io.micronaut.test-resources") version "4.0.0-M4"
 }
 
@@ -40,7 +40,7 @@ dependencies {
     testImplementation("io.micronaut.reactor:micronaut-reactor-http-client")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.5.7")
+    testImplementation("io.projectreactor:reactor-test:3.5.8")
 
     // test containers
     testImplementation("org.testcontainers:mongodb")

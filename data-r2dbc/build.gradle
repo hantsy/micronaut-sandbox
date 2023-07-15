@@ -1,7 +1,7 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "4.0.0-M8"
-    id("io.micronaut.test-resources") version "4.0.0-M8"
+    id("io.micronaut.application") version "4.0.0"
+    id("io.micronaut.test-resources") version "4.0.0"
 }
 
 version = "0.1"
@@ -36,7 +36,7 @@ dependencies {
     //r2dbc
     implementation("io.micronaut.data:micronaut-data-r2dbc")
     runtimeOnly("org.postgresql:r2dbc-postgresql")
-    implementation("io.projectreactor:reactor-core:3.5.7")
+    implementation("io.projectreactor:reactor-core:3.5.8")
 
     // yaml support
     runtimeOnly("org.yaml:snakeyaml")
@@ -58,7 +58,7 @@ dependencies {
     testResourcesService("org.postgresql:postgresql")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.5.7")
+    testImplementation("io.projectreactor:reactor-test:3.5.8")
 
 }
 

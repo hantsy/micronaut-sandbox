@@ -3,8 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.plugin.allopen") version "1.9.0"
     id("com.google.devtools.ksp") version "1.9.0-1.0.11"
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "4.0.0-M8"
-    id("io.micronaut.test-resources") version "4.0.0-M8"
+    id("io.micronaut.application") version "4.0.0"
+    id("io.micronaut.test-resources") version "4.0.0"
 }
 
 version = "0.1"
@@ -46,7 +46,7 @@ dependencies {
     implementation("io.micronaut.validation:micronaut-validation")
     implementation("io.micronaut.data:micronaut-data-r2dbc")
     runtimeOnly("org.postgresql:r2dbc-postgresql")
-    implementation("io.projectreactor:reactor-core:3.5.7")
+    implementation("io.projectreactor:reactor-core:3.5.8")
 
     //kotlin support
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
@@ -76,7 +76,7 @@ dependencies {
 
     // test
     // https://mvnrepository.com/artifact/io.projectreactor/reactor-test
-    testImplementation("io.projectreactor:reactor-test:3.5.7")
+    testImplementation("io.projectreactor:reactor-test:3.5.8")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlinCoVersion}")
     testResourcesService("org.postgresql:postgresql")
 }
