@@ -27,9 +27,6 @@ dependencies {
     //see: https://github.com/eclipse-vertx/vertx-sql-client/issues/1059
     implementation("com.ongres.scram:client:2.1")
 
-    // yaml support
-    runtimeOnly("org.yaml:snakeyaml")
-
     implementation("io.micronaut:micronaut-http-client")
     // reactor http client
     implementation("io.micronaut.reactor:micronaut-reactor")
