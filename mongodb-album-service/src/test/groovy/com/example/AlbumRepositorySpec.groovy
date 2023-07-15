@@ -22,7 +22,7 @@ class AlbumRepositorySpec extends Specification {
     EmbeddedApplication<?> application
 
     @Inject
-    AlbumRepository albumRepository;
+    AlbumRepository albumRepository
 
     def setup() {
         CountDownLatch latch = new CountDownLatch(1)

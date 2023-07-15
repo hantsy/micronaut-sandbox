@@ -59,7 +59,7 @@ class CustomerControllerSpec extends Specification {
         1 * customerRepository.findAll() >> Flux.just(Customer.of(ObjectId.get(), "Jack", 40, null), Customer.of(ObjectId.get(), "Rose", 20, null))
 
         when:
-        Flux<HttpResponse<String>> resFlux = client.exchange(HttpRequest.GET("/customers"), String).log()
+        Mono<HttpResponse<String>> resFlux = client.exchange(HttpRequest.GET("/customers"), String).log()
 
         then:
         //1 * customers.findAll() >> Flux.just(Customer.of(ObjectId.get(), "Jack", 40, null), Customer.of(ObjectId.get(), "Rose", 20, null))
@@ -80,7 +80,7 @@ class CustomerControllerSpec extends Specification {
 
         when:
         def body = Customer.of(null, "Jack", 40, null)
-        Flux<HttpResponse<String>> resFlux = client.exchange(HttpRequest.POST("/customers", body), String).log()
+        Mono<HttpResponse<String>> resFlux = client.exchange(HttpRequest.POST("/customers", body), String).log()
 
         then:
         StepVerifier.create(resFlux)
@@ -97,7 +97,7 @@ class CustomerControllerSpec extends Specification {
         1 * customerRepository.findById(_) >> Mono.just(Customer.of(ObjectId.get(), "Jack", 40, null))
 
         when:
-        Flux<HttpResponse<String>> resFlux = client.exchange(HttpRequest.GET("/customers/" + ObjectId.get().toHexString()), String).log()
+        Mono<HttpResponse<String>> resFlux = client.exchange(HttpRequest.GET("/customers/" + ObjectId.get().toHexString()), String).log()
 
         then:
         StepVerifier.create(resFlux)
@@ -114,7 +114,7 @@ class CustomerControllerSpec extends Specification {
         1 * customerRepository.findById(_) >> Mono.empty()
 
         when:
-        Flux<HttpResponse<String>> resFlux = client.exchange(HttpRequest.GET("/customers/" + ObjectId.get().toHexString()), String).log()
+        Mono<HttpResponse<String>> resFlux = client.exchange(HttpRequest.GET("/customers/" + ObjectId.get().toHexString()), String).log()
 
         then:
         StepVerifier.create(resFlux)
@@ -130,7 +130,7 @@ class CustomerControllerSpec extends Specification {
         1 * customerRepository.deleteById(_) >> Mono.just(1L)
 
         when:
-        Flux<HttpResponse<String>> resFlux = client.exchange(HttpRequest.DELETE("/customers/" + ObjectId.get().toHexString()), String).log()
+        Mono<HttpResponse<String>> resFlux = client.exchange(HttpRequest.DELETE("/customers/" + ObjectId.get().toHexString()), String).log()
 
         then:
         StepVerifier.create(resFlux)
@@ -146,7 +146,7 @@ class CustomerControllerSpec extends Specification {
         1 * customerRepository.deleteById(_) >> Mono.just(0L)
 
         when:
-        Flux<HttpResponse<String>> resFlux = client.exchange(HttpRequest.DELETE("/customers/" + ObjectId.get().toHexString()), String).log()
+        Mono<HttpResponse<String>> resFlux = client.exchange(HttpRequest.DELETE("/customers/" + ObjectId.get().toHexString()), String).log()
 
         then:
         StepVerifier.create(resFlux)
