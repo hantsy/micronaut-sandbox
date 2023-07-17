@@ -23,9 +23,6 @@ dependencies {
     implementation("io.micronaut.data:micronaut-data-mongodb")
     implementation("org.mongodb:mongodb-driver-sync")
 
-    // yaml support
-    runtimeOnly("org.yaml:snakeyaml")
-
     // annotation processor
     compileOnly("io.micronaut.validation:micronaut-validation-processor")
     compileOnly("io.micronaut.data:micronaut-data-document-processor")
