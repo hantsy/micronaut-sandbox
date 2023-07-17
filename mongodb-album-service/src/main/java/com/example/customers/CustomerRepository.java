@@ -91,5 +91,4 @@ public class CustomerRepository {
                 .withCodecRegistry(codecRegistry);
     }
 
-
 }
