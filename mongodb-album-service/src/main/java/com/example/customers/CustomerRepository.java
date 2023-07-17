@@ -14,12 +14,17 @@ import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.BsonValue;
+import org.bson.codecs.pojo.Conventions;
+import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.types.ObjectId;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
+
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 @Singleton
 @RequiredArgsConstructor
@@ -73,9 +78,17 @@ public class CustomerRepository {
     }
 
     private MongoCollection<Customer> customersCollection() {
+        var providers = fromProviders(
+                mongoConfiguration.getClientSettings().build().getCodecRegistry(),
+                PojoCodecProvider.builder()
+                        .register("com.example.customers")
+                        .conventions(Conventions.DEFAULT_CONVENTIONS)
+                        .build());
+        var codecRegistry = fromRegistries(List.of(providers));
         return mongoClient
                 .getDatabase("userdb")
-                .getCollection("customers", Customer.class);
+                .getCollection("customers", Customer.class)
+                .withCodecRegistry(codecRegistry);
     }
 
 
