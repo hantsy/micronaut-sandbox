@@ -25,13 +25,14 @@ class CustomerRepositorySpec extends Specification {
     MongoDBContainer mongo = new MongoDBContainer("mongo:4")
 
     def setupSpec() {
-        applicationContext = ApplicationContext.builder((MongoSettings.MONGODB_URI): "mongodb://${mongo.host}:${mongo.getFirstMappedPort}/mydb")
+        applicationContext = ApplicationContext.builder((MongoSettings.MONGODB_URI): "mongodb://${mongo.host}:${mongo.firstMappedPort}/mydb")
         // .mainClass(CustomerRepositorySpec)
                 .build()
+                .start()
     }
 
     //@Inject
-    CustomerRepository customerRepositorys
+    CustomerRepository customerRepository
 
     def setup() {
         customerRepository = applicationContext.getBean(CustomerRepository)

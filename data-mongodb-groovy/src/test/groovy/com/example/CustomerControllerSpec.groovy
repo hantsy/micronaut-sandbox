@@ -1,5 +1,6 @@
 package com.example
 
+import io.micronaut.context.annotation.Property
 import io.micronaut.core.type.Argument
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpResponse
@@ -18,6 +19,7 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 @MicronautTest(transactional = false)
+@Property(name = "micronaut.data.mongodb.create-collections", value = "false")
 class CustomerControllerSpec extends Specification {
 
     @Inject
