@@ -92,10 +92,11 @@ class CustomerControllerSpec extends Specification {
 
     void 'get customer by id '() {
         given:
-        1 * customerRepository.findById(_) >> Optional.of(Customer.of("Jack", 40, null))
+        def objId = ObjectId.get()
+        1 * customerRepository.findById(_) >> Optional.of(new Customer(id: objId.toString(), name: "Jack", age: 20, address: null))
 
         when:
-        Mono<HttpResponse<Customer>> resFlux = client.exchange(HttpRequest.GET("/customers/" + ObjectId.get().toHexString()), Argument.of(Customer)).log()
+        Mono<HttpResponse<Customer>> resFlux = client.exchange(HttpRequest.GET("/customers/" + objId.toHexString()), Argument.of(Customer)).log()
 
         then:
         StepVerifier.create(resFlux)

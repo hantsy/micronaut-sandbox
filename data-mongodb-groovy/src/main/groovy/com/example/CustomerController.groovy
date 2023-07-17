@@ -1,6 +1,7 @@
 package com.example
 
 import io.micronaut.http.HttpResponse
+import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Delete
 import io.micronaut.http.annotation.Get
@@ -22,12 +23,12 @@ class CustomerController {
 
     @Get("/{id}")
     def getById(@PathVariable String id) {
-        customerRepository.findById(id).map(data -> ok(data))
+        customerRepository.findById(id).map(data -> HttpResponse.ok(data))
                 .orElse(HttpResponse.notFound())
     }
 
     @Post
-    def save(Customer data) {
+    def save(@Body Customer data) {
         def saved = customerRepository.save(data)
         HttpResponse.created(URI.create("/customers/" + saved.id))
     }

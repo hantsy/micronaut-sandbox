@@ -26,7 +26,7 @@ class CustomerRepositorySpec extends Specification {
 
     def setupSpec() {
         applicationContext = ApplicationContext.builder((MongoSettings.MONGODB_URI): "mongodb://${mongo.host}:${mongo.firstMappedPort}/mydb")
-        // .mainClass(CustomerRepositorySpec)
+                .packages("com.example")
                 .build()
                 .start()
     }
