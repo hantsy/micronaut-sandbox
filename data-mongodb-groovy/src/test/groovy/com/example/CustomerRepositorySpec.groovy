@@ -4,14 +4,13 @@ import groovy.util.logging.Slf4j
 import io.micronaut.configuration.mongo.core.MongoSettings
 import io.micronaut.context.ApplicationContext
 import io.micronaut.runtime.EmbeddedApplication
-import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.spock.Testcontainers
 import spock.lang.AutoCleanup
 import spock.lang.Shared
 import spock.lang.Specification
 
-@MicronautTest(startApplication = false, transactional = false)
+//@MicronautTest(startApplication = false)
 @Testcontainers
 @Slf4j
 class CustomerRepositorySpec extends Specification {
