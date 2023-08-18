@@ -59,7 +59,7 @@ dependencies {
     testImplementation("org.mockito:mockito-core")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.5.8")
+    testImplementation("io.projectreactor:reactor-test:3.5.9")
 
     // rest-assured
     testImplementation("io.rest-assured:rest-assured:5.3.1")
