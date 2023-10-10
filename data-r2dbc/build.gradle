@@ -63,7 +63,7 @@ dependencies {
 //    testImplementation("org.testcontainers:testcontainers")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.5.10")
+    testImplementation("io.projectreactor:reactor-test:3.5.11")
 
 }
 
