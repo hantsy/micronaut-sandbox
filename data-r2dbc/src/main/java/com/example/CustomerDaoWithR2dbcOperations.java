@@ -4,6 +4,7 @@ import io.micronaut.data.r2dbc.operations.R2dbcOperations;
 import io.r2dbc.spi.Row;
 import io.r2dbc.spi.RowMetadata;
 import jakarta.inject.Singleton;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -13,6 +14,7 @@ import java.util.function.BiFunction;
 
 @Singleton
 @RequiredArgsConstructor
+@Transactional
 public class CustomerDaoWithR2dbcOperations implements CustomerDao {
     public static final BiFunction<Row, RowMetadata, Customer> MAPPING_FUNCTION = (row, rowMetadata) -> {
         var id = row.get("id", UUID.class);
