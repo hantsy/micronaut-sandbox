@@ -1,6 +1,7 @@
 package com.example;
 
 import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.env.Environment;
 import io.micronaut.runtime.event.annotation.EventListener;
 import io.micronaut.runtime.server.event.ServerStartupEvent;
 import jakarta.inject.Singleton;
@@ -10,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 @Singleton
-@Requires(notEnv = "mock")
+@Requires(notEnv = {Environment.TEST, "mock"})
 @RequiredArgsConstructor
 @Slf4j
 public class SampleDataInitializer {
