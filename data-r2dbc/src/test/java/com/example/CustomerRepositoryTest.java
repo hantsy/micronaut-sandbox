@@ -3,6 +3,7 @@ package com.example;
 import io.micronaut.context.env.Environment;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,9 +24,15 @@ class CustomerRepositoryTest {
     @Inject
     CustomerRepository customerRepository;
 
+    @SneakyThrows
     @BeforeEach
     public void setup() {
         log.debug("setup...");
+        var latch = new CountDownLatch(1);
+        customerRepository.deleteAll()
+                .doOnTerminate(latch::countDown)
+                .subscribe(deleted -> log.debug("deleted customers: {}", deleted));
+        latch.await(500, TimeUnit.MILLISECONDS);
     }
 
     @lombok.SneakyThrows
