@@ -6,6 +6,7 @@ import io.r2dbc.spi.RowMetadata;
 import jakarta.inject.Singleton;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -14,9 +15,10 @@ import java.util.function.BiFunction;
 
 @Singleton
 @RequiredArgsConstructor
-@Transactional
+@Slf4j
 public class CustomerDaoWithR2dbcOperations implements CustomerDao {
     public static final BiFunction<Row, RowMetadata, Customer> MAPPING_FUNCTION = (row, rowMetadata) -> {
+        log.debug("row: {}, metadata: {}", row, rowMetadata);
         var id = row.get("id", UUID.class);
         var name = row.get("name", String.class);
         var age = row.get("age", Integer.class);
