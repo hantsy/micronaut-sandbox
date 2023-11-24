@@ -1,6 +1,7 @@
 package com.example;
 
 import io.micronaut.context.ApplicationContext;
+import io.micronaut.context.env.Environment;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@MicronautTest(application = Application.class, startApplication = false)
+@MicronautTest(environments = Environment.TEST,application = Application.class, startApplication = false)
 @Slf4j
 class CustomerDaoWithConnectionFactoryTest {
 
