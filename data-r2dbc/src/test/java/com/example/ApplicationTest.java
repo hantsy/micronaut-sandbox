@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //  transactional = true will throw:
 //  Transaction mode is not supported when the synchronous transaction manager is created using Reactive transaction manager!
-@MicronautTest(application = Application.class)
+@MicronautTest(application = Application.class, transactional = false)
 @Slf4j
 class ApplicationTest {
 
