@@ -76,7 +76,7 @@ dependencies {
 
     // test
     // https://mvnrepository.com/artifact/io.projectreactor/reactor-test
-    testImplementation("io.projectreactor:reactor-test:3.6.1")
+    testImplementation("io.projectreactor:reactor-test:3.6.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlinCoVersion}")
     testResourcesService("org.postgresql:postgresql")
 }
