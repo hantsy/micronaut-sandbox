@@ -1,0 +1,372 @@
+repo_name: hantsy/micronaut-sandbox
+report_id: d45eb07b77ae749c01272e5b7cb24283
+version: 0.1
+repo_type: Public
+timestamp: '2024-01-31T08:14:19+00:00'
+requested_by: renovate[bot]
+provider: github
+branch: master
+detected_tools_count: 30
+tools:
+- name: Groovy
+  description: A multi-faceted language for the Java platform
+  website_url: https://groovy-lang.org/
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/997/default_7ff5fcd857f42ad25149f659693d8930bffddf14.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox
+  detection_source: Repo Metadata
+- name: Java
+  description: A concurrent, class-based, object-oriented, language specifically designed
+    to have as few implementation dependencies as possible
+  website_url: https://www.java.com
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/995/K85ZWV2F.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox
+  detection_source: Repo Metadata
+- name: Kotlin
+  description: Statically typed Programming Language targeting JVM and JavaScript
+  website_url: https://kotlinlang.org/
+  open_source: true
+  hosted_saas: true
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/3750/pCfEzr6L.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox
+  detection_source: Repo Metadata
+- name: SQL
+  description: It is a domain-specific language used in programming
+  website_url: https://en.wikipedia.org/wiki/SQL
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/2271/default_068d33483bba6b81ee13fbd4dc7aab9780896a54.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-jdbc-kotlin/src/main/resources/db/migration/V1__create-schema.sql
+  detection_source: data-jdbc-kotlin/src/main/resources/db/migration/V1__create-schema.sql
+  last_updated_by: hantsy
+  last_updated_on: 2023-06-09 09:11:54.000000000 Z
+- name: Project Reactor
+  description: Library for building non-blocking applications on JVM
+  website_url: https://projectreactor.io/
+  open_source: false
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Java Tools
+  image_url: https://img.stackshare.io/service/5807/default_cbd8ab670309059d7e315252d307d409aa40d793.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-r2dbc/build.gradle
+  detection_source: data-r2dbc/build.gradle
+  last_updated_by: renovate[bot]
+  last_updated_on: 2024-01-19 01:44:49.000000000 Z
+- name: MongoDB
+  description: The database for giant ideas
+  website_url: http://www.mongodb.com/
+  open_source: true
+  hosted_saas: false
+  category: Data Stores
+  sub_category: Databases
+  image_url: https://img.stackshare.io/service/1030/leaf-360x360.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-mongodb-groovy/build.gradle
+  detection_source: data-mongodb-groovy/build.gradle
+  last_updated_by: hantsy
+  last_updated_on: 2023-06-16 15:00:55.000000000 Z
+- name: PostgreSQL
+  description: A powerful, open source object-relational database system
+  website_url: http://www.postgresql.org/
+  open_source: true
+  hosted_saas: false
+  category: Data Stores
+  sub_category: Databases
+  image_url: https://img.stackshare.io/service/1028/ASOhU5xJ.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-jdbc-testcontainers/build.gradle
+  detection_source: data-jdbc-testcontainers/build.gradle
+  last_updated_by: hantsy
+  last_updated_on: 2023-06-09 16:43:42.000000000 Z
+- name: Docker
+  description: Enterprise Container Platform for High-Velocity Innovation.
+  website_url: https://www.docker.com/
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Virtual Machine Platforms & Containers
+  image_url: https://img.stackshare.io/service/586/n4u37v9t_400x400.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/docker-compose.yml
+  detection_source: docker-compose.yml
+  last_updated_by: hantsy
+  last_updated_on: 2021-10-14 09:54:04.000000000 Z
+- name: Docker Compose
+  description: Define and run multi-container applications with Docker
+  website_url: https://github.com/docker/compose
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Container Tools
+  image_url: https://img.stackshare.io/service/3136/docker-compose.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/docker-compose.yml
+  detection_source: docker-compose.yml
+  last_updated_by: hantsy
+  last_updated_on: 2021-10-14 09:54:04.000000000 Z
+- name: Git
+  description: Fast, scalable, distributed revision control system
+  website_url: http://git-scm.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Version Control System
+  image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox
+  detection_source: Repo Metadata
+- name: GitHub Actions
+  description: Automate your workflow from idea to production
+  website_url: https://github.com/features/actions
+  open_source: false
+  hosted_saas: true
+  category: Build, Test, Deploy
+  sub_category: Continuous Integration
+  image_url: https://img.stackshare.io/service/11563/actions.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/.github/workflows/data-hibernate-reactive.yml
+  detection_source: ".github/workflows/data-hibernate-reactive.yml"
+  last_updated_by: renovate[bot]
+  last_updated_on: 2023-11-30 05:05:09.000000000 Z
+- name: Gradle
+  description: A powerful build system for the JVM
+  website_url: https://www.gradle.org/
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Java Build Tools
+  image_url: https://img.stackshare.io/service/975/gradlephant-social-black-bg.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-hibernate-reactive/build.gradle
+  detection_source: data-hibernate-reactive/build.gradle
+  last_updated_by: hantsy
+  last_updated_on: 2022-07-24 11:25:26.000000000 Z
+- name: Logback
+  description: A logging framework for Java applications
+  website_url: https://logback.qos.ch/
+  open_source: false
+  hosted_saas: false
+  category: Monitoring
+  sub_category: Log Management
+  image_url: https://img.stackshare.io/service/2923/05518ecaa42841e834421e9d6987b04f_400x400.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-hibernate-reactive/build.gradle
+  detection_source: data-hibernate-reactive/build.gradle
+  last_updated_by: hantsy
+  last_updated_on: 2022-07-24 11:25:26.000000000 Z
+- name: Mockito
+  description: Tasty mocking framework for unit tests in Java
+  website_url: https://site.mockito.org/
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Testing Frameworks
+  image_url: https://img.stackshare.io/service/2021/4y634TJm_400x400.jpg
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-hibernate-reactive/build.gradle
+  detection_source: data-hibernate-reactive/build.gradle
+  last_updated_by: hantsy
+  last_updated_on: 2022-07-24 11:25:26.000000000 Z
+- name: Apache Camel
+  description: A versatile open source integration framework
+  website_url: https://camel.apache.org/
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Application Hosting
+  sub_category: Platform as a Service
+  image_url: https://img.stackshare.io/service/3276/xWt1RFo6_400x400.jpg
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-hibernate-reactive/src/main/resources/application.properties
+  detection_source: data-hibernate-reactive/src/main/resources/application.properties
+  last_updated_by: hantsy
+  last_updated_on: 2023-07-15 02:27:38.000000000 Z
+- name: Mongo
+  description: Heroku provides services and tools to build, run, and scale web applications.
+    Follow @herokustatus for platform updates. A @salesforce company.
+  website_url: http://wedesignapps.herokuapp.com
+  open_source: false
+  hosted_saas: false
+  image_url: https://img.stackshare.io/service/3519/3wgIDj3j_normal.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/docker-compose.yml
+  detection_source: docker-compose.yml
+  last_updated_by: hantsy
+  last_updated_on: 2021-10-22 13:26:54.000000000 Z
+- name: ch.qos.logback:logback-classic
+  description: Logback-classic module
+  license: EPL-1.0,LGPL-2.1+
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-hibernate-reactive/build.gradle
+  detection_source: data-hibernate-reactive/build.gradle
+  last_updated_by: hantsy
+  last_updated_on: 2022-07-24 11:25:26.000000000 Z
+- name: io.projectreactor:reactor-test
+  description: Reactor Test support
+  version: 3.6.2
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-hibernate-reactive/build.gradle
+  detection_source: data-hibernate-reactive/build.gradle
+  last_updated_by: renovate[bot]
+  last_updated_on: 2024-01-19 01:44:49.000000000 Z
+- name: io.rest-assured:rest-assured
+  description: Java DSL for easy testing of REST services
+  version: 5.4.0
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-jpa-post-service/build.gradle
+  detection_source: data-jpa-post-service/build.gradle
+  last_updated_by: renovate[bot]
+  last_updated_on: 2023-12-12 12:29:31.000000000 Z
+- name: net.bytebuddy:byte-buddy
+  description: Byte Buddy is a Java library for creating Java classes at run time
+  version: 1.14.11
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/mongodb-album-service/build.gradle
+  detection_source: mongodb-album-service/build.gradle
+  last_updated_by: renovate[bot]
+  last_updated_on: 2023-12-22 02:55:51.000000000 Z
+- name: org.apache.tomcat:tomcat-jdbc
+  description: Tomcat JDBC Pool Package
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/hibernate-gorm/build.gradle
+  detection_source: hibernate-gorm/build.gradle
+  last_updated_by: hantsy
+  last_updated_on: 2023-06-16 15:00:55.000000000 Z
+- name: org.assertj:assertj-core
+  description: Rich and fluent assertions for testing for Java
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-hibernate-reactive/build.gradle
+  detection_source: data-hibernate-reactive/build.gradle
+  last_updated_by: hantsy
+  last_updated_on: 2023-07-11 12:46:32.000000000 Z
+- name: org.mockito:mockito-core
+  description: Mockito mock objects library core API and implementation
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-hibernate-reactive/build.gradle
+  detection_source: data-hibernate-reactive/build.gradle
+  last_updated_by: hantsy
+  last_updated_on: 2023-07-11 12:46:32.000000000 Z
+- name: org.mongodb:mongodb-driver-reactivestreams
+  description: The MongoDB Reactive Streams Driver
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/mongodb-album-service/build.gradle
+  detection_source: mongodb-album-service/build.gradle
+  last_updated_by: renovate[bot]
+  last_updated_on: 2024-01-19 01:44:49.000000000 Z
+- name: org.objenesis:objenesis
+  description: A library for instantiating Java objects
+  version: '3.3'
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/mongodb-album-service/build.gradle
+  detection_source: mongodb-album-service/build.gradle
+  last_updated_by: hantsy
+  last_updated_on: 2023-07-15 04:56:25.000000000 Z
+- name: org.postgresql:postgresql
+  description: The PostgreSQL Driver JDBC4
+  license: BSD-2-Clause
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-jdbc-testcontainers/build.gradle
+  detection_source: data-jdbc-testcontainers/build.gradle
+  last_updated_by: hantsy
+  last_updated_on: 2023-06-09 16:43:42.000000000 Z
+- name: org.projectlombok:lombok
+  description: 'Spice up your java: Automatic Resource Management'
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-hibernate-reactive/build.gradle
+  detection_source: data-hibernate-reactive/build.gradle
+  last_updated_by: renovate[bot]
+  last_updated_on: 2024-01-19 01:44:49.000000000 Z
+- name: org.testcontainers:postgresql
+  description: Testcontainers is a Java library that supports JUnit tests
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-hibernate-reactive/build.gradle
+  detection_source: data-hibernate-reactive/build.gradle
+  last_updated_by: renovate[bot]
+  last_updated_on: 2024-01-19 01:44:49.000000000 Z
+- name: org.testcontainers:testcontainers
+  description: Isolated container management for Java code testing
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-hibernate-reactive/build.gradle
+  detection_source: data-hibernate-reactive/build.gradle
+  last_updated_by: renovate[bot]
+  last_updated_on: 2024-01-19 01:44:49.000000000 Z
+- name: org.yaml:snakeyaml
+  description: YAML 1.1 parser and emitter for Java
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/micronaut-sandbox/blob/master/data-jdbc-testcontainers/build.gradle
+  detection_source: data-jdbc-testcontainers/build.gradle
+  last_updated_by: hantsy
+  last_updated_on: 2023-06-09 16:43:42.000000000 Z
