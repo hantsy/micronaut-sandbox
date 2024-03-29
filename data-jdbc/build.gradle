@@ -28,6 +28,7 @@ dependencies {
 
     //flyway
     implementation("io.micronaut.flyway:micronaut-flyway")
+    runtimeOnly("org.flywaydb:flyway-database-postgresql")
 
     //data jdbc
     implementation("io.micronaut.data:micronaut-data-jdbc")
