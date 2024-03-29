@@ -58,8 +58,8 @@ dependencies {
     //flyway
     implementation("io.micronaut.flyway:micronaut-flyway")
     runtimeOnly("org.flywaydb:flyway-database-postgresql")
-    //implementation("io.micronaut.sql:micronaut-jdbc-hikari")
-    //runtimeOnly("org.postgresql:postgresql")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+    runtimeOnly("org.postgresql:postgresql")
 
     // yaml support
     runtimeOnly("org.yaml:snakeyaml")
