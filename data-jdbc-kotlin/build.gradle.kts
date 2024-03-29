@@ -72,6 +72,7 @@ dependencies {
 
     //flyway
     implementation("io.micronaut.flyway:micronaut-flyway")
+    runtimeOnly("org.flywaydb:flyway-database-postgresql")
 
     //kotlin
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
