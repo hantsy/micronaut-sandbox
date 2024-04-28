@@ -1,7 +1,7 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "4.4.1"
-    id("io.micronaut.test-resources") version "4.4.1"
+    id("io.micronaut.application") version "4.3.8"
+    id("io.micronaut.test-resources") version "4.3.8"
 }
 
 version = "0.1"
@@ -52,7 +52,7 @@ dependencies {
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
     annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
     annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
-    annotationProcessor("org.hibernate:hibernate-jpamodelgen:6.4.5.Final")
+    annotationProcessor("org.hibernate:hibernate-jpamodelgen:6.5.0.Final")
 
     //test
     testImplementation("org.assertj:assertj-core")
