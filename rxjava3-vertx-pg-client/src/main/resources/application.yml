@@ -1,0 +1,28 @@
+micronaut:
+  application:
+    name: demo
+
+datasources:
+  default:
+    url: jdbc:postgresql://localhost:5432/blogdb
+    driverClassName: org.postgresql.Driver
+    username: user
+    password: password
+    schema-generate: NONE
+    dialect: POSTGRES
+    db-type: postgres
+flyway:
+  datasources:
+    default:
+      enabled: true
+      baseline-version: 0
+      baseline-on-migrate: true
+vertx:
+  pg:
+    client:
+      database: blogdb
+      database.maxSize: 5
+      host: localhost
+      port: 5432
+      user: user
+      password: password
