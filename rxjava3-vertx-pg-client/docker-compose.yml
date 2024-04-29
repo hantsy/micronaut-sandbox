@@ -1,4 +1,4 @@
-version: '3.7' # specify docker-compose version
+#version: '3.7' # specify docker-compose version
 
 services:
   postgres:
@@ -12,4 +12,4 @@ services:
       POSTGRES_USER: user
     volumes:
       - ./data/postgres:/var/lib/postgresql
-      - ./pg-initdb.d:/docker-entrypoint-initdb.d
+#      - ./pg-initdb.d:/docker-entrypoint-initdb.d

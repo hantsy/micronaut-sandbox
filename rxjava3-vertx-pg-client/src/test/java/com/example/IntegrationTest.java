@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @MicronautTest
-class DemoTest {
+class IntegrationTest {
 
     @Inject
     EmbeddedApplication<?> application;
