@@ -87,19 +87,19 @@ application {
 }
 
 java {
-    sourceCompatibility = JavaVersion.toVersion("17")
+    sourceCompatibility = JavaVersion.toVersion("21")
 }
 
 tasks {
     compileKotlin {
         kotlinOptions {
-            jvmTarget = "17"
+            jvmTarget = "21"
             freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
         }
     }
     compileTestKotlin {
         kotlinOptions {
-            jvmTarget = "17"
+            jvmTarget = "21"
             freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
         }
     }

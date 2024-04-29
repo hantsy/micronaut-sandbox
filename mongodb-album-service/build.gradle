@@ -70,8 +70,8 @@ application {
     mainClass.set("com.example.Application")
 }
 java {
-    sourceCompatibility = JavaVersion.toVersion("17")
-    targetCompatibility = JavaVersion.toVersion("17")
+    sourceCompatibility = JavaVersion.toVersion("21")
+    targetCompatibility = JavaVersion.toVersion("21")
 }
 
 // see: https://stackoverflow.com/questions/9356543/logging-while-testing-through-gradle/35457740#s
