@@ -30,8 +30,8 @@ The following table lists all examples in this repository.
 
 Make sure you have installed the following software.
 
-- JDK 17
-- Gradle 7.2+
+- JDK 21
+- Gradle 8+
 - Docker
 
 ### Build & Run
