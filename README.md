@@ -17,6 +17,7 @@ The following table lists all examples in this repository.
 | [data-hibernate-reactive](https://github.com/hantsy/micronaut-sandbox/tree/master/data-hibernate-reactive)   | Java     | Data Hibernate Reactive, Test Resources, JUnit       |
 | [data-mongodb-groovy](https://github.com/hantsy/micronaut-sandbox/tree/master/data-mongodb-groovy)           | Groovy   | Data MongoDB, Testcontainers, Spock                  |
 | [mongodb-album-service](https://github.com/hantsy/micronaut-sandbox/tree/master/mongodb-album-service)       | Java     | MongoDB Async, TestContainers, Spock                 |
+| [rxjava3-vertx-pg-client](https://github.com/hantsy/micronaut-sandbox/tree/master/rxjava3-vertx-pg-client)       | Java     | RxJava3, Vertx Pg Client, TestContainers, JUnit                 |
 | [hibernate-gorm](https://github.com/hantsy/micronaut-sandbox/tree/master/hibernate-gorm)                     | Groovy   | (_Deprecated_) Hibernate GORM, Testcontainers, Spock |
 
 ## Docs
