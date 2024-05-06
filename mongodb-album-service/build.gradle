@@ -58,7 +58,7 @@ dependencies {
     testImplementation("org.testcontainers:spock")
     testImplementation("org.testcontainers:testcontainers")
     // mock failed
-    testImplementation("org.objenesis:objenesis:3.3")
+    testImplementation("org.objenesis:objenesis:3.4")
 
     // http client/reactor httpClient
 	testImplementation("io.micronaut:micronaut-http-client")
