@@ -51,7 +51,6 @@ dependencies {
 
     // reactor test
     testImplementation("io.projectreactor:reactor-test:3.6.6")
-    testImplementation("net.bytebuddy:byte-buddy:1.14.16")
 
     // test containers
     testImplementation("org.testcontainers:mongodb")
