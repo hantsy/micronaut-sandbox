@@ -50,7 +50,7 @@ dependencies {
     annotationProcessor("io.micronaut.data:micronaut-data-document-processor")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.6.7")
+    testImplementation("io.projectreactor:reactor-test:3.6.8")
 
     // test containers
     testImplementation("org.testcontainers:mongodb")
