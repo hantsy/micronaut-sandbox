@@ -50,7 +50,7 @@ public class PostServiceClientTest {
     public void testGetAllPosts() throws Exception {
         var content = List.of(Post.builder().id(UUID.randomUUID()).title("test title").content("test content").build());
         when(this.posts.findAll(isA(Specification.class), isA(Pageable.class))).thenReturn(
-                Page.of(content, Pageable.from(0, 20), 1)
+                Page.of(content, Pageable.from(0, 20), 1L)
         );
 
         var response = client.getAll("", "", 0, 10);
