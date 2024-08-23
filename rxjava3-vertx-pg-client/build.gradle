@@ -34,7 +34,7 @@ dependencies {
     //flyway
     implementation("io.micronaut.flyway:micronaut-flyway")
     runtimeOnly("org.flywaydb:flyway-database-postgresql")
-    runtimeOnly("org.postgresql:postgresql:42.7.3")
+    runtimeOnly("org.postgresql:postgresql:42.7.4")
     runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
 
     // lombok
