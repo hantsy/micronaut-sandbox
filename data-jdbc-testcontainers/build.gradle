@@ -55,7 +55,7 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.6.9")
+    testImplementation("io.projectreactor:reactor-test:3.6.10")
 }
 
 
