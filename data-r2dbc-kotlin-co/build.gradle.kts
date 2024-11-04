@@ -4,7 +4,7 @@ plugins {
     id("com.google.devtools.ksp") version "2.0.21-1.0.26"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("io.micronaut.application") version "4.4.3"
-    id("io.micronaut.test-resources") version "4.4.3"
+    id("io.micronaut.test-resources") version "4.4.4"
 }
 
 version = "0.1"
