@@ -3,7 +3,6 @@ package com.example;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Single;
 import io.vertx.rxjava3.sqlclient.*;
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
