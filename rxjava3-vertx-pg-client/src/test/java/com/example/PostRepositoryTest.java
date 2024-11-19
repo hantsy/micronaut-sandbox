@@ -8,8 +8,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.containers.wait.strategy.DockerHealthcheckWaitStrategy;
 import org.testcontainers.utility.MountableFile;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,7 @@ class PostRepositoryTest {
     @BeforeAll
     public static void setupAll() {
         postgreSQLContainer.start();
+        postgreSQLContainer.waitingFor(new DockerHealthcheckWaitStrategy().withStartupTimeout(Duration.ofMillis(1000)));
         applicationContext = ApplicationContext
                 .run(
                         Map.of(
@@ -58,8 +61,6 @@ class PostRepositoryTest {
         if (postgreSQLContainer.isRunning()) {
             postgreSQLContainer.stop();
         }
-
-
     }
 
     @BeforeEach

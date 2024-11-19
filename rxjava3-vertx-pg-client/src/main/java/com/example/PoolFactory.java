@@ -4,6 +4,7 @@ import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.vertx.rxjava3.sqlclient.Pool;
 
+// see: https://github.com/micronaut-projects/micronaut-sql/issues/1333
 @Factory
 public class PoolFactory {
 
