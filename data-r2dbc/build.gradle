@@ -37,7 +37,7 @@ dependencies {
     //r2dbc
     implementation("io.micronaut.data:micronaut-data-r2dbc")
     runtimeOnly("org.postgresql:r2dbc-postgresql")
-    implementation("io.projectreactor:reactor-core:3.7.5")
+    implementation("io.projectreactor:reactor-core:3.7.6")
 
     // yaml support
     runtimeOnly("org.yaml:snakeyaml")
