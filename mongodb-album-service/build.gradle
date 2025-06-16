@@ -34,7 +34,7 @@ dependencies {
     implementation("io.micronaut.data:micronaut-data-mongodb")
     implementation("org.mongodb:mongodb-driver-reactivestreams")
     // https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy
-    implementation("net.bytebuddy:byte-buddy:1.17.5")
+    implementation("net.bytebuddy:byte-buddy:1.17.6")
 
 
     // yaml support
