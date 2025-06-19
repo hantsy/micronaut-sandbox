@@ -19,7 +19,7 @@ dependencies {
     implementation("io.micronaut.validation:micronaut-validation")
     implementation("io.micronaut.rxjava3:micronaut-rxjava3")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
-    implementation("io.vertx:vertx-rx-java3:4.5.10")
+    implementation("io.vertx:vertx-rx-java3:4.5.16")
     // implementation("io.reactivex.rxjava3:rxjava:3.1.9")
     runtimeOnly("ch.qos.logback:logback-classic")
 
