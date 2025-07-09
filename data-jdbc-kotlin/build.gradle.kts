@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+
 plugins {
     id("org.jetbrains.kotlin.jvm") version "2.2.0"
     id("org.jetbrains.kotlin.plugin.allopen") version "2.2.0"
@@ -22,7 +25,7 @@ application {
 
 kotlin {
     // see: https://blog.allegro.tech/2024/11/popular-gradle-mistakes-and-how-to-avoid-them.html
-    jvmToolchain(javaVersion)
+    jvmToolchain(21)
     compilerOptions {
         apiVersion.set(KotlinVersion.KOTLIN_2_2)
         languageVersion.set(KotlinVersion.KOTLIN_2_2)
