@@ -1,8 +1,11 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+
 plugins {
     id("org.jetbrains.kotlin.jvm") version "2.2.0"
     id("org.jetbrains.kotlin.plugin.allopen") version "2.2.0"
     id("com.google.devtools.ksp") version "2.2.0-2.0.2"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.gradleup.shadow") version "8.3.8"
     id("io.micronaut.application") version "4.5.4"
     id("io.micronaut.test-resources") version "4.5.4"
 }
@@ -11,6 +14,7 @@ version = "0.1"
 group = "com.example"
 
 val kotlinVersion = project.properties.get("kotlinVersion")
+
 repositories {
     mavenCentral()
 }
@@ -18,31 +22,33 @@ repositories {
 application {
     mainClass.set("com.example.ApplicationKt")
 }
-java {
-    sourceCompatibility = JavaVersion.toVersion("21")
+
+kotlin {
+    // see: https://blog.allegro.tech/2024/11/popular-gradle-mistakes-and-how-to-avoid-them.html
+    jvmToolchain(21)
+    compilerOptions {
+        apiVersion.set(KotlinVersion.KOTLIN_2_2)
+        languageVersion.set(KotlinVersion.KOTLIN_2_2)
+        jvmDefault = JvmDefaultMode.NO_COMPATIBILITY
+        freeCompilerArgs.addAll(
+            "-Xjsr305=strict",
+            "-opt-in=kotlin.RequiresOptIn",
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            // https://slack-chats.kotlinlang.org/t/27630676/with-2-2-0-beta2-bump-version-i-am-getting-identity-sensitiv
+            "-Xwarning-level=IDENTITY_SENSITIVE_OPERATIONS_WITH_VALUE_TYPE:disabled"
+        )
+    }
 }
 
-tasks {
-    compileKotlin {
-        kotlinOptions {
-            jvmTarget = "21"
-        }
-    }
-    compileTestKotlin {
-        kotlinOptions {
-            jvmTarget = "21"
-        }
-    }
-
-    test {
-        useJUnitPlatform()
-        testLogging {
-            showStandardStreams = true
-        }
+tasks.withType<Test> {
+    useJUnitPlatform()
+    testLogging {
+        showStandardStreams = true
     }
 }
 
 graalvmNative.toolchainDetection.set(false)
+
 micronaut {
     runtime("netty")
     testRuntime("kotest5")
