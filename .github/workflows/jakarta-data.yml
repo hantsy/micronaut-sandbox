@@ -1,0 +1,39 @@
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+name: jakarta-data
+
+on:
+  push:
+    paths:
+      - "jakarta-data/**"
+    branches:
+      - master
+  pull_request:
+    paths:
+      - "jakarta-data/**"
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'   
+            
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v3
+        # with:
+            # arguments: build
+            # build-root-directory: data-jdbc
+      - name: Execute Gradle build
+        run: |
+          cd jakarta-data
+          chmod +x gradlew
+          ./gradlew build
