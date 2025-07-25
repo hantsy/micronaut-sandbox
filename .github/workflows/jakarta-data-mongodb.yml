@@ -1,0 +1,41 @@
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+name: jakarta-data-mongodb
+
+on:
+  push:
+    paths:
+      - "jakarta-data-mongodb/**"
+    branches:
+      - master
+  pull_request:
+    paths:
+      - "jakarta-data-mongodb/**"
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+          
+      - name: Start up databases via Docker Compose 
+        run: |
+            docker compose up -d mongodb
+            docker ps -a              
+            
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v3
+      - name: Execute Gradle build
+        run: |
+          cd jakarta-data-mongodb
+          chmod +x gradlew
+          ./gradlew build
