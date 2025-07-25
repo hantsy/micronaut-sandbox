@@ -16,6 +16,9 @@ The following table lists all examples in this repository.
 | [data-r2dbc-kotlin-co](https://github.com/hantsy/micronaut-sandbox/tree/master/data-r2dbc-kotlin-co)         | Kotlin   | Data R2dbc, Test Resources, Kotest                   |
 | [data-hibernate-reactive](https://github.com/hantsy/micronaut-sandbox/tree/master/data-hibernate-reactive)   | Java     | Data Hibernate Reactive, Test Resources, JUnit       |
 | [data-mongodb-groovy](https://github.com/hantsy/micronaut-sandbox/tree/master/data-mongodb-groovy)           | Groovy   | Data MongoDB, Testcontainers, Spock                  |
+| [jakarta-data](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data)           | Java   | Jakarta Data/Jdbc, Testcontainers, JUnit                  |
+| [jakarta-data-jpa](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data-jpa)           | Java   | Jakarta Data/Data JPA, Testcontainers, JUnit                  |
+| [jakarta-data-MongoDb](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data-mongodb)           | Java   | Jakarta Data/Data MongoDB, Testcontainers, JUnit                  |
 | [mongodb-album-service](https://github.com/hantsy/micronaut-sandbox/tree/master/mongodb-album-service)       | Java     | MongoDB Async, TestContainers, Spock                 |
 | [rxjava3-vertx-pg-client](https://github.com/hantsy/micronaut-sandbox/tree/master/rxjava3-vertx-pg-client)       | Java     | RxJava3, Vertx Pg Client, TestContainers, JUnit                 |
 | [hibernate-gorm](https://github.com/hantsy/micronaut-sandbox/tree/master/hibernate-gorm)                     | Groovy   | (_Deprecated_) Hibernate GORM, Testcontainers, Spock |
