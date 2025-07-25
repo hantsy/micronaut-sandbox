@@ -1,7 +1,6 @@
 package com.example;
 
 import jakarta.data.repository.*;
-import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +26,9 @@ public interface CustomerDao {
     @Update
     void update(Customer data);
 
+    @Delete
+    void delete(Customer data);
+
 //    @Query("""
 //    DELETE FROM Customer
 //    """)
@@ -39,4 +41,11 @@ public interface CustomerDao {
 //    """)
 //    @Transactional
 //    void deleteById(@Param("id") UUID id);
+
+//    see: https://github.com/micronaut-projects/micronaut-data/issues/3490
+//    StatelessSession session();
+//
+//    default void deleteAll() {
+//        session().createMutationQuery("delete from Customer").executeUpdate();
+//    }
 }
