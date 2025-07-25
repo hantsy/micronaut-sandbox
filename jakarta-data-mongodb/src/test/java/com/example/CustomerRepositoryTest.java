@@ -30,7 +30,10 @@ class CustomerRepositoryTest implements TestPropertyProvider {
 
     @Override
     public @NonNull Map<String, String> getProperties() {
-       return Map.of("mongodb.uri", mongoDBContainer.getReplicaSetUrl());
+        if (!mongoDBContainer.isRunning()) {
+            mongoDBContainer.start();
+        }
+        return Map.of("mongodb.uri", mongoDBContainer.getReplicaSetUrl());
     }
 
     @Inject
@@ -43,7 +46,7 @@ class CustomerRepositoryTest implements TestPropertyProvider {
 
     @Test
     public void testInsertAndQuery() {
-        var saved= customerRepository.save(Customer.of("customer_test", 20, Address.of("test", "NY", "210000")));
+        var saved = customerRepository.save(Customer.of("customer_test", 20, Address.of("test", "NY", "210000")));
         assertNotNull(saved);
         var found = customerRepository.findById(saved.id());
         assertTrue(found.isPresent());
