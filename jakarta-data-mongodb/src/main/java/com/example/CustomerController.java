@@ -23,7 +23,7 @@ public class CustomerController {
     }
 
     @Get("{id}")
-    MutableHttpResponse<Customer> byId(@PathVariable UUID id) {
+    MutableHttpResponse<Customer> byId(@PathVariable String id) {
         return customerRepository.findById(id)
                 .map(HttpResponse::ok)
                 .orElse(notFound());
@@ -36,7 +36,7 @@ public class CustomerController {
     }
 
     @Delete("{id}")
-    MutableHttpResponse<Void> deleteById(@PathVariable UUID id) {
+    MutableHttpResponse<Void> deleteById(@PathVariable String id) {
         customerRepository.deleteById(id);
         return noContent();
     }

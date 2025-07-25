@@ -12,7 +12,7 @@ import static io.micronaut.data.annotation.Relation.Kind.EMBEDDED;
 @MappedEntity(value = "customers")
 @Serdeable
 public record Customer(
-        @Id @GeneratedValue UUID id,
+        @Id @GeneratedValue String id,
         String name,
         Integer age,
         @Relation(EMBEDDED) Address address,

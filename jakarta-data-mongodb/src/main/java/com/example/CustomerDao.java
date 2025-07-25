@@ -18,7 +18,7 @@ public interface CustomerDao {
     List<Customer> findAll();
 
     @Find
-    Optional<Customer> findById(@By(ID) UUID id);
+    Optional<Customer> findById(@By(ID) String id);
 
 //    @Find
 //    List<Customer> findByCity(@By("address.city") String city, Limit limit, Sort<?>... sort);

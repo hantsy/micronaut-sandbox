@@ -44,8 +44,8 @@ class CustomerControllerTest {
         when(this.customerRepository.findAll())
                 .thenReturn(
                         Stream.of(
-                                new Customer(UUID.randomUUID(), "Jack", 20, new Address("xian", "xian", "510000"), 1L),
-                                new Customer(UUID.randomUUID(), "William", 40, new Address("xian", "xian", "510000"), 1L)
+                                new Customer("test1", "Jack", 20, new Address("xian", "xian", "510000"), 1L),
+                                new Customer("test2", "William", 40, new Address("xian", "xian", "510000"), 1L)
                         )
                 );
 
@@ -65,10 +65,10 @@ class CustomerControllerTest {
     @Test
     @DisplayName("get a customer by id")
     public void testGetCustomerById() {
-        when(this.customerRepository.findById(any(UUID.class)))
+        when(this.customerRepository.findById(any(String.class)))
                 .thenReturn(
                         Optional.of(
-                                new Customer(UUID.randomUUID(), "Jack", 20, new Address("xian", "xian", "510000"), 1L)
+                                new Customer("test1", "Jack", 20, new Address("xian", "xian", "510000"), 1L)
                         )
                 );
 
@@ -81,14 +81,14 @@ class CustomerControllerTest {
                 })
                 .verifyComplete();
 
-        verify(this.customerRepository, times(1)).findById(any(UUID.class));
+        verify(this.customerRepository, times(1)).findById(any(String.class));
         verifyNoMoreInteractions(this.customerRepository);
     }
 
     @Test
     @DisplayName("get a customer by a non-existing id")
     public void testGetCustomerByNonExistingId() {
-        when(this.customerRepository.findById(any(UUID.class)))
+        when(this.customerRepository.findById(any(String.class)))
                 .thenReturn(Optional.empty());
 
         var request = HttpRequest.GET(UriBuilder.of("/{id}").expand(Map.of("id", UUID.randomUUID())));
@@ -100,7 +100,7 @@ class CustomerControllerTest {
                 })
                 .verify();
 
-        verify(this.customerRepository, times(1)).findById(any(UUID.class));
+        verify(this.customerRepository, times(1)).findById(any(String.class));
         verifyNoMoreInteractions(this.customerRepository);
     }
 

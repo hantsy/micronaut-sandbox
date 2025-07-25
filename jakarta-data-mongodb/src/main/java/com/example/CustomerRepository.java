@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Repository
 @MongoRepository
-public interface CustomerRepository extends CrudRepository<Customer, UUID> {
+public interface CustomerRepository extends CrudRepository<Customer, String> {
 
     Page<Customer> findByAddressCityLike(String cityLike, PageRequest pageRequest);
 }
