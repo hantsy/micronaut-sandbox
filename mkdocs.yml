@@ -62,7 +62,8 @@ nav:
     - "Example: Java + Micronaut Data JPA": gs/gs-rest.md   
     - "Example: Kotlin + Micronaut Data JDBC": gs/jdbc-kotlin.md
     - "Example: Kotlin Coroutine + Micronaut Data R2DBC": gs/r2dbc-kotlin-co.md    
-    - "Example: Java + Micronaut Mongo Reactive": gs/mongo-reactive.md      
+    - "Example: Java + Micronaut Mongo Reactive": gs/mongo-reactive.md    
+    - "Example: Data Access with Micronaut Jakarta Data": gs/jakarta-data.md
   - Testing:
     - test/index.md
     - JUnit: test/junit.md
