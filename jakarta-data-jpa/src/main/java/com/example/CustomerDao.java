@@ -1,6 +1,7 @@
 package com.example;
 
 import jakarta.data.repository.*;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,13 +28,14 @@ public interface CustomerDao {
     void update(Customer data);
 
 //    @Query("""
-//    DELETE FROM CUSTOMERS
+//    DELETE FROM Customer
 //    """)
 //    @Transactional
 //    void deleteAll();
 //
 //    @Query("""
-//    DELETE FROM CUSTOMERS WHERE ID=:id
+//    DELETE FROM Customer
+//    WHERE id=:id
 //    """)
 //    @Transactional
 //    void deleteById(@Param("id") UUID id);
