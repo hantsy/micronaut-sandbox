@@ -1,0 +1,2131 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../build/">
+      
+      
+        <link rel="next" href="../jdbc-kotlin/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>Example: Java + Micronaut Data JPA - Micronaut by Example</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#building-restful-api-with-micronaut-data-jpa" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Micronaut by Example" class="md-header__button md-logo" aria-label="Micronaut by Example" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Micronaut by Example
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Example: Java + Micronaut Data JPA
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="pink" data-md-color-accent="pink"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hantsy/micronaut-sandbox" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hantsy/micronaut-sandbox
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Micronaut by Example" class="md-nav__button md-logo" aria-label="Micronaut by Example" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Micronaut by Example
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hantsy/micronaut-sandbox" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hantsy/micronaut-sandbox
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Preface
+    
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Preface
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../intro/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Introduction to Mcironaut
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Introduction to Mcironaut
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../intro/what/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    What is Micronaut?
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../intro/why" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Why Micronaut?
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prerequisites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prerequisites
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Generating Project Skeleton
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../di/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Understanding Dependency Injection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Building & Running Application
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Example: Java + Micronaut Data JPA
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Example: Java + Micronaut Data JPA
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#preparing-project-skeleton" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preparing Project Skeleton
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Preparing Project Skeleton">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generating-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generating Project
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuring-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring Database
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#serving-postgres-database-in-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Serving Postgres Database in Docker
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-accessing-using-micronaut-data-jpa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Accessing using Micronaut Data JPA
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Accessing using Micronaut Data JPA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-jpa-entity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating JPA Entity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating Repository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#query-by-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query by Specification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-query-with-entitymanager" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Query with EntityManager
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initializing-sample-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Initializing Sample Data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exposing-restful-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exposing RESTful API
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exposing RESTful API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating Controller
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-post" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating Post
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updating-existing-post" class="md-nav__link">
+    <span class="md-ellipsis">
+      Updating Existing Post
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deleting-post" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deleting Post
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#processing-subresources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Processing Subresources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Codes
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jdbc-kotlin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Example: Kotlin + Micronaut Data JDBC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../r2dbc-kotlin-co/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Example: Kotlin Coroutine + Micronaut Data R2DBC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mongo-reactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Example: Java + Micronaut Mongo Reactive
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jakarta-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Example: Data Access with Micronaut Jakarta Data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../test/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Testing
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Testing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test/junit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    JUnit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test/kotest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    KoTest
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test/spock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spock
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#preparing-project-skeleton" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preparing Project Skeleton
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Preparing Project Skeleton">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generating-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generating Project
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuring-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuring Database
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#serving-postgres-database-in-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Serving Postgres Database in Docker
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-accessing-using-micronaut-data-jpa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Accessing using Micronaut Data JPA
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Accessing using Micronaut Data JPA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-jpa-entity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating JPA Entity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating Repository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#query-by-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query by Specification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-query-with-entitymanager" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Query with EntityManager
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initializing-sample-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Initializing Sample Data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exposing-restful-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exposing RESTful API
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exposing RESTful API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating Controller
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-post" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating Post
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updating-existing-post" class="md-nav__link">
+    <span class="md-ellipsis">
+      Updating Existing Post
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deleting-post" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deleting Post
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#processing-subresources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Processing Subresources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Codes
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="building-restful-api-with-micronaut-data-jpa">Building RESTful API with Micronaut Data JPA<a class="headerlink" href="#building-restful-api-with-micronaut-data-jpa" title="Permanent link">&para;</a></h1>
+<p>In this section, we are building a RESTful API backend application with Micronaut Data JPA. If you have some experience with Spring Boot and Spring Data JPA, it is easy to update yourself to use Micronaut to archive the same purpose.</p>
+<h2 id="preparing-project-skeleton">Preparing Project Skeleton<a class="headerlink" href="#preparing-project-skeleton" title="Permanent link">&para;</a></h2>
+<p>Follow <a href="./gen">Generating Project Skeleton</a> guide and generate a new project skeleton.</p>
+<h3 id="generating-project">Generating Project<a class="headerlink" href="#generating-project" title="Permanent link">&para;</a></h3>
+<p>Open your browser and navigate to <a href="https://micronaut.io/launch">Micronaut Launch</a>, fill the following fields in the <a href="https://micronaut.io/launch">Micronaut Launch</a> page, leave other as it is.</p>
+<ul>
+<li>Java version:  <strong>17</strong></li>
+<li>Language: <strong>Java</strong> </li>
+<li>Build tool: <strong>Gradle</strong></li>
+<li>Test framework: <strong>Junit</strong></li>
+<li>Included Features: <strong>lombok</strong>, <strong>data hibernate jpa</strong>, <strong>assertj</strong>, <strong>postgres</strong>, <strong>testcontainers</strong> etc.</li>
+</ul>
+<p>Import the generated project into your IDE.</p>
+<h3 id="configuring-database">Configuring Database<a class="headerlink" href="#configuring-database" title="Permanent link">&para;</a></h3>
+<p>In this project, we are using Postgres as a database. You can download a copy of Postgres and install it in your local system, then create a new database to serve the application.</p>
+<p>Open <em>src/main/resources/application.yml</em>, there is a  <em>default</em> data source  is configured by default.</p>
+<p>Change the properties according to your environment.</p>
+<pre><code class="language-yaml">datasources:
+  default:
+    url: jdbc:postgresql://localhost:5432/blogdb
+    driverClassName: org.postgresql.Driver
+    username: user
+    password: password
+    schema-generate: CREATE_DROP
+    dialect: POSTGRES
+jpa.default.properties.hibernate.hbm2ddl.auto: update
+</code></pre>
+<p>Alternatively, you can serve a Postgres database in Docker quickly. </p>
+<h3 id="serving-postgres-database-in-docker">Serving  Postgres Database in Docker<a class="headerlink" href="#serving-postgres-database-in-docker" title="Permanent link">&para;</a></h3>
+<p>Create a <em>docker-compose.yml</em> file, and define a <em>postgres</em> service as the following.</p>
+<pre><code class="language-yaml">version: '3.7' # specify docker-compose version
+
+services:
+  postgres:
+    image: postgres
+    ports:
+      - &quot;5432:5432&quot;
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: blogdb
+      POSTGRES_USER: user
+    volumes:
+      - ./data:/var/lib/postgresql
+      - ./pg-initdb.d:/docker-entrypoint-initdb.d
+</code></pre>
+<p>Then start the Postgres database instance in the Docker container.</p>
+<pre><code class="language-bash">docker compose up postgres
+</code></pre>
+<p>Wait for a while, it will prepare a Postgres database from Docker image and start it.</p>
+<h2 id="data-accessing-using-micronaut-data-jpa">Data Accessing using Micronaut Data JPA<a class="headerlink" href="#data-accessing-using-micronaut-data-jpa" title="Permanent link">&para;</a></h2>
+<p>When generating the project, we have add a <strong>data-jpa</strong> feature into the project dependencies, which enables Micronaut Data JPA support. </p>
+<p>Similar to Spring Data architecture,  Micronaut Data also provides a common abstraction for the basic data operations, For example, there is a <code>GenericRepository</code> interface to indicate it is a  <code>Repository</code> for JPA entities,  and its sub interfaces, such as <code>CrudRepository</code> and <code>PagableRepsoitory</code> includes more operations, such as <em>save</em>,  <em>retrieve</em>, <em>update</em>, <em>delete</em>, and bulk updates, and return <em>pageable</em> results for large amount of results. </p>
+<p>Micronaut Data JPA has similar APIs with Spring Data JPA, it also contains a pragmatic criteria builder to execute query via custom <code>Specificaiton</code>.</p>
+<p>Currently, Micronaut Data project only supports relational databases, it includes 3 modules: Data JPA, Data JDBC, Data R2DBC,  read <a href="https://micronaut-projects.github.io/micronaut-data/latest/guide/">the official documentation</a> for more details.</p>
+<p>In this post, we focus on the Micronaut Data JPA.</p>
+<p>Next, we will create a JPA entity and create a Repository for the entity, then create a  Controller to produce RESTful API endpoints for it.</p>
+<h3 id="creating-jpa-entity">Creating  JPA Entity<a class="headerlink" href="#creating-jpa-entity" title="Permanent link">&para;</a></h3>
+<p>I have used a simple blog application in the past years to demonstrate different frameworks. In this post, I will reuse the blog application concept.  </p>
+<p>It includes two JPA entities, <code>Post</code> and <code>Comment</code>, it is a one-to-many relation.</p>
+<p>Firstly let's have a look at the <code>Post</code>  entity class.</p>
+<pre><code class="language-java">@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = &quot;posts&quot;)
+public class Post implements Serializable {
+
+    @Id
+    @GeneratedValue(generator = &quot;uuid&quot;)
+    @GenericGenerator(name = &quot;uuid&quot;, strategy = &quot;uuid2&quot;)
+    UUID id;
+    String title;
+    String content;
+
+    @Builder.Default
+    Status status = Status.DRAFT;
+
+    @Builder.Default
+    LocalDateTime createdAt = LocalDateTime.now();
+
+    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true, mappedBy = &quot;post&quot;)
+    @Builder.Default
+    @OrderColumn(name = &quot;comment_idx&quot;)
+    List&lt;Comment&gt; comments = new ArrayList&lt;&gt;();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Post post = (Post) o;
+        return getTitle().equals(post.getTitle());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTitle());
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Post{&quot; +
+                &quot;id=&quot; + id +
+                &quot;, title='&quot; + title + '\'' +
+                &quot;, content='&quot; + content + '\'' +
+                &quot;, status=&quot; + status +
+                &quot;, createdAt=&quot; + createdAt +
+                '}';
+    }
+}
+</code></pre>
+<p>A JPA entity should be annotated with an  <code>@Entity</code> annotation,  optionally adding a <code>@Table</code> to specify the table metadata.</p>
+<p>An entity should include a none-arguments constructor. </p>
+<p>An entity should have an identifier field with an <code>@Id</code> annotation. To assign a value to the id field automatically, you can select a strategy type by specifying the <code>strategy</code> attribute of the <code>@GgeneratedValue</code> annotation,  it could be <code>AUTO</code>, <code>IDENTITY</code>, <code>SEQUENCE</code> and <code>TABLE</code>, else you can define your own generator by setting the value of <code>generator</code> attribute. In the above <code>Post</code> entity, we use the Hibernate built-in <code>uuid2</code> strategy to generate a UUID value and assign it to the id field before persisting.</p>
+<p>With the annotations from the Lombok project, eg. <code>@Getter</code>, <code>@Setter</code>, <code>@NoArgsConstructor</code>, <code>@AllArgsConstructor</code> and <code>@Builder</code>, it helps you to erase the tedious methods for getting and setting the Java Bean properties,  and keep your codes clean. When building the project, Lombok annotation processor will participate into the compiling progress and generate getters and setters, varied constructors, and a builder class used to create an entity.</p>
+<p>Use IDE to generate <code>equals</code> and <code>hasCode</code> according to the business requirements. </p>
+<blockquote>
+<p>Be careful of using Lombok @Data to generate all facilities, especially in the entity in an inheritance structure or containing custom <code>equals</code> and <code>hasCode</code>  to identify an entity.</p>
+</blockquote>
+<p>Similar to the <code>Post</code> entity, create another entity named  <code>Comment</code>.</p>
+<pre><code class="language-java">// Comment entity 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = &quot;comments&quot;)
+public class Comment implements Serializable {
+
+    @Id
+    @GeneratedValue(generator = &quot;uuid&quot;)
+    @GenericGenerator(name = &quot;uuid&quot;, strategy = &quot;uuid2&quot;)
+    private UUID id;
+
+    @ManyToOne
+    @JoinColumn(name = &quot;post_id&quot;)
+    private Post post;
+
+    private String content;
+
+    @Builder.Default
+    @Column(name = &quot;created_at&quot;)
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return getContent().equals(comment.getContent());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getContent());
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Comment{&quot; +
+                &quot;id=&quot; + id +
+                &quot;, content='&quot; + content + '\'' +
+                &quot;, createdAt=&quot; + createdAt +
+                '}';
+    }
+}
+
+</code></pre>
+<p>The <code>Post</code> and <code>Comment</code> association is a simple bi-direction one-to-many relation. </p>
+<p>On the <strong>one</strong> side, aka  in<code>Post</code> entity,  a <code>@OneToMany</code> annotation is added to the <em>comments</em> which is a <code>List</code>,  the <code>cascade</code> attribute defines the behiavor to process the <strong>many</strong> side when performing a persist, merge, delete operation on  the <strong>one</strong> side, here we use <code>ALL</code> to setup all cascade rules will be applied.  The  <code>orphanRemoval=true</code> setting tells the persistence context to clear the <code>Comment</code> orphans when deleting a <code>Post</code> . The <code>@OrderColumn</code> will persist the inserted position of comments. 
+On the <strong>many</strong> side aka in the <code>Comment</code> entity, a <code>@ManyToOne</code> annotation is added on the <code>post</code> field. The <code>@JoinColumn</code> set the column which stores the foreign key constraints by the <code>Post</code> id.</p>
+<p>Besides one-to-many relation (<code>@OneToMany</code>and <code>@ManyToOne</code>), JPA specification includes two other relations, aka one-to-one (<code>@OneToOne</code>)  and many-to-many (<code>@ManyToMany</code>).</p>
+<p>We've just demonstrated a simple entity association case here, it is a bi-direction one-to-many relation.  Please note, one-to-one, one-to-many, and many-to-many can be set as <em>single direction</em>,  and you can use a  secondary table as <em>connecting table</em> in the one-to-one and one-to-many relations.</p>
+<blockquote>
+<p>We can not cover every details of JPA specifiction here. If you are new to JPA, <a href="https://www.manning.com/books/java-persistence-with-hibernate">Java persistence with Hibernate</a> is a good book to start your  JPA journey.</p>
+</blockquote>
+<h3 id="creating-repository">Creating Repository<a class="headerlink" href="#creating-repository" title="Permanent link">&para;</a></h3>
+<p>Create a <code>Repository</code> for the <code>Post</code> entity.</p>
+<pre><code class="language-java">@Repository
+public interface PostRepository extends JpaRepository&lt;Post, UUID&gt;{
+
+}
+</code></pre>
+<p>The <code>JpaRepository</code> overrides some existing methods in the parent <code>CrudRepository</code>and <code>PageableRepository</code>, and adds some JPA-specific methods, such as <code>flush</code> used to flush the persistence context by force.</p>
+<p>Note, in Micronaut Data, a Repository bean must be annotated with a <code>@Repository</code> annotation. In a multi-datasource environment, you can specify the datasource identifier name to ensure this repository uses the certain DataSource to connect to the database. </p>
+<p>For example, <code>@Repository("orders")</code> to connect the <strong>orders</strong> datasource defined in the <em>application.yml</em> configuration.</p>
+<pre><code class="language-yml">datasources:
+  orders:
+    ....
+</code></pre>
+<p>Similarly, create a <code>Repository</code> for the <code>Comment</code> entity.</p>
+<pre><code class="language-java">@Repository
+public interface CommentRepository extends JpaRepository&lt;Comment, UUID&gt; {
+
+    List&lt;Comment&gt; findByPost(Post post);
+}
+</code></pre>
+<p>The <code>findByPost</code> is used to filter comments by a specific <em>post</em> argument. Similar to Spring Data JPA,  Micronaut Data support fluent query methods derived from property expression.</p>
+<p>Similar to Spring Data, Micronaut Data provides pagination for a long query result, the <code>findAll</code> accepts a <code>Pageable</code> parameter and returns a <code>Page</code> result.</p>
+<p>Micronaut Data also includes a <code>Specification</code>  to adopt JPA Criteria APIs for the complex type-safe query.</p>
+<h3 id="query-by-specification">Query by Specification<a class="headerlink" href="#query-by-specification" title="Permanent link">&para;</a></h3>
+<p>Change <code>PostRepository</code>  , add <code>JpaSpecificationExecutor&lt;Post&gt;</code> to extends list.</p>
+<pre><code class="language-java">@Repository
+public interface PostRepository extends JpaRepository&lt;Post, UUID&gt;, JpaSpecificationExecutor&lt;Post&gt; {
+
+}
+</code></pre>
+<p>The <code>JpaSpecificationExecutor</code> provides extra methods to accept a <code>Specification</code> as parameters.</p>
+<p>Create a specific <code>PostSpecifications</code> to group all specifications for querying posts. Currently, only add one for query by keyword and status.</p>
+<pre><code class="language-java">public class PostSpecifications {
+    private PostSpecifications(){
+        // forbid to instantiate
+    }
+
+    public static Specification&lt;Post&gt; filterByKeywordAndStatus(
+            final String keyword,
+            final Status status
+    ) {
+        return (Root&lt;Post&gt; root, CriteriaQuery&lt;?&gt; query, CriteriaBuilder cb) -&gt; {
+            List&lt;Predicate&gt; predicates = new ArrayList&lt;&gt;();
+            if (StringUtils.hasText(keyword)) {
+                predicates.add(
+                        cb.or(
+                                cb.like(root.get(Post_.title), &quot;%&quot; + keyword + &quot;%&quot;),
+                                cb.like(root.get(Post_.content), &quot;%&quot; + keyword + &quot;%&quot;)
+                        )
+                );
+            }
+
+            if (status != null) {
+                predicates.add(cb.equal(root.get(Post_.status), status));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+    }
+}
+</code></pre>
+<p>The <code>filterByKeywordAndStatus</code> specification provides optional <em>keyword</em> and <em>status</em> to filter the posts.  The <code>Post_</code> is a metadata class generated by Hibernate metadata generating tools.  </p>
+<p>Add the following <code>annotationProcessor</code> in the project dependencies.</p>
+<pre><code class="language-groovy">annotationProcessor('org.hibernate:hibernate-jpamodelgen:5.6.5.Final')
+</code></pre>
+<p>For those who are familiar with JPA <code>EntityManager</code> and prefer to use literal query string to handle complex queries,  In Micronaut Data, it is easy to use them in the Repository directly.</p>
+<h3 id="custom-query-with-entitymanager">Custom Query with EntityManager<a class="headerlink" href="#custom-query-with-entitymanager" title="Permanent link">&para;</a></h3>
+<p>Change the Repository interface to an <em>abstract class</em>,  and inject an <code>EntityManager</code>,  then you can use it freely in your custom methods.</p>
+<pre><code class="language-java">@Repository()
+@RequiredArgsConstructor
+public abstract class PostRepository implements JpaRepository&lt;Post, UUID&gt;, JpaSpecificationExecutor&lt;Post&gt; {
+    private final EntityManager entityManager;
+
+    public List&lt;Post&gt; findAllByTitleContains(String title) {
+        return entityManager.createQuery(&quot;FROM Post AS p WHERE p.title like :title&quot;, Post.class)
+                .setParameter(&quot;title&quot;, &quot;%&quot; + title + &quot;%&quot;)
+                .getResultList();
+    }
+}
+</code></pre>
+<p>In the above <code>findAllByTitleContains</code> method, it uses <code>EntityManager</code> to execute a custom literal query.</p>
+<p>In contrast, to use <code>EntityManager</code> in your custom queries,  in Spring Data JPA, you need to create a <code>PostRepositoryCustom</code> interface and a <code>PostRepositoryImpl</code> implementation class. Micronaut Data simplifies the work.</p>
+<h3 id="initializing-sample-data">Initializing Sample Data<a class="headerlink" href="#initializing-sample-data" title="Permanent link">&para;</a></h3>
+<p>Add a <code>DataInitializer</code> bean to initialize some sample data.</p>
+<pre><code class="language-java">@Singleton
+@RequiredArgsConstructor
+@Slf4j
+public class DataInitializer implements ApplicationEventListener&lt;ApplicationStartupEvent&gt; {
+    private final PostRepository posts;
+
+    private final TransactionOperations&lt;?&gt; tx;
+
+    @Override
+    public void onApplicationEvent(ApplicationStartupEvent event) {
+        log.info(&quot;initializing sample data...&quot;);
+        var data = List.of(Post.builder().title(&quot;Getting started wit Micronaut&quot;).content(&quot;test&quot;).build(),
+                Post.builder().title(&quot;Getting started wit Micronaut: part 2&quot;).content(&quot;test&quot;).build());
+        tx.executeWrite(status -&gt; {
+            this.posts.deleteAll();
+            this.posts.saveAll(data);
+            return null;
+        });
+        tx.executeRead(status -&gt; {
+            this.posts.findAll().forEach(p -&gt; log.info(&quot;saved post: {}&quot;, p));
+            return null;
+        });
+        log.info(&quot;data initialization is done...&quot;);
+    }
+}
+</code></pre>
+<p>In the above codes, use <code>TransactionOperations</code> to wrap a series of operations into a transaction to ensure it happens before the successor operations.</p>
+<h2 id="exposing-restful-api">Exposing RESTful API<a class="headerlink" href="#exposing-restful-api" title="Permanent link">&para;</a></h2>
+<p>Following the REST conventions and Richardson Mature Model, we design a series of HTTP API endpoints that satisfies the  Richardson Mature Model Level 2.</p>
+<table>
+<thead>
+<tr>
+<th>URI</th>
+<th>HTTP Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/posts</td>
+<td>GET</td>
+<td>Get all posts</td>
+</tr>
+<tr>
+<td>/posts/{id}</td>
+<td>GET</td>
+<td>Get a single Post, if not found return 404 status code.</td>
+</tr>
+<tr>
+<td>/posts</td>
+<td>POST</td>
+<td>Create a new Post, if successful, return 201 and add newly-created Post URI to the response <code>Location</code> header</td>
+</tr>
+<tr>
+<td>/posts/{id}</td>
+<td>PUT</td>
+<td>Update the existing Post, return 204. If not found return 404</td>
+</tr>
+<tr>
+<td>/posts/{id}</td>
+<td>DELETE</td>
+<td>Delete the existing Post, return 204. If not found return 404</td>
+</tr>
+<tr>
+<td>/posts/{id}/comments</td>
+<td>GET</td>
+<td>Get all comments of the specified Post.</td>
+</tr>
+<tr>
+<td>...</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Similar to Spring WebMVC,  Micronaut uses a <code>Controller</code> to expose Restful APIs. </p>
+<h3 id="creating-controller">Creating Controller<a class="headerlink" href="#creating-controller" title="Permanent link">&para;</a></h3>
+<p>Create a controller to produce RESTful API.</p>
+<pre><code class="language-java">@Controller(&quot;/posts&quot;)
+@RequiredArgsConstructor(onConstructor_ = {@Inject})
+@Validated
+public class PostController {
+    private final PostRepository posts;
+    private final CommentRepository comments;
+
+    @Get(uri = &quot;/&quot;, produces = MediaType.APPLICATION_JSON)
+    public HttpResponse&lt;List&lt;PostSummaryDto&gt;&gt; getAll() {
+        var body = posts.findAll()
+                .stream()
+                .map(p -&gt; new PostSummaryDto(p.getId(), p.getTitle(), p.getCreatedAt()))
+                .toList();
+        return ok(body);
+    }
+
+    @Get(uri = &quot;/{id}&quot;, produces = MediaType.APPLICATION_JSON)
+    public HttpResponse&lt;?&gt; getById(@PathVariable UUID id) {
+        return posts.findById(id)
+                .map(p -&gt; ok(new PostDetailsDto(p.getId(), p.getTitle(), p.getContent(), p.getStatus(), p.getCreatedAt())))
+                //.orElseThrow(() -&gt; new PostNotFoundException(id));
+        .orElseGet(HttpResponse::notFound);
+    }
+}
+</code></pre>
+<p>Usually, a controller is annotated with <code>@Controller</code>, you can set a base <code>uri</code> that applies to all methods. </p>
+<blockquote>
+<p>Note,  There is no <code>@RestController</code> in Micronaut.</p>
+</blockquote>
+<p>The <code>@Get</code>, <code>@Post</code>,<code>@Put</code>, <code>@Delete</code> annotations are used to handle varied HTTP methods, it is similar to Spring's <code>@GetMapping</code>, <code>@PostMapping</code>, etc.  </p>
+<p>You can set media types using <em>consumes</em> or <em>produces</em>  attributes in these annotations to limit the request and response content type, or use extra standalone annotations <code>@Consumes</code> and <code>@Produces</code> on the methods.</p>
+<p>In the <code>PostController</code> , we have two methods.  The <code>getAll</code> method serves the <em>/posts</em> endpoint, and the <code>getById(id)</code> serves the <em>/posts/{id}</em> endpoint.</p>
+<h4 id="testing-endpoints-using-curl">Testing Endpoints using cURL<a class="headerlink" href="#testing-endpoints-using-curl" title="Permanent link">&para;</a></h4>
+<p>Startup the application via Gradle command.</p>
+<pre><code class="language-bash">./gradlew run
+</code></pre>
+<blockquote>
+<p>Do not forget to start up Postgres database firstly.</p>
+</blockquote>
+<p>Open a terminal,  use <code>curl</code> command to test the <code>/posts</code> endpoint.</p>
+<pre><code class="language-bash">curl http://localhost:8080/posts
+[ {
+  &quot;id&quot; : &quot;b6fb90ab-2719-498e-a5fd-93d0c7669fdf&quot;,
+  &quot;title&quot; : &quot;Getting started wit Micronaut&quot;,
+  &quot;createdAt&quot; : &quot;2021-10-14T22:00:28.80933&quot;
+}, {
+  &quot;id&quot; : &quot;8c6147ea-8de4-473f-b97d-e211c8e43bac&quot;,
+  &quot;title&quot; : &quot;Getting started wit Micronaut: part 2&quot;,
+  &quot;createdAt&quot; : &quot;2021-10-14T22:00:28.80933&quot;
+} ]
+</code></pre>
+<pre><code class="language-bash">curl http://localhost:8080/posts/b6fb90ab-2719-498e-a5fd-93d0c7669fdf
+ {
+  &quot;id&quot; : &quot;b6fb90ab-2719-498e-a5fd-93d0c7669fdf&quot;,
+  &quot;title&quot; : &quot;Getting started wit Micronaut&quot;,
+  &quot;content&quot;: &quot;test&quot;,
+  &quot;createdAt&quot; : &quot;2021-10-14T22:00:28.80933&quot;
+}
+</code></pre>
+<blockquote>
+<p>Micronaut CLI provides commands to generate skeleton for controller, repository, bean, test, etc.  Run <code>mn --help</code> in <strong>the project root folder</strong> to get all available commands.</p>
+</blockquote>
+<h4 id="handling-exception">Handling Exception<a class="headerlink" href="#handling-exception" title="Permanent link">&para;</a></h4>
+<p>In the above <code>PostController</code>, if there is no posts found for the given post id, it returns a 404 HTTP status directly. In a real-world application, we can use a custom exception to envelope the exception case. </p>
+<p>Like Spring WebMVC, Micronaut provides similar exception handling mechanism. </p>
+<p>For example, create an <code>PostNotFoundException</code> to stand for the case if the post was not found by a specified id.</p>
+<p>Create a <code>PostNotFoundException</code> class. </p>
+<pre><code class="language-java">public class PostNotFoundException extends RuntimeException 
+    public PostNotFoundException(UUID id) {
+        super(&quot;Post[id=&quot; + id + &quot;] was not found&quot;);
+    }
+}
+</code></pre>
+<p>In the <code>PostController</code>,  throw this exception in the <code>Optional.orElseThrow</code> block.</p>
+<pre><code class="language-java">@Get(uri = &quot;/{id}&quot;, produces = MediaType.APPLICATION_JSON)
+public HttpResponse&lt;?&gt; getById(@PathVariable UUID id) {
+    return posts.findById(id)
+        .map(p -&gt; ok(new PostDetailsDto(p.getId(), p.getTitle(), p.getContent(), p.getStatus(), p.getCreatedAt())))
+        .orElseThrow(() -&gt; new PostNotFoundException(id));
+}
+</code></pre>
+<p>Add a <code>PostNotFoundExceptionHandler</code> to handle <code>PostNotFoundException</code>.</p>
+<pre><code class="language-java">@Produces
+@Singleton
+@Requires(classes = { PostNotFoundException.class})
+@RequiredArgsConstructor
+public class PostNotFoundExceptionHandler implements ExceptionHandler&lt;PostNotFoundException, HttpResponse&lt;?&gt;&gt; {
+    private final ErrorResponseProcessor&lt;?&gt; errorResponseProcessor;
+
+    @Override
+    public HttpResponse&lt;?&gt; handle(HttpRequest request, PostNotFoundException exception) {
+        return errorResponseProcessor.processResponse(
+                ErrorContext.builder(request)
+                        .cause(exception)
+                        .errorMessage(exception.getMessage())
+                        .build(),
+                HttpResponse.notFound()
+        );
+    }
+}
+</code></pre>
+<p>Open a terminal,  use <code>curl</code> command to test the <code>/posts/{id}</code> endpoint with a non-existing id.</p>
+<pre><code class="language-bash"># curl http://localhost:8080/posts/b6fb90ab-2719-498e-a5fd-93d0c7669fdf -v
+&gt; GET /posts/b6fb90ab-2719-498e-a5fd-93d0c7669fdf HTTP/1.1
+&gt; Host: localhost:8080
+&gt; User-Agent: curl/7.55.1
+&gt; Accept: */*
+&gt;
+&lt; HTTP/1.1 404 Not Found
+&lt; Content-Type: application/json
+&lt; date: Mon, 25 Oct 2021 07:02:01 GMT
+&lt; content-length: 301
+&lt; connection: keep-alive
+&lt;
+{
+  &quot;message&quot; : &quot;Not Found&quot;,
+  &quot;_links&quot; : {
+    &quot;self&quot; : {
+      &quot;href&quot; : &quot;/posts/b6fb90ab-2719-498e-a5fd-93d0c7669fdf&quot;,
+      &quot;templated&quot; : false
+    }
+  },
+  &quot;_embedded&quot; : {
+    &quot;errors&quot; : [ {
+      &quot;message&quot; : &quot;Post[id=b6fb90ab-2719-498e-a5fd-93d0c7669fdf] was not found&quot;
+    } ]
+  }
+}
+</code></pre>
+<h4 id="handling-pagination">Handling Pagination<a class="headerlink" href="#handling-pagination" title="Permanent link">&para;</a></h4>
+<p>Change the <code>getAll</code> method of <code>PostController</code> to the following.</p>
+<pre><code class="language-java">@Get(uri = &quot;/&quot;, produces = MediaType.APPLICATION_JSON)
+@Transactional
+public HttpResponse&lt;Page&lt;PostSummaryDto&gt;&gt; getAll(@QueryValue(defaultValue = &quot;&quot;) String q,
+                                                 @QueryValue(defaultValue = &quot;&quot;) String status,
+                                                 @QueryValue(defaultValue = &quot;0&quot;) int page,
+                                                 @QueryValue(defaultValue = &quot;10&quot;) int size) {
+    var pageable = Pageable.from(page, size, Sort.of(Sort.Order.desc(&quot;createdAt&quot;)));
+    var postStatus = StringUtils.hasText(status) ? com.example.domain.Status.valueOf(status) : null;
+    var data = this.posts.findAll(PostSpecifications.filterByKeywordAndStatus(q, postStatus), pageable);
+    var body = data.map(p -&gt; new PostSummaryDto(p.getId(), p.getTitle(), p.getCreatedAt()));
+    return ok(body);
+}
+</code></pre>
+<p>All the query parameters are optional. </p>
+<p>Let's use <code>curl</code> to test the <em>/posts</em> endpoint again.</p>
+<pre><code class="language-bash"># curl http://localhost:8080/posts
+{
+  &quot;content&quot; : [ {
+    &quot;id&quot; : &quot;c9ec963d-2df5-4d65-bfbe-5a0d4cb14ca6&quot;,
+    &quot;title&quot; : &quot;Getting started wit Micronaut&quot;,
+    &quot;createdAt&quot; : &quot;2021-10-25T16:35:03.732951&quot;
+  }, {
+    &quot;id&quot; : &quot;0a79185c-5981-4301-86d1-c266b26b4980&quot;,
+    &quot;title&quot; : &quot;Getting started wit Micronaut: part 2&quot;,
+    &quot;createdAt&quot; : &quot;2021-10-25T16:35:03.732951&quot;
+  } ],
+  &quot;pageable&quot; : {
+    &quot;number&quot; : 0,
+    &quot;sort&quot; : {
+      &quot;orderBy&quot; : [ {
+        &quot;property&quot; : &quot;createdAt&quot;,
+        &quot;direction&quot; : &quot;DESC&quot;,
+        &quot;ignoreCase&quot; : false,
+        &quot;ascending&quot; : false
+      } ],
+      &quot;sorted&quot; : true
+    },
+    &quot;size&quot; : 10,
+    &quot;offset&quot; : 0,
+    &quot;sorted&quot; : true,
+    &quot;unpaged&quot; : false
+  },
+  &quot;totalSize&quot; : 2,
+  &quot;totalPages&quot; : 1,
+  &quot;empty&quot; : false,
+  &quot;size&quot; : 10,
+  &quot;offset&quot; : 0,
+  &quot;numberOfElements&quot; : 2,
+  &quot;pageNumber&quot; : 0
+}
+</code></pre>
+<p>The <code>Page</code>  JSON results look a little tedious,  let's customize a Jackson <code>JsonSerializer</code> to clean up the JSON data string.</p>
+<h4 id="customizing-jsonserializer">Customizing JsonSerializer<a class="headerlink" href="#customizing-jsonserializer" title="Permanent link">&para;</a></h4>
+<p>Create a <code>PageJsonSerializer</code> to process the <code>Page</code> object as you expected.</p>
+<pre><code class="language-java">@Singleton
+public class PageJsonSerializer extends JsonSerializer&lt;Page&lt;?&gt;&gt; {
+    @Override
+    public void serialize(Page&lt;?&gt; value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+        gen.writeStartObject();
+        gen.writeNumberField(&quot;pageNumber&quot;, value.getPageNumber());
+        if (value.getNumberOfElements() != value.getSize()) {
+            //only display it in the last page when number of elements is not equal to page size.
+            gen.writeNumberField(&quot;numberOfElements&quot;, value.getNumberOfElements());
+        }
+        gen.writeNumberField(&quot;size&quot;, value.getSize());
+        gen.writeNumberField(&quot;totalPages&quot;, value.getTotalPages());
+        gen.writeNumberField(&quot;totalSize&quot;, value.getTotalSize());
+        gen.writeObjectField(&quot;content&quot;, value.getContent());
+        gen.writeEndObject();
+    }
+}
+
+</code></pre>
+<p>Run the application, and hint <em>/posts</em> endpoint again.</p>
+<pre><code class="language-bash"># curl http://localhost:8080/posts
+{
+  &quot;pageNumber&quot; : 0,
+  &quot;numberOfElements&quot; : 2,
+  &quot;size&quot; : 10,
+  &quot;totalPages&quot; : 1,
+  &quot;totalSize&quot; : 2,
+  &quot;content&quot; : [ {
+    &quot;id&quot; : &quot;53fb77d5-4159-4a80-bab9-c76d9a535b36&quot;,
+    &quot;title&quot; : &quot;Getting started wit Micronaut&quot;,
+    &quot;createdAt&quot; : &quot;2021-10-25T16:47:05.545594&quot;
+  }, {
+    &quot;id&quot; : &quot;aa02fd49-0c24-4f12-b204-2e48213c7a1e&quot;,
+    &quot;title&quot; : &quot;Getting started wit Micronaut: part 2&quot;,
+    &quot;createdAt&quot; : &quot;2021-10-25T16:47:05.545594&quot;
+  } ]
+}
+</code></pre>
+<h3 id="creating-post">Creating Post<a class="headerlink" href="#creating-post" title="Permanent link">&para;</a></h3>
+<p>We have discussed how to query posts by keyword and get a single post by id, in this section, we are moving on to creating a new post.</p>
+<p>According to the REST convention, we use a POST HTTP method to send a request on endpoint <em>/posts</em>, it accepts JSON data as the request body. </p>
+<pre><code>@io.micronaut.http.annotation.Post(uri = &quot;/&quot;, consumes = MediaType.APPLICATION_JSON)
+@Transactional
+public HttpResponse&lt;Void&gt; create(@Body CreatePostCommand dto) {
+    var data = Post.builder().title(dto.title()).content(dto.content()).build();
+    var saved = this.posts.save(data);
+    return HttpResponse.created(URI.create(&quot;/posts/&quot; + saved.getId()));
+}
+</code></pre>
+<p>The <code>CreatePostCommand</code> is a Record class.</p>
+<pre><code class="language-java">@Introspected
+public record CreatePostCommand(@NotBlank String title, @NotBlank String content) {
+}
+</code></pre>
+<p>The <em>immutable</em> characteristic of a Record is a good match with the DTO pattern. The <code>Introspected</code> annotation marks Micronaut plugin process the Bean validation at build time.</p>
+<p>The request body is deserialized as a POJO by built-in Jackson <code>JsonDesearilizer</code>s, it is annotated with a <code>@Body</code> annotation to indicate which target class (<code>CreatePostCommand</code>) it should be deserialized to. After the post data is saved, set the response header <code>Location</code> value to the URI of the newly created post.</p>
+<p>Run the application, try to add a post via <code>curl</code>, and then access the newly created post.</p>
+<pre><code class="language-bash"># curl -X POST -v  -H &quot;Content-Type:application/json&quot; http://localhost:8080/posts -d &quot;{\&quot;title\&quot;:\&quot;test title\&quot;,\&quot;content\&quot;:\&quot;test content\&quot;}&quot;
+&gt; POST /posts HTTP/1.1
+&gt; Host: localhost:8080
+&gt; User-Agent: curl/7.55.1
+&gt; Accept: */*
+&gt; Content-Type:application/json
+&gt; Content-Length: 47
+&gt;
+* upload completely sent off: 47 out of 47 bytes
+&lt; HTTP/1.1 201 Created
+&lt; location: /posts/7db15639-62e3-4d3e-9cf4-f54413502ea6
+&lt; date: Mon, 25 Oct 2021 09:07:40 GMT
+&lt; connection: keep-alive
+&lt; transfer-encoding: chunked
+&lt;
+# curl http://localhost:8080/posts/7db15639-62e3-4d3e-9cf4-f54413502ea6
+{
+  &quot;id&quot; : &quot;7db15639-62e3-4d3e-9cf4-f54413502ea6&quot;,
+  &quot;title&quot; : &quot;test title&quot;,
+  &quot;content&quot; : &quot;test content&quot;,
+  &quot;status&quot; : &quot;DRAFT&quot;,
+  &quot;createdAt&quot; : &quot;2021-10-25T17:07:40.87621&quot;
+}
+</code></pre>
+<h4 id="validating-request-body">Validating Request Body<a class="headerlink" href="#validating-request-body" title="Permanent link">&para;</a></h4>
+<p>Generally, in a real-world application, we have to ensure the request data satisfies requirements. Micronaut has built-in Bean Validation support.</p>
+<p>In the above <code>CreatPostCommand</code> class, add Bean Validation annotations on the fields.</p>
+<pre><code class="language-java">@Introspected
+public record CreatePostCommand(@NotBlank String title, @NotBlank String content) {
+}
+</code></pre>
+<p>You have to add <code>@Introspected</code> annotation to let Micronaut plugin to preprocess bean validation annotations at build time, thus Bean Validation works without any Java Reflection APIs at runtime time.</p>
+<p>Add a <code>@Validated</code> on the <code>PostController</code> class to enable validation in the whole class.  </p>
+<p>The add a <code>@Valid</code> on the method argument which presents the request body.</p>
+<pre><code class="language-java">@Validated
+public class PostController {
+    public HttpResponse&lt;Void&gt; create(@Body @Valid CreatePostCommand dto) {...}
+    //...
+}
+</code></pre>
+<p>Open a terminal, try to create a Post with an empty  <em>content</em> field.</p>
+<pre><code class="language-bash">curl -X POST -v  -H &quot;Content-Type:application/json&quot; http://localhost:8080/posts -d &quot;{\&quot;title\&quot;:\&quot;test title\&quot;,\&quot;content\&quot;:\&quot;\&quot;}&quot;
+&gt; POST /posts HTTP/1.1
+&gt; Host: localhost:8080
+&gt; User-Agent: curl/7.55.1
+&gt; Accept: */*
+&gt; Content-Type:application/json
+&gt; Content-Length: 35
+&gt;
+* upload completely sent off: 35 out of 35 bytes
+&lt; HTTP/1.1 400 Bad Request
+&lt; Content-Type: application/json
+&lt; date: Mon, 25 Oct 2021 09:23:22 GMT
+&lt; content-length: 237
+&lt; connection: keep-alive
+&lt;
+{
+  &quot;message&quot; : &quot;Bad Request&quot;,
+  &quot;_embedded&quot; : {
+    &quot;errors&quot; : [ {
+      &quot;message&quot; : &quot;dto.content: must not be blank&quot;
+    } ]
+  },
+  &quot;_links&quot; : {
+    &quot;self&quot; : {
+      &quot;href&quot; : &quot;/posts&quot;,
+      &quot;templated&quot; : false
+    }
+  }
+}
+</code></pre>
+<h3 id="updating-existing-post">Updating Existing Post<a class="headerlink" href="#updating-existing-post" title="Permanent link">&para;</a></h3>
+<p>Follow the REST convention, to update an existing post, send a <code>PUT</code> to the <em>/posts/{id}</em> endpoint.  If it is successful, it returns a 204 status. If the post does not exist, return a 404 status code instead.</p>
+<p>The request body is the change data(encoded to JSON or XML,etc.) and should be validated by Bean Validator, if the validation fails, it returns 400 status and sends the validation errors to the response body. The validation exception is handled by the Micronaut exception handler automatically.</p>
+<pre><code class="language-java">@Put(uri = &quot;/{id}&quot;, consumes = MediaType.APPLICATION_JSON)
+@Transactional
+public HttpResponse&lt;?&gt; update(@PathVariable UUID id, @Body @Valid UpdatePostCommand dto) {
+    return posts.findById(id)
+        .map(p -&gt; {
+            p.setTitle(dto.title());
+            p.setContent(dto.content());
+            this.posts.save(p);
+            return HttpResponse.noContent();
+        })
+        .orElseThrow(() -&gt; new PostNotFoundException(id));
+    //.orElseGet(HttpResponse::notFound);
+}
+</code></pre>
+<p>Similar to <code>CreatePostCommand</code>, <code>UpdatePostCommand</code> is  a record used to transfer data from reuqest.</p>
+<pre><code class="language-java">@Introspected
+public record UpdatePostCommand(@NotBlank String title, @NotBlank String content) {
+}
+</code></pre>
+<h3 id="deleting-post">Deleting Post<a class="headerlink" href="#deleting-post" title="Permanent link">&para;</a></h3>
+<p>According to REST convention, to delete a single post, send a <code>DELETE</code> request on <code>/posts/{id}</code>, if it is successful, returns a 204 status. If the <code>id</code> does not exist, it returns a <code>404</code> instead.</p>
+<p>Add the following codes to the <code>PostController</code>.</p>
+<pre><code class="language-java">@Delete(uri = &quot;/{id}&quot;, produces = MediaType.APPLICATION_JSON)
+@Transactional
+public HttpResponse&lt;?&gt; deleteById(@PathVariable UUID id) {
+    return posts.findById(id)
+        .map(p -&gt; {
+            this.posts.delete(p);
+            return HttpResponse.noContent();
+        })
+        .orElseThrow(() -&gt; new PostNotFoundException(id));
+    //.orElseGet(HttpResponse::notFound);
+}
+</code></pre>
+<h2 id="processing-subresources">Processing Subresources<a class="headerlink" href="#processing-subresources" title="Permanent link">&para;</a></h2>
+<p>In our application, the <code>Comment</code> resource should be a subresource of <code>Post</code> resource. When adding comments or fetching comments of a specific <code>Post</code>, design the following comments APIs.</p>
+<ul>
+<li><code>POST /posts/{id}/comments</code> , add  a <code>Comment</code> resource to a specific <code>Post</code>.</li>
+<li><code>GET /posts/{id}/comments</code>, get all comments of a certain <code>Post</code> which id value is the path variable <code>id</code>.</li>
+</ul>
+<pre><code class="language-java">// nested comments endpoints
+@Get(uri = &quot;/{id}/comments&quot;, produces = MediaType.APPLICATION_JSON)
+public HttpResponse&lt;?&gt; getCommentsByPostId(@PathVariable UUID id) {
+    return posts.findById(id)
+        .map(post -&gt; {
+            var comments = this.comments.findByPost(post);
+            return ok(comments.stream().map(c -&gt; new CommentDetailsDto(c.getId(), c.getContent(), c.getCreatedAt())));
+        })
+        .orElseThrow(() -&gt; new PostNotFoundException(id));
+    //.orElseGet(HttpResponse::notFound);
+}
+
+@io.micronaut.http.annotation.Post(uri = &quot;/{id}/comments&quot;, consumes = MediaType.APPLICATION_JSON)
+@Transactional
+public HttpResponse&lt;?&gt; createComment(@PathVariable UUID id, @Body @Valid CreateCommentCommand dto) {
+
+    return posts.findById(id)
+        .map(post -&gt; {
+            var data = Comment.builder().content(dto.content()).post(post).build();
+            post.getComments().add(data);
+            var saved = this.comments.save(data);
+            return HttpResponse.created(URI.create(&quot;/comments/&quot; + saved.getId()));
+        })
+        .orElseThrow(() -&gt; new PostNotFoundException(id));
+    // .orElseGet(HttpResponse::notFound);
+
+}
+</code></pre>
+<h2 id="example-codes">Example Codes<a class="headerlink" href="#example-codes" title="Permanent link">&para;</a></h2>
+<p>The example codes are hosted on my GitHub, check <a href="https://github.com/hantsy/micronaut-sandbox/tree/master/post-service">hantsy/micronaut-sandbox#post-service</a>.</p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    2025-07-26
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy;2022 Hantsy
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/hantsy" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://linkedin.com/in/hantsy" target="_blank" rel="noopener" title="linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5m282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://medium.com/@hantsy" target="_blank" rel="noopener" title="medium.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M180.5 74.262C80.813 74.262 0 155.633 0 256s80.819 181.738 180.5 181.738S361 356.373 361 256 280.191 74.262 180.5 74.262m288.25 10.646c-49.845 0-90.245 76.619-90.245 171.095s40.406 171.1 90.251 171.1 90.251-76.619 90.251-171.1H559c0-94.503-40.4-171.095-90.248-171.095Zm139.506 17.821c-17.526 0-31.735 68.628-31.735 153.274s14.2 153.274 31.735 153.274S640 340.631 640 256c0-84.649-14.215-153.271-31.742-153.271Z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/hantsy" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["search.suggest", "navigation.expand", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+    
+  </body>
+</html>
