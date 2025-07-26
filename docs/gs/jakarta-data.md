@@ -148,8 +148,8 @@ For example, invoking a repository method looks just like a regular Java call:
 customerRepository.findByAddressCityLike("New%", PageRequest.of(1, 10, true));
 ```
 
-> [!NOTE]
-> Jakarta Data uses 1-based pagination, so page numbers start at 1 instead of 0.
+> [!WARNING]
+> Jakarta Data uses 1-based pagination, so page numbers start at 1 instead of 0. As a developer, I had been familiar with 0-based pagination in projects for several years. It is better to let developers make the decision. For details, check the related discussion: [jakarta/data#941](https://github.com/jakartaee/data/issues/941).
 
 Another compelling aspect of Jakarta Data is its support for lifecycle-based methods that automatically infer the entity type from method parameters or return types. This allows you to define flexible, free-form interfaces for performing simple CRUD operations on your entities, without being tied to a specific repository abstraction.
 
