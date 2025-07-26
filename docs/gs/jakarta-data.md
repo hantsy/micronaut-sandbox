@@ -27,7 +27,7 @@ Additionally, add **Lombok** to the `testCompileOnly` and `testAnnotationProcess
 
 ## Integrating Jakarta Data
 
-The Jakarta Data specification does not prescribe how entities should be defined. In Micronaut the entity definitions rely on the conventions and approaches provided by Micronaut Data.
+The Jakarta Data specification does not prescribe how entities should be defined. In Micronaut, the entity definitions still rely on the existing conventions and approaches provided by Micronaut Data.
 
 Let's start by creating a simple Jakarta Persistence `@Entity` class and an `@Embeddable` class:
 
@@ -77,9 +77,9 @@ In the above code fragments:
 * `@Serdeable` (from the Micronaut Serde module) provides portable serialization and deserialization support compatible with formats like Jackson and BSON.
 * The `@Entity` and `@Table` annotations on the `Customer` class designate it as a Jakarta Persistence entity and specify the corresponding database table. The `@Embeddable` annotation on the `Address` class marks it as a component that can be embedded within other entities, such as the `address` field in `Customer`, which is annotated with `@Embedded`. The `@Id` annotation identifies the primary key field, while `@GeneratedValue` and `@GenericGenerator` configure the ID generation strategy. The `@Version` field enables optimistic locking for transactional consistency.
 
-Just like Micronaut Data, Jakarta Data introduces a `Repository` abstraction to simplify data access. At its core is the top-level `DataRepository` interface, which is extended by `BasicRepository` and `CrudRepository` for common CRUD operations.
+Just like Micronaut Data, Jakarta Data introduces a `Repository` abstraction to simplify data access. At its core is the top-level `DataRepository` interface, which is extended by `BasicRepository` and `CrudRepository` for general CRUD operations.
 
-You can define a `CustomerRepository` as shown below:
+You can define a `CustomerRepository` interface as shown below:
 
 ```java
 @Repository
@@ -89,7 +89,7 @@ public interface CustomerRepository extends CrudRepository<Customer, UUID> {
 
 Ensure that both `@Repository` and `CrudRepository` are imported from the `jakarta.data` package.
 
-To build the project, run:
+To build the project, run this command in a terminal window:
 
 ```bash
 ./gradlew build
@@ -120,7 +120,7 @@ class CustomerRepository$Intercepted implements CustomerRepository, Introduced {
 
 As you can see, all methods defined in `BasicRepository` and `CrudRepository` are translated into concrete implementations within the generated class.
 
-Additionally, two helper classes-`$CustomerRepository$Intercepted$Definition` and `$CustomerRepository$Intercepted$Definition$Exec` are generated to facilitate the registration of `CustomerRepository` into the Micronaut Bean context.
+Additionally, two helper classes - `$CustomerRepository$Intercepted$Definition` and `$CustomerRepository$Intercepted$Definition$Exec` are generated to facilitate the registration of `CustomerRepository` into the Micronaut Bean context.
 
 The Jakarta Data `Repository` abstraction also supports derived queries by method names, pagination, and custom queries using the `@Query` annotation. For example:
 
@@ -174,7 +174,7 @@ public interface CustomerDao {
 }
 ```
 
-Please note that certain methods available in Hibernate Data implementations are currently not supported in this context. For more details, refer to [micronaut-data#3487](https://github.com/micronaut-projects/micronaut-data/issues/3487). Additionally, invoking the underlying data store handler within custom `default` methods is not yet possible, as discussed in [micronaut-data#3490](https://github.com/micronaut-projects/micronaut-data/issues/3490).
+Please note that some methods worked in the Hibernate Jakarta Data implementation are currently not supported in the Micronaut Jakarta Data implementation. For more details, refer to [micronaut-data#3487](https://github.com/micronaut-projects/micronaut-data/issues/3487). Additionally, invoking the underlying data store handler within custom `default` methods is not yet possible, as discussed in [micronaut-data#3490](https://github.com/micronaut-projects/micronaut-data/issues/3490).
 
 You can explore the [complete example project on GitHub](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data-jpa), which also demonstrates testing against a real database using Testcontainers.
 
@@ -228,7 +228,7 @@ public record Address(
 }
 ```
 
-Micronaut Data Jdbc allows you to define entities with Jakarta Persistence API. If you prefer to use Jakarta Persistence annotations, add the `jakarta.persistence-api` dependency to your project.
+Micronaut Data Jdbc allows you to define entities with the Jakarta Persistence API. If you prefer to use Jakarta Persistence annotations, add the `jakarta.persistence-api` dependency to your project.
 
 You can find the [complete example project](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data) updated for JDBC.
 
