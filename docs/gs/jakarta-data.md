@@ -114,7 +114,7 @@ As you see, all methods defined in the `BasicRepository` and `CrudRepository` ar
 
 Another two classes, `$CustomerRepository$Intercepted$Definition` and `$CustomerRepository$Intercepted$Definition$Exec`, assist in registering `CustomerRepository` into the Bean context. 
 
-Jakarta Data `Repository` also supports derived queries by methods and custom queries by `@Query`, such as:
+Jakarta Data `Repository` also supports derived queries by methods, pagination, and custom queries by `@Query`, such as:
 
 ```java
 @Repository
@@ -130,11 +130,121 @@ public interface CustomerRepository extends CrudRepository<Customer, UUID> {
     Customer[] byNameLike(@Param("name") String customerName);
 }
 ```
+All of these methods are similar to the existing `Repository` from Micronaut Data module or Spring Data. It is easy to understand and use. 
 
+A notable difference is that Jakarta Data pagination starts with 1, not 0, for example.
 
+```java
+customerRepository.findByAddressCityLike("New%", PageRequest.of(1, 10, true));
+```
+
+Another attractive feature of Jakarta Data is that it provides a collection of lifecycle-based methods that can detect the entity type from the parameter or method return type.
+
+For example, we can create a free-style interface like this to perform simple CRUD operations on the resolved entity.
+
+```java
+@Repository
+public interface CustomerDao {
+    @Find
+    @OrderBy("name")
+    List<Customer> findAll();
+
+    @Find
+    Optional<Customer> findById(@By(ID) UUID id);
+
+//    @Find
+//    List<Customer> findByCity(@By("address.city") String city, Limit limit, Sort<?>... sort);
+
+    @Insert
+    Customer save(Customer data);
+
+    @Update
+    void update(Customer data);
+
+    @Delete
+    void delete(Customer data);
+}
+```
    
+Unfortunately, some methods that work in Hibernate Data implementations are not available here, see:  https://github.com/micronaut-projects/micronaut-data/issues/3487. It also can not utilize the underlay data store handler in the custom `default` methods, see: https://github.com/micronaut-projects/micronaut-data/issues/3490.
 
+Get the [complete example project from my GitHub repository](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data-jpa), which also includes testing code against a real database using Testcontainers. 
 
+## JDBC Support
 
+Unlike Hibernate Data implementation, which is based on the Hibernate `StatelessSession`, Micronaut Data expands to Jakarta Data to all data modules in Micronaut, including JDBC and MongoDB.
 
+To use Jakarta Data with JDBC, when creating the project skeleton, just replace `Data JPA` with `Data JDBC`.  
 
+On the `CustomerRepository` interface, add `@JdbcRepository` with the Jakarta Data `@Repository`. 
+
+```java
+@Repository
+@JdbcRepository
+public interface CustomerRepository extends CrudRepository<Customer, UUID> {...}
+```
+
+Additionally, you can define the `Customer` with the common annotations from Micronaut Data.
+
+```java
+// Customer.java
+@Introspected
+@MappedEntity(value = "customers")
+@Serdeable
+public record Customer(
+        @Id @AutoPopulated UUID id,
+        String name,
+        Integer age,
+        @Relation(EMBEDDED) Address address,
+        @Version Long version
+) {
+    public static Customer of(String name, Integer age, Address address) {
+        return new Customer(null, name, age, address, null);
+    }
+}
+
+// Address.java
+@Introspected
+@Embeddable
+@Serdeable
+public record Address(
+        @MappedProperty("street") String street,
+        @MappedProperty("city") String city,
+        @MappedProperty("zip") String zip) {
+
+    public static Address of(String street, String city, String zip) {
+        return new Address(street, city, zip);
+    }
+}
+```
+
+If you want to use the existing Jakarta Persistence annotations, try to add `jakarta.persistence-api` to the dependency. 
+
+Get the [complete example project](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data) updated for JDBC.
+
+## MongoDB
+
+Similarly, when creating the project skeleton, change `Data JPA` to `Data MongoDB`, and remove `Postgres` from the feature list.
+
+Data MongoDB also reuses the data annotations to manage the entities. But by default, it does not support `UUID` type as id, use a `String` or a Mongo-specific `ObjectID` instead. 
+
+```java
+// Customer.java
+@Introspected
+@MappedEntity(value = "customers")
+@Serdeable
+public record Customer(
+        @Id @AutoPopulated String id,
+        // ...
+}
+```
+
+On the `CustomerRepository` interface, add `@MongoRepository` with the Jakarta Data `@Repository`. 
+
+```java
+@Repository
+@MongoRepository
+public interface CustomerRepository extends CrudRepository<Customer, String> {...}
+```
+
+Get the [complete example project](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data-mongo) updated for MongoDB.
