@@ -2,7 +2,7 @@
 
 Micronaut is a modern, JVM-based framework designed for building cloud-native microservices and serverless applications. Previously, we explored how to create RESTful backend applications with various Micronaut Data modules, including [Data JPA](https://medium.com/itnext/building-restful-apis-with-micronaut-98f4eb39211c), [Data JDBC](https://medium.com/itnext/building-micronaut-applications-with-micronaut-data-jdbc-and-kotlin-81c1b6cf4b10), [Data R2dbc](https://medium.com/itnext/building-micronaut-applications-with-micronaut-data-r2dbc-and-kotlin-coroutines-a1416db5a7d0), and [Data MongoDB](https://medium.com/itnext/building-micronaut-applications-with-micronaut-mongo-reative-9c418b403bc1).
 
-With the release of Micronaut 4.9, support for the Jakarta Data specification (introduced in Jakarta EE 11) is now available, offering a *standard* alternative to traditional data persistence approaches. In previous articles, we explored how to [integrate Jakarta Data with Spring](https://medium.com/itnext/integrating-jakarta-data-with-spring-0beb5c215f5f) and [Quarkus](https://medium.com/itnext/integrating-jakarta-data-with-quarkus-0d18365a86fe). In this guide, we'll focus on leveraging Jakarta Data within a Micronaut application to streamline data access.
+With the release of Micronaut 4.9, support for the Jakarta Data specification (introduced in Jakarta EE 11) is now available, providing a *standardized* alternative to traditional data persistence approaches. In previous articles, we explored how to [integrate Jakarta Data with Spring](https://medium.com/itnext/integrating-jakarta-data-with-spring-0beb5c215f5f) and [Quarkus](https://medium.com/itnext/integrating-jakarta-data-with-quarkus-0d18365a86fe). In this guide, we'll focus on using Jakarta Data within a Micronaut application to handle data access.
 
 ## Generating the Project Skeleton
 
@@ -180,7 +180,7 @@ You can explore the [complete example project on GitHub](https://github.com/hant
 
 ## JDBC Support
 
-Unlike the Hibernate Data implementation, which is based on Hibernate's `StatelessSession`, Micronaut Data extends Jakarta Data support to all its data modules, including JDBC and MongoDB.
+Unlike the Jakarta Data implementation Hiberante, which is heavily dependent on Hibernate's `StatelessSession`. Micronaut Data extends Jakarta Data support to all its data modules, including JDBC and MongoDB.
 
 To use Jakarta Data with JDBC, simply select `Data JDBC` instead of `Data JPA` when generating your project skeleton.
 
@@ -228,13 +228,13 @@ public record Address(
 }
 ```
 
-If you prefer to use Jakarta Persistence annotations, add the `jakarta.persistence-api` dependency to your project.
+Micronaut Data Jdbc allows you to define entities with Jakarta Persistence API. If you prefer to use Jakarta Persistence annotations, add the `jakarta.persistence-api` dependency to your project.
 
 You can find the [complete example project](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data) updated for JDBC.
 
-## MongoDB
+## MongoDB Support
 
-Similarly, to use MongoDB, select `Data MongoDB` instead of `Data JPA` when generating your project, and remove `Postgres` from the feature list.
+Similarly, to use Jakarta Data with MongoDB, select `Data MongoDB` instead of `Data JPA` when generating your project, and remove `Postgres` from the feature list.
 
 Micronaut Data MongoDB also reuses the same data annotations to manage entities. However, by default, it does not support `UUID` as an ID type; use a `String` or MongoDB-specific `ObjectId` instead.
 
