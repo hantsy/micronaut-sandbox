@@ -2,11 +2,9 @@ package com.example;
 
 import io.micronaut.data.mongodb.annotation.MongoRepository;
 import jakarta.data.repository.*;
-import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static jakarta.data.repository.By.ID;
 
@@ -28,6 +26,9 @@ public interface CustomerDao {
 
     @Update
     void update(Customer data);
+
+    @Delete
+    void delete(Customer data);
 
 //    @Query("""
 //    DELETE FROM Customer
