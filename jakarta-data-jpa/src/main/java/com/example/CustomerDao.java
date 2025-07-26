@@ -45,7 +45,7 @@ public interface CustomerDao {
 //    see: https://github.com/micronaut-projects/micronaut-data/issues/3490
 //    StatelessSession session();
 //
-//    default void deleteAll() {
+//    default void cleanup() {
 //        session().createMutationQuery("delete from Customer").executeUpdate();
 //    }
 }
