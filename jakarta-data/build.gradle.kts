@@ -13,6 +13,7 @@ repositories {
 
 dependencies {
     // annotation processors
+    annotationProcessor("org.projectlombok:lombok")
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
     annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
@@ -40,8 +41,9 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
 
     // lombok
-    annotationProcessor("org.projectlombok:lombok")
     compileOnly("org.projectlombok:lombok")
+
+    // lombok for test
     testAnnotationProcessor("org.projectlombok:lombok")
     testCompileOnly("org.projectlombok:lombok")
 

@@ -7,6 +7,7 @@ import jakarta.data.Sort;
 import jakarta.data.repository.*;
 import jakarta.transaction.Transactional;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,15 +33,26 @@ public interface CustomerDao {
     @Update
     void update(Customer data);
 
+    @Delete
+    void delete(Customer data);
+
 //    @Query("""
-//    DELETE FROM CUSTOMERS
+//    DELETE FROM Customer
 //    """)
 //    @Transactional
 //    void deleteAll();
 //
 //    @Query("""
-//    DELETE FROM CUSTOMERS WHERE ID=:id
+//    DELETE FROM Customer WHERE id=:id
 //    """)
 //    @Transactional
 //    void deleteById(@Param("id") UUID id);
+
+//    Connection connection();
+//
+//    default void cleanup() throws Exception {
+//        try (var s = connection().createStatement()) {
+//            s.executeUpdate("delete from customers");
+//        }
+//    }
 }
