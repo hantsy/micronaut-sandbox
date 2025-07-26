@@ -86,6 +86,7 @@ You can define a `CustomerRepository` interface as shown below:
 public interface CustomerRepository extends CrudRepository<Customer, UUID> {
 }
 ```
+
 > [!NOTE]
 > Ensure that both `@Repository` and `CrudRepository` are imported from the `jakarta.data` package.
 
@@ -139,14 +140,16 @@ public interface CustomerRepository extends CrudRepository<Customer, UUID> {
 }
 ```
 
-All of these methods closely resemble those found in the existing `Repository` abstractions from Micronaut Data or Spring Data, making them intuitive and straightforward to use.
+These methods mirror the familiar patterns from Micronaut Data and Spring Data `Repository` abstractions, so you can use them naturally and intuitively in your code.
 
-> [!NOTE]
-> Jakarta Data uses 1-based pagination, so page numbers start at 1 instead of 0.
+For example, invoking a repository method looks just like a regular Java call:
 
 ```java
 customerRepository.findByAddressCityLike("New%", PageRequest.of(1, 10, true));
 ```
+
+> [!NOTE]
+> Jakarta Data uses 1-based pagination, so page numbers start at 1 instead of 0.
 
 Another compelling aspect of Jakarta Data is its support for lifecycle-based methods that automatically infer the entity type from method parameters or return types. This allows you to define flexible, free-form interfaces for performing simple CRUD operations on your entities, without being tied to a specific repository abstraction.
 
