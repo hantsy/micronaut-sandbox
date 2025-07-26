@@ -18,7 +18,7 @@ Keep the other options at their defaults.
 
 Next, click the **FEATURES** button and add these essential dependencies: *Jakarta Data*, *Lombok*, *Reactor*, *Data JPA*, *HttpClient*, *Postgres*, and *TestContainers* in the dialog.
 
-Then click **GENERATE** button to download the generated archive, extract the files to your local system, and import the project into your favorite IDE, such as IntelliJ IDEA.
+Then click the **GENERATE** button to download the generated archive, extract the files to your local system, and import the project into your favorite IDE, such as IntelliJ IDEA.
 
 > [!NOTE]
 > There is a typo in the generated *build.gradle.kts* in the current version. For more details, see: https://github.com/micronaut-projects/micronaut-starter/issues/2827. Simply change `implementation("jakarta.data:jakarta-data-api")` to `implementation("jakarta.data:jakarta.data-api:1.0.1")` to resolve this issue temporarily.
