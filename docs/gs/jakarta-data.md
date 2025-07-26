@@ -1,28 +1,35 @@
 # Data Access with Micronaut Jakarta Data
 
-Micronaut is a modern, JVM-based framework designed for building cloud-native microservices and Serverless applications. In earlier posts, we explored how to create a RESTful backend application with various data persistence options, including [Data JPA](https://medium.com/itnext/building-restful-apis-with-micronaut-98f4eb39211c), [Data JDBC](https://medium.com/itnext/building-micronaut-applications-with-micronaut-data-jdbc-and-kotlin-81c1b6cf4b10), [Data R2dbc](https://medium.com/itnext/building-micronaut-applications-with-micronaut-data-r2dbc-and-kotlin-coroutines-a1416db5a7d0), [Data MongoDB](https://medium.com/itnext/building-micronaut-applications-with-micronaut-mongo-reative-9c418b403bc1). The Micronaut 4.9 brings Jakarta Data specification(part of Jakarta EE 11) support, as an alternative to the former data persistence solutions. We have discussed [integrating Jakarta Data with Spring](https://medium.com/itnext/integrating-jakarta-data-with-spring-0beb5c215f5f) and [Quarkus](https://medium.com/itnext/integrating-jakarta-data-with-quarkus-0d18365a86fe) in past posts. In this post, we will create a Micronaut application with Jakarta Data. 
+Micronaut is a modern, JVM-based framework designed for building cloud-native microservices and serverless applications. Previously, we explored how to create RESTful backend applications with various Micronaut Data modules, including [Data JPA](https://medium.com/itnext/building-restful-apis-with-micronaut-98f4eb39211c), [Data JDBC](https://medium.com/itnext/building-micronaut-applications-with-micronaut-data-jdbc-and-kotlin-81c1b6cf4b10), [Data R2dbc](https://medium.com/itnext/building-micronaut-applications-with-micronaut-data-r2dbc-and-kotlin-coroutines-a1416db5a7d0), and [Data MongoDB](https://medium.com/itnext/building-micronaut-applications-with-micronaut-mongo-reative-9c418b403bc1).
 
-## Generating Project Skeleton
+With the release of Micronaut 4.9, support for the Jakarta Data specification (introduced in Jakarta EE 11) is now available, offering a *standard* alternative to traditional data persistence approaches. In previous articles, we explored how to [integrate Jakarta Data with Spring](https://medium.com/itnext/integrating-jakarta-data-with-spring-0beb5c215f5f) and [Quarkus](https://medium.com/itnext/integrating-jakarta-data-with-quarkus-0d18365a86fe). In this guide, we'll focus on leveraging Jakarta Data within a Micronaut application to streamline data access.
 
-Go to the [Micronaut Launch](https://micronaut.io/launch/) page, choose the following options to generate a project skeleton.
-* **Micronaut Version**: 4.9.1(the latest stable version at the moment)
+## Generating the Project Skeleton
+
+Navigate to the [Micronaut Launch](https://micronaut.io/launch/) page and select the following options to generate your project skeleton:
+
+* **Micronaut Version**: 4.9.1 (latest stable version at the time of writing)
 * **Java Version**: 21
 * **Language**: Java
 * **Build Tools**: Gradle Kotlin
 * **Test Framework**: JUnit
 
-Keep other options as they are. 
+Keep the other options at their defaults.
 
-Then, click the **FEATURES** button. In the dialog, add the essential dependencies to your project, including *Jakarta Data*, *Lombok*, *Reactor*, *Data JPA*, *HttpClient*, *Postgres*, and *TestContainers*. Click the **GENERATE** button, and the project skeleton is available as a downloadable archive. Download and extract the files into your local system, and import the project into your favorite IDE, such as IntelliJ IDEA. 
+Next, click the **FEATURES** button and add these essential dependencies: *Jakarta Data*, *Lombok*, *Reactor*, *Data JPA*, *HttpClient*, *Postgres*, and *TestContainers*.
+
+Click **GENERATE**, download the generated archive, extract the files to your local system, and import the project into your favorite IDE, such as IntelliJ IDEA.
 
 > [!NOTE]
-> In the current version, there is a typo error in the generated *build.gradle.kts*, see: https://github.com/micronaut-projects/micronaut-starter/issues/2827. Simply change `implementation("jakarta.data:jakarta-data-api")` to `implementation("jakarta.data:jakarta.data-api:1.0.1")` to overcome this issue temporarily.
+> There is a typo in the generated *build.gradle.kts* in the current version. For more details, see: https://github.com/micronaut-projects/micronaut-starter/issues/2827. Simply change `implementation("jakarta.data:jakarta-data-api")` to `implementation("jakarta.data:jakarta.data-api:1.0.1")` to resolve this issue temporarily.
 
-I also added **Lombok** to the `testCompileOnly` and `testAnnotationProcessor` scopes, and grouped the dependencies into different categories.  A final modified build script can be found [here](https://github.com/hantsy/micronaut-sandbox/blob/master/jakarta-data-jpa/build.gradle.kts).
+Additionally, add **Lombok** to the `testCompileOnly` and `testAnnotationProcessor` scopes, and organize the dependencies for clarity. You can check the final modified build script [here](https://github.com/hantsy/micronaut-sandbox/blob/master/jakarta-data-jpa/build.gradle.kts).
 
-## Integrating Jakarta Data 
+## Integrating Jakarta Data
 
-Before adding Jakarta Data codes, let's create a sample JPA `@Entity` class and an `@Embeddable` class as follows. 
+The Jakarta Data specification does not prescribe how entities should be defined; instead, entity definitions rely on the conventions and approaches provided by Micronaut Data.
+
+Let's start by creating a simple Jakarta Persistence `@Entity` class and an `@Embeddable` class:
 
 ```java
 // Customer.java
@@ -33,14 +40,14 @@ Before adding Jakarta Data codes, let's create a sample JPA `@Entity` class and 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Customer{
+public class Customer {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     UUID id;
     String name;
     Integer age;
-    @Embedded  Address address;
+    @Embedded Address address;
     @Version Long version;
 
     public static Customer of(String name, Integer age, Address address) {
@@ -63,15 +70,16 @@ public record Address(
 }
 ```
 
-In the above code fragments, 
-* It utilizes Lombok's annotations to generate the `setters`, `getters`, `equals`, and `hashCode`, etc. methods and a constructor with empty arguments that are required by the Jakarta Persistence `Entity` class.
-* `@Introspected` is required by the AOT compilation if you want to build a Native build image for your application.
-* `@Serdeable` from the Micronaut Serde module, which is a portable Serializable and Deserializable APIs that adopts the existing Jackson, BSON, etc.
-* The `@Entity` and `@Table` on the `Customer` class mark it as a Jakarta Persistence `Entity` class and mapped table. The `@Embeddable` annotation on the `Address` class indicates that it is an embeddable component, embedded within the `Customer` entity with a field `address` that is annotated with a `@Embedded` annotation.  The `@Id` annotation indicates that the field is the identifier of the `Customer` entity, and `@GeneratedValue` and `@GenericGenerator` are used to specify the ID generator. The `@Version` field is helpful for optimistic locking within a transaction.
+In the above code fragments:
 
-Similar to the `Repository` convention in the Micronaut Data, the Jakarta Data specification also provides a `Repository` abstraction, a top-level `DataRepository` interface, and two `BasicRepository` and `CurdRepository` sub-interfaces. 
+* Lombok annotations automatically generate setters, getters, `equals`, `hashCode`, and a no-argument constructor, all of which are required for Jakarta Persistence `Entity` classes.
+* `@Introspected` is necessary for Ahead-of-Time (AOT) compilation, especially if you plan to build a native image of your application.
+* `@Serdeable` (from the Micronaut Serde module) provides portable serialization and deserialization support compatible with formats like Jackson and BSON.
+* The `@Entity` and `@Table` annotations on the `Customer` class designate it as a Jakarta Persistence entity and specify the corresponding database table. The `@Embeddable` annotation on the `Address` class marks it as a component that can be embedded within other entities, such as the `address` field in `Customer`, which is annotated with `@Embedded`. The `@Id` annotation identifies the primary key field, while `@GeneratedValue` and `@GenericGenerator` configure the ID generation strategy. The `@Version` field enables optimistic locking for transactional consistency.
 
-Create a `CustomerRepository` as follows.
+Just like Micronaut Data, Jakarta Data introduces a `Repository` abstraction to simplify data access. At its core is the top-level `DataRepository` interface, which is extended by `BasicRepository` and `CrudRepository` for common CRUD operations.
+
+You can define a `CustomerRepository` as shown below:
 
 ```java
 @Repository
@@ -79,15 +87,15 @@ public interface CustomerRepository extends CrudRepository<Customer, UUID> {
 }
 ```
 
-Make sure the `@Repository` and `CrudRepository` are imported from the package `jakarta.data`.
+Ensure that both `@Repository` and `CrudRepository` are imported from the `jakarta.data` package.
 
-Execute the following command to build the project. 
+To build the project, run:
 
 ```bash
 ./gradlew build
 ```
 
-After the build progress is complete, expand the' *build/classes*' folder. Besides the `CustomerRepository`, a `CustomerRepository$Intercepted` file will be generated. Open it directly in IDEA, and it will be decompiled into Java source code. 
+Once the build completes, navigate to the *build/classes* directory. In addition to the `CustomerRepository` class, you will find a generated `CustomerRepository$Intercepted` file. You can open this file in your IDE (such as IntelliJ IDEA), where it will be decompiled into readable Java source code.
 
 ```java
 @Generated
@@ -110,11 +118,11 @@ class CustomerRepository$Intercepted implements CustomerRepository, Introduced {
 }
 ```
 
-As you see, all methods defined in the `BasicRepository` and `CrudRepository` are converted into specific methods in the generated class. 
+As you can see, all methods defined in `BasicRepository` and `CrudRepository` are translated into concrete implementations within the generated class.
 
-Another two classes, `$CustomerRepository$Intercepted$Definition` and `$CustomerRepository$Intercepted$Definition$Exec`, assist in registering `CustomerRepository` into the Bean context. 
+Additionally, two helper classes-`$CustomerRepository$Intercepted$Definition` and `$CustomerRepository$Intercepted$Definition$Exec` are generated to facilitate the registration of `CustomerRepository` into the Micronaut Bean context.
 
-Jakarta Data `Repository` also supports derived queries by methods, pagination, and custom queries by `@Query`, such as:
+The Jakarta Data `Repository` abstraction also supports derived queries by method names, pagination, and custom queries using the `@Query` annotation. For example:
 
 ```java
 @Repository
@@ -130,17 +138,17 @@ public interface CustomerRepository extends CrudRepository<Customer, UUID> {
     Customer[] byNameLike(@Param("name") String customerName);
 }
 ```
-All of these methods are similar to the existing `Repository` from Micronaut Data module or Spring Data. It is easy to understand and use. 
 
-A notable difference is that Jakarta Data pagination starts with 1, not 0, for example.
+All of these methods closely resemble those found in the existing `Repository` abstractions from Micronaut Data or Spring Data, making them intuitive and straightforward to use.
+
+> [!NOTE]
+> Jakarta Data uses 1-based pagination, so page numbers start at 1 instead of 0.
 
 ```java
 customerRepository.findByAddressCityLike("New%", PageRequest.of(1, 10, true));
 ```
 
-Another attractive feature of Jakarta Data is that it provides a collection of lifecycle-based methods that can detect the entity type from the parameter or method return type.
-
-For example, we can create a free-style interface like this to perform simple CRUD operations on the resolved entity.
+Another compelling aspect of Jakarta Data is its support for lifecycle-based methods that automatically infer the entity type from method parameters or return types. This allows you to define flexible, free-form interfaces for performing simple CRUD operations on your entities, without being tied to a specific repository abstraction.
 
 ```java
 @Repository
@@ -152,8 +160,8 @@ public interface CustomerDao {
     @Find
     Optional<Customer> findById(@By(ID) UUID id);
 
-//    @Find
-//    List<Customer> findByCity(@By("address.city") String city, Limit limit, Sort<?>... sort);
+    // @Find
+    // List<Customer> findByCity(@By("address.city") String city, Limit limit, Sort<?>... sort);
 
     @Insert
     Customer save(Customer data);
@@ -165,26 +173,28 @@ public interface CustomerDao {
     void delete(Customer data);
 }
 ```
-   
-Unfortunately, some methods that work in Hibernate Data implementations are not available here, see:  https://github.com/micronaut-projects/micronaut-data/issues/3487. It also can not utilize the underlay data store handler in the custom `default` methods, see: https://github.com/micronaut-projects/micronaut-data/issues/3490.
 
-Get the [complete example project from my GitHub repository](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data-jpa), which also includes testing code against a real database using Testcontainers. 
+Please note that certain methods available in Hibernate Data implementations are currently not supported in this context. For more details, refer to [micronaut-data#3487](https://github.com/micronaut-projects/micronaut-data/issues/3487). Additionally, invoking the underlying data store handler within custom `default` methods is not yet possible, as discussed in [micronaut-data#3490](https://github.com/micronaut-projects/micronaut-data/issues/3490).
+
+You can explore the [complete example project on GitHub](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data-jpa), which also demonstrates testing against a real database using Testcontainers.
 
 ## JDBC Support
 
-Unlike Hibernate Data implementation, which is based on the Hibernate `StatelessSession`, Micronaut Data expands to Jakarta Data to all data modules in Micronaut, including JDBC and MongoDB.
+Unlike the Hibernate Data implementation, which is based on Hibernate's `StatelessSession`, Micronaut Data extends Jakarta Data support to all its data modules, including JDBC and MongoDB.
 
-To use Jakarta Data with JDBC, when creating the project skeleton, just replace `Data JPA` with `Data JDBC`.  
+To use Jakarta Data with JDBC, simply select `Data JDBC` instead of `Data JPA` when generating your project skeleton.
 
-On the `CustomerRepository` interface, add `@JdbcRepository` with the Jakarta Data `@Repository`. 
+In your `CustomerRepository` interface, annotate it with both `@Repository` from Jakarta Data and `@JdbcRepository` from Micronaut Data:
 
 ```java
 @Repository
 @JdbcRepository
-public interface CustomerRepository extends CrudRepository<Customer, UUID> {...}
+public interface CustomerRepository extends CrudRepository<Customer, UUID> {
+    // ...
+}
 ```
 
-Additionally, you can define the `Customer` with the common annotations from Micronaut Data.
+You can define the `Customer` entity using the standard Micronaut Data annotations:
 
 ```java
 // Customer.java
@@ -210,23 +220,23 @@ public record Customer(
 public record Address(
         @MappedProperty("street") String street,
         @MappedProperty("city") String city,
-        @MappedProperty("zip") String zip) {
-
+        @MappedProperty("zip") String zip
+) {
     public static Address of(String street, String city, String zip) {
         return new Address(street, city, zip);
     }
 }
 ```
 
-If you want to use the existing Jakarta Persistence annotations, try to add `jakarta.persistence-api` to the dependency. 
+If you prefer to use Jakarta Persistence annotations, add the `jakarta.persistence-api` dependency to your project.
 
-Get the [complete example project](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data) updated for JDBC.
+You can find the [complete example project](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data) updated for JDBC.
 
 ## MongoDB
 
-Similarly, when creating the project skeleton, change `Data JPA` to `Data MongoDB`, and remove `Postgres` from the feature list.
+Similarly, to use MongoDB, select `Data MongoDB` instead of `Data JPA` when generating your project, and remove `Postgres` from the feature list.
 
-Data MongoDB also reuses the data annotations to manage the entities. But by default, it does not support `UUID` type as id, use a `String` or a Mongo-specific `ObjectID` instead. 
+Micronaut Data MongoDB also reuses the same data annotations to manage entities. However, by default, it does not support `UUID` as an ID type; use a `String` or MongoDB-specific `ObjectId` instead.
 
 ```java
 // Customer.java
@@ -236,15 +246,23 @@ Data MongoDB also reuses the data annotations to manage the entities. But by def
 public record Customer(
         @Id @AutoPopulated String id,
         // ...
+) {
+    // ...
 }
 ```
 
-On the `CustomerRepository` interface, add `@MongoRepository` with the Jakarta Data `@Repository`. 
+Annotate your `CustomerRepository` interface with both `@Repository` and `@MongoRepository`:
 
 ```java
 @Repository
 @MongoRepository
-public interface CustomerRepository extends CrudRepository<Customer, String> {...}
+public interface CustomerRepository extends CrudRepository<Customer, String> {
+    // ...
+}
 ```
 
-Get the [complete example project](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data-mongo) updated for MongoDB.
+You can explore the [complete example project](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data-mongo) updated for MongoDB.
+
+## Summary
+
+With Micronaut 4.9, support for the Jakarta Data specification introduces a *standardized* way to handle data access, providing an alternative approach for working with both relational databases and NoSQL stores.
