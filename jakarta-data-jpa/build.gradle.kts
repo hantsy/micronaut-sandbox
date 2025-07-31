@@ -50,7 +50,7 @@ dependencies {
     // test
     testImplementation("org.assertj:assertj-core")
     testImplementation("org.mockito:mockito-core")
-    testImplementation("org.apache.commons:commons-compress:1.27.1")
+    testImplementation("org.apache.commons:commons-compress:1.28.0")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
