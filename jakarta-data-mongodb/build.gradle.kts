@@ -50,7 +50,7 @@ dependencies {
     testImplementation("org.testcontainers:mongodb")
     testImplementation("org.testcontainers:testcontainers")
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.7.9")
+    testImplementation("io.projectreactor:reactor-test:3.7.11")
 }
 
 
