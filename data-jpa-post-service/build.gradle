@@ -52,7 +52,7 @@ dependencies {
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
     annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
     annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
-    annotationProcessor("org.hibernate.orm:hibernate-processor:7.1.0.Final")
+    annotationProcessor("org.hibernate.orm:hibernate-processor:7.1.8.Final")
 
     //test
     testImplementation("org.assertj:assertj-core")
