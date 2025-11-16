@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "2.2.10"
+    id("org.jetbrains.kotlin.jvm") version "2.2.21"
     id("org.jetbrains.kotlin.plugin.allopen") version "2.2.10"
     id("com.google.devtools.ksp") version "2.3.2"
     id("com.gradleup.shadow") version "8.3.9"
