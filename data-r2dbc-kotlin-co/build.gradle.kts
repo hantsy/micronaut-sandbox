@@ -6,7 +6,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.allopen") version "2.2.21"
     id("com.google.devtools.ksp") version "2.3.2"
     id("com.gradleup.shadow") version "8.3.9"
-    id("io.micronaut.application") version "4.5.4"
+    id("io.micronaut.application") version "4.6.1"
     id("io.micronaut.test-resources") version "4.5.4"
 }
 
