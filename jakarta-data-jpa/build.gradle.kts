@@ -55,7 +55,7 @@ dependencies {
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.8.0")
+    testImplementation("io.projectreactor:reactor-test:3.8.2")
 }
 
 
