@@ -2,12 +2,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.example</groupId>
-    <artifactId>micronaut-sandbox-parent</artifactId>
-    <version>0.1</version>
-    <relativePath>../pom.xml</relativePath>
-  </parent>
+  <groupId>com.example</groupId>
+  <version>0.1</version>
   <artifactId>data-jdbc-kotlin</artifactId>
   <name>data-jdbc-kotlin</name>
   <properties>
@@ -47,26 +43,32 @@
     <dependency>
       <groupId>io.micronaut</groupId>
       <artifactId>micronaut-http-client</artifactId>
+      <version>${micronaut.version}</version>
     </dependency>
     <dependency>
       <groupId>io.micronaut.reactor</groupId>
       <artifactId>micronaut-reactor</artifactId>
+      <version>${micronaut.version}</version>
     </dependency>
     <dependency>
       <groupId>io.micronaut.reactor</groupId>
       <artifactId>micronaut-reactor-http-client</artifactId>
+      <version>${micronaut.version}</version>
     </dependency>
     <dependency>
       <groupId>io.micronaut</groupId>
       <artifactId>micronaut-jackson-databind</artifactId>
+      <version>${micronaut.version}</version>
     </dependency>
     <dependency>
       <groupId>io.micronaut.validation</groupId>
       <artifactId>micronaut-validation</artifactId>
+      <version>${micronaut.version}</version>
     </dependency>
     <dependency>
       <groupId>io.micronaut.data</groupId>
       <artifactId>micronaut-data-jdbc</artifactId>
+      <version>${micronaut.version}</version>
     </dependency>
     <dependency>
       <groupId>io.micronaut.sql</groupId>

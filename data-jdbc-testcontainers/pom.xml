@@ -46,6 +46,7 @@
     <dependency>
       <groupId>io.micronaut.data</groupId>
       <artifactId>micronaut-data-jdbc</artifactId>
+      <version>${micronaut.version}</version>
     </dependency>
     <dependency>
       <groupId>org.testcontainers</groupId>

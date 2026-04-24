@@ -46,6 +46,7 @@
     <dependency>
       <groupId>io.micronaut.data</groupId>
       <artifactId>micronaut-data-r2dbc</artifactId>
+      <version>${micronaut.version}</version>
     </dependency>
     <dependency>
       <groupId>io.r2dbc</groupId>
