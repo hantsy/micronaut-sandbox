@@ -16,7 +16,7 @@
     <!-- Plugin versions -->
     <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
     <micronaut.maven.plugin.version>4.6.1</micronaut.maven.plugin.version>
-    <kotlin-maven-plugin.version>1.10.0</kotlin-maven-plugin.version>
+    <kotlin-maven-plugin.version>1.8.22</kotlin-maven-plugin.version>
     <gmavenplus-plugin.version>1.13.0</gmavenplus-plugin.version>
 
     <!-- Compile/runtime deps -->
@@ -30,17 +30,6 @@
     <junit.version>5.9.3</junit.version>
   </properties>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>io.micronaut</groupId>
-        <artifactId>micronaut-bom</artifactId>
-        <version>${micronaut.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
   <dependencies>
     <dependency>
