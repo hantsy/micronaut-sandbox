@@ -1,6 +1,6 @@
 plugins {
     id("com.gradleup.shadow") version "9.3.1"
-    id("io.micronaut.application") version "4.6.1"
+    id("io.micronaut.application") version "4.6.2"
     id("io.micronaut.aot") version "4.6.1"
 }
 
@@ -19,8 +19,9 @@ dependencies {
     implementation("io.micronaut.validation:micronaut-validation")
     implementation("io.micronaut.rxjava3:micronaut-rxjava3")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
-    implementation("io.vertx:vertx-rx-java3:5.0.7")
-    // implementation("io.reactivex.rxjava3:rxjava:3.1.9")
+    implementation("io.vertx:vertx-rx-java3:4.4.3")
+   
+   // logback
     runtimeOnly("ch.qos.logback:logback-classic")
 
     annotationProcessor("io.micronaut:micronaut-http-validation")
@@ -44,11 +45,15 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     testAnnotationProcessor("org.projectlombok:lombok")
 
+    //rxjava3 HttpClient
+    implementation("io.micronaut.rxjava3:micronaut-rxjava3")
+    implementation("io.micronaut.rxjava3:micronaut-rxjava3-http-client")
+
     // test
     testImplementation("org.assertj:assertj-core")
     testImplementation("org.mockito:mockito-core")
     testImplementation("io.micronaut:micronaut-http-client")
-    testImplementation("io.micronaut.rxjava3:micronaut-rxjava3-http-client")
+    testImplementation("org.apache.commons:commons-compress:1.27.1")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:testcontainers")
     testImplementation("org.testcontainers:postgresql")

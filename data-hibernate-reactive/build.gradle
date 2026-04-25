@@ -1,6 +1,6 @@
 plugins {
     id("com.gradleup.shadow") version "9.3.1"
-    id("io.micronaut.application") version "4.6.1"
+    id("io.micronaut.application") version "4.6.2"
 }
 
 version = "0.1"
@@ -23,14 +23,9 @@ dependencies {
 
     // hibernate reactive
     implementation("io.micronaut.data:micronaut-data-hibernate-reactive")
-    implementation("io.vertx:vertx-pg-client")
+    implementation("io.vertx:vertx-pg-client:4.5.11")
     //see: https://github.com/eclipse-vertx/vertx-sql-client/issues/1059
     implementation("com.ongres.scram:client:2.1")
-
-    implementation("io.micronaut:micronaut-http-client")
-    // reactor http client
-    implementation("io.micronaut.reactor:micronaut-reactor")
-    implementation("io.micronaut.reactor:micronaut-reactor-http-client")
 
     //lombok
     compileOnly("org.projectlombok:lombok")
@@ -40,12 +35,18 @@ dependencies {
 
     // annotation processor
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
-    annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
+    annotationProcessor("io.micronaut:micronaut-http-validation")
 
     // logging
     runtimeOnly("ch.qos.logback:logback-classic")
 
-    // test
+    // reactor HttpClient
+    implementation("io.micronaut.reactor:micronaut-reactor")
+    implementation("io.micronaut.reactor:micronaut-reactor-http-client")
+    
+    // test dependencies
+    testImplementation("io.micronaut:micronaut-http-client")
+    testImplementation("org.apache.commons:commons-compress:1.27.1")
     testImplementation("org.assertj:assertj-core")
     testImplementation("org.mockito:mockito-core")
     testImplementation("org.testcontainers:junit-jupiter")
