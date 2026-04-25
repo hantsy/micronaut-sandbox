@@ -155,7 +155,16 @@
       <artifactId>micronaut-test-resources-client</artifactId>
       <scope>provided</scope>
     </dependency>
-
+    <dependency>
+      <groupId>io.projectreactor</groupId>
+      <artifactId>reactor-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jetbrains.kotlinx</groupId>
+      <artifactId>kotlinx-coroutines-test</artifactId>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>io.kotest</groupId>
       <artifactId>kotest-assertions-core-jvm</artifactId>
