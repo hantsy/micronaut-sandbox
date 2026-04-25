@@ -2,5 +2,5 @@ applicationType: default
 defaultPackage: com.example
 testFramework: kotest
 sourceLanguage: kotlin
-buildTool: gradle_kotlin
-features: [annotation-api, app-name, data, data-r2dbc, gradle, http-client, kotest, kotlin, kotlin-application, kotlin-extension-functions, logback, netty-server, postgres, r2dbc, reactor, reactor-http-client, readme, shade, testcontainers, yaml]
+buildTool: maven
+features: [app-name, data, data-r2dbc, flyway, http-client, jdbc-hikari, kapt, kotest, kotlin, kotlin-application, logback, maven, maven-enforcer-plugin, micronaut-aot, micronaut-http-validation, micronaut-processing-compiler-args, mockk, netty-server, postgres, properties, r2dbc, reactor, reactor-http-client, readme, serialization-jackson, shade, static-resources, test-resources]

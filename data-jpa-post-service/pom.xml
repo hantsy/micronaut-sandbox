@@ -18,7 +18,6 @@
     <jdk.version>25</jdk.version>
     <release.version>25</release.version>
     <micronaut.version>4.10.12</micronaut.version>
-    <micronaut.test.resources.enabled>true</micronaut.test.resources.enabled>
     <micronaut.aot.enabled>false</micronaut.aot.enabled>
     <micronaut.aot.packageName>com.example.aot.generated</micronaut.aot.packageName>
     <micronaut.runtime>netty</micronaut.runtime>
@@ -49,7 +48,13 @@
 
     <dependency>
       <groupId>io.micronaut.data</groupId>
-      <artifactId>micronaut-data-r2dbc</artifactId>
+      <artifactId>micronaut-data-hibernate-jpa</artifactId>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.micronaut.data</groupId>
+      <artifactId>micronaut-data-tx-hibernate</artifactId>
       <scope>compile</scope>
     </dependency>
 
@@ -79,6 +84,12 @@
 
     <dependency>
       <groupId>io.micronaut.sql</groupId>
+      <artifactId>micronaut-hibernate-jpa</artifactId>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.micronaut.sql</groupId>
       <artifactId>micronaut-jdbc-hikari</artifactId>
       <scope>compile</scope>
     </dependency>
@@ -99,18 +110,6 @@
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <scope>runtime</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>r2dbc-postgresql</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>io.micronaut.testresources</groupId>
-      <artifactId>micronaut-test-resources-client</artifactId>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -138,8 +137,9 @@
     </dependency>
 
     <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-compress</artifactId>
+      <version>1.27.1</version>
       <scope>test</scope>
     </dependency>
 
@@ -155,6 +155,24 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>testcontainers</artifactId>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
   <build>
     <plugins>
@@ -162,12 +180,6 @@
         <groupId>io.micronaut.maven</groupId>
         <artifactId>micronaut-maven-plugin</artifactId>
         <configuration>
-          <testResourcesDependencies>
-            <dependency>
-              <groupId>io.micronaut.testresources</groupId>
-              <artifactId>micronaut-test-resources-r2dbc-postgresql</artifactId>
-            </dependency>
-          </testResourcesDependencies>
           <configFile>aot-${packaging}.properties</configFile>
         </configuration>
       </plugin>

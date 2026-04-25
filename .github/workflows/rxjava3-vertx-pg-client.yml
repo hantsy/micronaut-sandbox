@@ -26,20 +26,14 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v5
         with:
-          distribution: 'zulu'
-          java-version: '21'
+          distribution: "zulu"
+          java-version: "25"
+          cache: "maven"
           
       - name: Start up databases via Docker Compose 
         run: |
             docker compose up -d postgres
             docker ps -a              
             
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v3
-        # with:
-          # arguments: build
-          # build-root-directory: rxjava3-vertx-pg-client
-      - name: Execute Gradle build
-        run: |
-          chmod +x gradlew
-          ./gradlew build
+      - name: Build with Maven
+        run: mvn -B -q package --file rxjava3-vertx-pg-client/pom.xml  

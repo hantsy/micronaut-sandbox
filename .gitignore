@@ -38,3 +38,5 @@ nbproject
 
 .vscode
 .micronaut
+.gradle/
+build/

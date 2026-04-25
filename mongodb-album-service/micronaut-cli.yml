@@ -1,6 +1,6 @@
 applicationType: default
 defaultPackage: com.example
-testFramework: spock
+testFramework: junit
 sourceLanguage: java
-buildTool: gradle
-features: [annotation-api, app-name, gradle, http-client, java, java-application, logback, mongo-reactive, netty-server, reactor, reactor-http-client, readme, shade, spock, testcontainers, yaml]
+buildTool: maven
+features: [app-name, assertj, http-client-test, java, java-application, jdbc-hikari, junit, logback, lombok, maven, maven-enforcer-plugin, micronaut-aot, micronaut-http-validation, micronaut-processing-compiler-args, micronaut-test-rest-assured, mongo-reactive, netty-server, postgres, properties, reactor, reactor-http-client, readme, serialization-jackson, shade, static-resources, testcontainers]

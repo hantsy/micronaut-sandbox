@@ -22,6 +22,7 @@
     <micronaut.aot.packageName>com.example.aot.generated</micronaut.aot.packageName>
     <micronaut.runtime>netty</micronaut.runtime>
     <exec.mainClass>com.example.Application</exec.mainClass>
+    <groovyVersion>4.0.28</groovyVersion>
   </properties>
 
   <repositories>
@@ -35,8 +36,38 @@
   <dependencies>
 
     <dependency>
+      <groupId>io.micronaut.data</groupId>
+      <artifactId>micronaut-data-processor</artifactId>
+      <scope>provided</scope>
+      <exclusions>
+          <exclusion>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-inject</artifactId>
+          </exclusion>
+        </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>io.micronaut.data</groupId>
+      <artifactId>micronaut-data-document-processor</artifactId>
+      <scope>provided</scope>
+      <exclusions>
+          <exclusion>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-inject</artifactId>
+          </exclusion>
+        </exclusions>
+    </dependency>
+
+    <dependency>
       <groupId>io.micrometer</groupId>
       <artifactId>context-propagation</artifactId>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.micronaut</groupId>
+      <artifactId>micronaut-http-client</artifactId>
       <scope>compile</scope>
     </dependency>
 
@@ -48,13 +79,13 @@
 
     <dependency>
       <groupId>io.micronaut.data</groupId>
-      <artifactId>micronaut-data-jdbc</artifactId>
+      <artifactId>micronaut-data-mongodb</artifactId>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>io.micronaut.flyway</groupId>
-      <artifactId>micronaut-flyway</artifactId>
+      <groupId>io.micronaut.groovy</groupId>
+      <artifactId>micronaut-runtime-groovy</artifactId>
       <scope>compile</scope>
     </dependency>
 
@@ -77,8 +108,14 @@
     </dependency>
 
     <dependency>
-      <groupId>io.micronaut.sql</groupId>
-      <artifactId>micronaut-jdbc-hikari</artifactId>
+      <groupId>org.apache.groovy</groupId>
+      <artifactId>groovy</artifactId>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongodb-driver-sync</artifactId>
       <scope>compile</scope>
     </dependency>
 
@@ -89,32 +126,32 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flywaydb</groupId>
-      <artifactId>flyway-database-postgresql</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
+      <groupId>io.micronaut</groupId>
+      <artifactId>micronaut-http-validation</artifactId>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>io.micronaut</groupId>
-      <artifactId>micronaut-http-client</artifactId>
-      <scope>test</scope>
+      <artifactId>micronaut-inject-groovy</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.micronaut.serde</groupId>
+      <artifactId>micronaut-serde-processor</artifactId>
+      <scope>provided</scope>
+      <exclusions>
+          <exclusion>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-inject</artifactId>
+          </exclusion>
+        </exclusions>
     </dependency>
 
     <dependency>
       <groupId>io.micronaut.test</groupId>
-      <artifactId>micronaut-test-junit5</artifactId>
+      <artifactId>micronaut-test-spock</artifactId>
       <scope>test</scope>
     </dependency>
 
@@ -126,26 +163,26 @@
     </dependency>
 
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
+      <groupId>org.spockframework</groupId>
+      <artifactId>spock-core</artifactId>
       <scope>test</scope>
+      <exclusions>
+          <exclusion>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+          </exclusion>
+        </exclusions>
     </dependency>
 
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>mongodb</artifactId>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.testcontainers</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.testcontainers</groupId>
-      <artifactId>postgresql</artifactId>
+      <artifactId>spock</artifactId>
       <scope>test</scope>
     </dependency>
 
@@ -168,65 +205,53 @@
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <includes>
+            <include>**/*Spec.*</include>
+            <include>**/*Test.*</include>
+          </includes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.gmavenplus</groupId>
+        <artifactId>gmavenplus-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+      <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <!-- Uncomment to enable incremental compilation -->
-          <!-- <useIncrementalCompilation>false</useIncrementalCompilation> -->
-
-          <annotationProcessorPaths combine.self="override">
-            <path>
-              <groupId>org.projectlombok</groupId>
-              <artifactId>lombok</artifactId>
-              <version>${lombok.version}</version>
-            </path>
-            <path>
-              <groupId>io.micronaut</groupId>
-              <artifactId>micronaut-inject-java</artifactId>
-              <version>${micronaut.core.version}</version>
-            </path>
-            <path>
-              <groupId>io.micronaut.data</groupId>
-              <artifactId>micronaut-data-processor</artifactId>
-              <version>${micronaut.data.version}</version>
-              <exclusions>
-                <exclusion>
-                  <groupId>io.micronaut</groupId>
-                  <artifactId>micronaut-inject</artifactId>
-                </exclusion>
-              </exclusions>
-            </path>
-            <path>
-              <groupId>io.micronaut</groupId>
-              <artifactId>micronaut-graal</artifactId>
-              <version>${micronaut.core.version}</version>
-            </path>
-            <path>
-              <groupId>io.micronaut</groupId>
-              <artifactId>micronaut-http-validation</artifactId>
-              <version>${micronaut.core.version}</version>
-            </path>
-            <path>
-              <groupId>io.micronaut.serde</groupId>
-              <artifactId>micronaut-serde-processor</artifactId>
-              <version>${micronaut.serialization.version}</version>
-              <exclusions>
-                <exclusion>
-                  <groupId>io.micronaut</groupId>
-                  <artifactId>micronaut-inject</artifactId>
-                </exclusion>
-              </exclusions>
-            </path>
-          </annotationProcessorPaths>
-          <compilerArgs>
-            <arg>-Amicronaut.processing.group=com.example</arg>
-            <arg>-Amicronaut.processing.module=demo</arg>
-          </compilerArgs>
-        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>set-system-properties</goal>
+            </goals>
+            <configuration>
+              <properties>
+                <property>
+                  <name>groovy.target.directory</name>
+                  <value>${project.build.directory}/classes</value>
+                </property>
+                <property>
+                  <name>groovy.parameters</name>
+                  <value>true</value>
+                </property>
+              </properties>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
+
+  <pluginRepositories>
+  </pluginRepositories>
+
 </project>

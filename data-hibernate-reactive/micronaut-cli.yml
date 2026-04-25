@@ -2,5 +2,5 @@ applicationType: default
 defaultPackage: com.example
 testFramework: junit
 sourceLanguage: java
-buildTool: gradle
-features: [annotation-api, app-name, data, data-jpa, gradle, h2, hibernate-jpa, http-client, jackson-databind, java, java-application, jdbc-hikari, junit, logback, micronaut-build, netty-server, reactor, reactor-http-client, readme, shade, yaml]
+buildTool: maven
+features: [app-name, data, data-hibernate-reactive, http-client-test, java, java-application, junit, logback, lombok, maven, maven-enforcer-plugin, micronaut-aot, micronaut-http-validation, micronaut-processing-compiler-args, netty-server, postgres, properties, reactor, reactor-http-client, readme, serialization-jackson, shade, static-resources, testcontainers, vertx-pg-client]

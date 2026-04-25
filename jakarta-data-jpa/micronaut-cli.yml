@@ -2,5 +2,5 @@ applicationType: default
 defaultPackage: com.example
 testFramework: junit
 sourceLanguage: java
-buildTool: gradle_kotlin
-features: [app-name, data, data-jdbc, gradle, http-client-test, jakarta-data, java, java-application, jdbc-hikari, junit, logback, micronaut-aot, micronaut-build, micronaut-http-validation, netty-server, postgres, properties, readme, serialization-jackson, shade, static-resources, testcontainers]
+buildTool: maven
+features: [app-name, assertj, data, data-jpa, flyway, http-client-test, jakarta-data, java, java-application, jdbc-hikari, junit, logback, lombok, maven, maven-enforcer-plugin, micronaut-aot, micronaut-http-validation, micronaut-processing-compiler-args, micronaut-test-rest-assured, netty-server, postgres, properties, reactor, reactor-http-client, readme, serialization-jackson, shade, static-resources, testcontainers]
