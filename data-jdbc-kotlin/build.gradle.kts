@@ -61,7 +61,7 @@ micronaut {
 dependencies {
     // javaee/jakartaee specs
     implementation("jakarta.annotation:jakarta.annotation-api")
-    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+    implementation("jakarta.persistence:jakarta.persistence-api:3.2.0")
 
     // micronaut framework
     implementation("io.micronaut:micronaut-http-client")
