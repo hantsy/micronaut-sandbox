@@ -1,17 +1,15 @@
 package com.example.controller;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
 import io.micronaut.data.model.Page;
 import jakarta.inject.Singleton;
-
-import java.io.IOException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.JsonSerializer;
+import tools.jackson.databind.SerializationContext;
 
 @Singleton
 public class PageJsonSerializer extends JsonSerializer<Page<?>> {
     @Override
-    public void serialize(Page<?> value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+    public void serialize(Page<?> value, JsonGenerator gen, SerializationContext ctxt) {
         gen.writeStartObject();
         gen.writeNumberField("pageNumber", value.getPageNumber());
         if (value.getNumberOfElements() != value.getSize()) {

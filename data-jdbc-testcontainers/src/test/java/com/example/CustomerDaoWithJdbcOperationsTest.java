@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class CustomerDaoWithJdbcOperationsTest {
 
     @Container
-    static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer<>("postgres:12");
+    static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer<>("postgres:18");
 //            .withCopyFileToContainer(
 //                    MountableFile.forClasspathResource("init.sql"),
 //                    "/docker-entrypoint-initdb.d/init.sql"

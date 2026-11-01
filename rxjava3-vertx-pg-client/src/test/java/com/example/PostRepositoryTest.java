@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class PostRepositoryTest {
     static ApplicationContext applicationContext;
     static PostRepository postRepository;
-    static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer<>("postgres:14")
+    static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer<>("postgres:18")
             .withDatabaseName("blogdb")
             .withCopyFileToContainer(
                     MountableFile.forClasspathResource("init.sql"),

@@ -1,7 +1,7 @@
 plugins {
-    id("io.micronaut.application") version "4.6.2"
-    id("com.gradleup.shadow") version "9.3.1"
-    id("io.micronaut.aot") version "4.6.1"
+    id("io.micronaut.application") version "5.0.2"
+    id("com.gradleup.shadow") version "9.4.1"
+    id("io.micronaut.aot") version "5.0.2"
 }
 
 version = "0.1"
@@ -46,11 +46,11 @@ dependencies {
     testImplementation("org.assertj:assertj-core")
     testImplementation("org.mockito:mockito-core")
     testImplementation("org.apache.commons:commons-compress:1.28.0")
-    testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("org.testcontainers:mongodb")
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers-mongodb")
     testImplementation("org.testcontainers:testcontainers")
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.8.2")
+    testImplementation("io.projectreactor:reactor-test")
 }
 
 
@@ -60,7 +60,7 @@ application {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(25))
     }
 }
 
@@ -89,7 +89,12 @@ micronaut {
 
 
 tasks.named<io.micronaut.gradle.docker.NativeImageDockerfile>("dockerfileNative") {
-    jdkVersion = "21"
+    jdkVersion = "25"
 }
 
 
+
+// JDK 25+: allow Mockito/byte-buddy agent self-attach
+tasks.withType<Test> {
+    jvmArgs("-Djdk.attach.allowAttachSelf=true", "-XX:+EnableDynamicAgentLoading")
+}

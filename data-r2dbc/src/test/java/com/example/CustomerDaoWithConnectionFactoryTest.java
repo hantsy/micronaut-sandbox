@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class CustomerDaoWithConnectionFactoryTest {
 
 //    @Container
-//    static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer<>("postgres:12");
+//    static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer<>("postgres:18");
 
     @Inject
     private ApplicationContext context;

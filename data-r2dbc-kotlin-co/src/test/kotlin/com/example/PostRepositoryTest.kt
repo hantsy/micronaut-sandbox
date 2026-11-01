@@ -24,7 +24,7 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalCoroutinesApi::class)
-@MicronautTest(environments = [Environment.TEST], startApplication = false)
+@MicronautTest(environments = [Environment.TEST], startApplication = false, transactional = false)
 class PostRepositoryTest(
     private val posts: PostRepository,
     private val comments: CommentRepository,

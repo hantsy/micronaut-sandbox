@@ -1,17 +1,15 @@
 package com.example;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
 import jakarta.inject.Singleton;
 import org.bson.types.ObjectId;
-
-import java.io.IOException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.JsonSerializer;
+import tools.jackson.databind.SerializationContext;
 
 @Singleton
 public class ObjectIdJsonSerializer extends JsonSerializer<ObjectId> {
     @Override
-    public void serialize(ObjectId value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+    public void serialize(ObjectId value, JsonGenerator gen, SerializationContext ctxt) {
         gen.writeString(value.toHexString());
     }
 }

@@ -17,7 +17,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import java.util.*
 
-@MicronautTest
+@MicronautTest(transactional = false)
 @OptIn(ExperimentalCoroutinesApi::class)
 class ApplicationTest(
     private val application: EmbeddedApplication<*>,

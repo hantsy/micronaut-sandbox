@@ -1,6 +1,6 @@
 plugins {
-    id("com.gradleup.shadow") version "9.3.1"
-    id("io.micronaut.application") version "4.6.2"
+    id("com.gradleup.shadow") version "9.4.1"
+    id("io.micronaut.application") version "5.0.2"
 }
 
 version = "0.1"
@@ -13,9 +13,9 @@ repositories {
 dependencies {
 
     //jakarta specs
-    implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
-    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
-    implementation("jakarta.validation:jakarta.validation-api:3.0.2")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    implementation("jakarta.persistence:jakarta.persistence-api")
+    implementation("jakarta.validation:jakarta.validation-api")
 
     //micronaut
     implementation("io.micronaut.validation:micronaut-validation")
@@ -23,9 +23,7 @@ dependencies {
 
     // hibernate reactive
     implementation("io.micronaut.data:micronaut-data-hibernate-reactive")
-    implementation("io.vertx:vertx-pg-client:4.5.11")
-    //see: https://github.com/eclipse-vertx/vertx-sql-client/issues/1059
-    implementation("com.ongres.scram:client:2.1")
+    implementation("io.vertx:vertx-pg-client")
 
     //lombok
     compileOnly("org.projectlombok:lombok")
@@ -49,12 +47,12 @@ dependencies {
     testImplementation("org.apache.commons:commons-compress:1.27.1")
     testImplementation("org.assertj:assertj-core")
     testImplementation("org.mockito:mockito-core")
-    testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers-postgresql")
     testImplementation("org.testcontainers:testcontainers")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.8.2")
+    testImplementation("io.projectreactor:reactor-test")
 }
 
 
@@ -62,8 +60,8 @@ application {
     mainClass.set("com.example.Application")
 }
 java {
-    sourceCompatibility = JavaVersion.toVersion("21")
-    targetCompatibility = JavaVersion.toVersion("21")
+    sourceCompatibility = JavaVersion.toVersion("25")
+    targetCompatibility = JavaVersion.toVersion("25")
 }
 
 graalvmNative.toolchainDetection = false
@@ -79,4 +77,9 @@ micronaut {
 // see: https://github.com/micronaut-projects/micronaut-core/discussions/8772
 test {
     useJUnitPlatform()
+}
+
+// JDK 25+: allow Mockito/Spock byte-buddy agent self-attach
+test {
+    jvmArgs "-Djdk.attach.allowAttachSelf=true", "-XX:+EnableDynamicAgentLoading"
 }
