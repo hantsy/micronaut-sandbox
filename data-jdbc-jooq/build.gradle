@@ -212,3 +212,10 @@ tasks.named("dockerfileNative") {
 test {
     jvmArgs "-Djdk.attach.allowAttachSelf=true", "-XX:+EnableDynamicAgentLoading"
 }
+
+// print full test exception traces
+test {
+    testLogging {
+        exceptionFormat = "full"
+    }
+}

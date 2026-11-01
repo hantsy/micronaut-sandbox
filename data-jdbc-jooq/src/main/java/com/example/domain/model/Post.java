@@ -3,6 +3,7 @@ package com.example.domain.model;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.data.annotation.DateCreated;
 import io.micronaut.data.annotation.DateUpdated;
+import io.micronaut.data.annotation.AutoPopulated;
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
 import io.micronaut.data.annotation.MappedProperty;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Introspected
 @MappedEntity(value = "posts")
 public record Post(
-    @Id UUID id,
+    @Id @AutoPopulated UUID id,
     String title,
     String content,
     Status status,
