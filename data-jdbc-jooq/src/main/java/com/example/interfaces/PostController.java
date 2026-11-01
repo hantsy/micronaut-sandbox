@@ -35,7 +35,8 @@ public class PostController {
 
     @Get("/posts/{id}")
     public HttpResponse<PostDetails> findPost(@PathVariable UUID id) {
-        return HttpResponse.ok(postQueryService.getPostDetailsById(id));
+        var details = postQueryService.getPostDetailsById(id);
+        return details == null ? HttpResponse.notFound() : HttpResponse.ok(details);
     }
 
     @Post("/posts")

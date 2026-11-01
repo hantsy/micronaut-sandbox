@@ -1,6 +1,7 @@
 package com.example.application.internal;
 
 import com.example.application.PaginatedResult;
+import com.example.application.LatestComment;
 import com.example.application.PostDetails;
 import com.example.application.PostQueryService;
 import com.example.application.PostSummary;
@@ -73,27 +74,28 @@ public class PostQueryServiceImpl implements PostQueryService {
     public PostDetails getPostDetailsById(UUID postId) {
         log.debug("searching for post with id: {}", postId);
         var p = POSTS;
-        var pt = POSTS_TAGS;
-        var t = HASH_TAGS;
         var c = COMMENTS;
-        return dslContext
-                .select(
-                        p.ID,
-                        p.TITLE,
-                        p.CONTENT,
-                        p.CREATED_AT,
-                        p.UPDATED_AT,
-                        DSL.field("count(comments.id)", SQLDataType.BIGINT),
-                        DSL.row(select(c.CONTENT, c.CREATED_AT)
-                                .from(c)
-                                .where(c.POST_ID.eq(p.ID))
-                                .orderBy(c.CREATED_AT.desc())
-                                .limit(0, 1)
-                        )
-                )
-                .from(p.leftJoin(c).on(c.POST_ID.eq(p.ID)))
+        var post = dslContext.selectFrom(p)
                 .where(p.ID.eq(postId))
-                .orderBy(p.CREATED_AT.desc())
-                .fetchOneInto(PostDetails.class);
+                .fetchOne();
+        if (post == null) {
+            return null;
+        }
+        var commentsCount = dslContext.fetchCount(c, c.POST_ID.eq(postId));
+        var latestComment = dslContext.select(c.CONTENT, c.CREATED_AT)
+                .from(c)
+                .where(c.POST_ID.eq(postId))
+                .orderBy(c.CREATED_AT.desc())
+                .limit(1)
+                .fetchOne();
+        return new PostDetails(
+                post.getId(),
+                post.getTitle(),
+                post.getContent(),
+                post.getCreatedAt(),
+                post.getUpdatedAt(),
+                (long) commentsCount,
+                latestComment == null ? null : new LatestComment(latestComment.value1(), latestComment.value2())
+        );
     }
 }
