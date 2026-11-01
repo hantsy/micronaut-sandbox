@@ -22,7 +22,7 @@ class PostRepositoryTest {
         Post newPost = new Post(null, "Test Title", "Test Content", Status.DRAFT, null, null, null);
 
         // Save the post
-        Post savedPost = postRepository.save(newPost);
+        Post savedPost = postRepository.insert(newPost);
 
         // Verify the post was saved
         assertThat(savedPost).isNotNull();

@@ -3,11 +3,11 @@ package com.example.controller;
 import io.micronaut.data.model.Page;
 import jakarta.inject.Singleton;
 import tools.jackson.core.JsonGenerator;
-import tools.jackson.databind.JsonSerializer;
+import tools.jackson.databind.ValueSerializer;
 import tools.jackson.databind.SerializationContext;
 
 @Singleton
-public class PageJsonSerializer extends JsonSerializer<Page<?>> {
+public class PageJsonSerializer extends ValueSerializer<Page<?>> {
     @Override
     public void serialize(Page<?> value, JsonGenerator gen, SerializationContext ctxt) {
         gen.writeStartObject();

@@ -35,7 +35,7 @@ public class PostCommandServiceImpl implements PostCommandService {
         });
 
         // create post
-        var savedID = postRepository.save(Post.of(command.title(), command.content())).id();
+        var savedID = postRepository.insert(Post.of(command.title(), command.content())).id();
 
         // creat post tag relations
         var postTags = command.tagId()
