@@ -64,7 +64,7 @@ class PostControllerTest {
     public void testFindPosts() {
         PaginatedResult<PostSummary> expectedResult = new PaginatedResult<>(
                 List.of(
-                        new PostSummary(UUID.randomUUID(), "Test Post 1", 1L, Collections.emptyList()),
+                        new PostSummary(UUID.randomUUID(), "Test Post 1", 1L, null),
                         new PostSummary(UUID.randomUUID(), "Test Post 2", 2L, List.of("jOOQ", "Micronaut"))
                 ),
                 25L
@@ -92,7 +92,9 @@ class PostControllerTest {
         when(this.postCommandService.createPost(any(CreatePostCommand.class)))
                 .thenReturn(newPostId);
 
-        CreatePostCommand command = new CreatePostCommand("New Post Title", "New Post Content", Collections.emptyList());
+        // MN5 jackson NON_EMPTY inclusion: empty collections are omitted in JSON, so the
+        // server-side command has a null tagId after the round-trip.
+        CreatePostCommand command = new CreatePostCommand("New Post Title", "New Post Content", null);
         var request = HttpRequest.POST("", command);
         client.exchange(request, Argument.VOID)
                 .as(StepVerifier::create)

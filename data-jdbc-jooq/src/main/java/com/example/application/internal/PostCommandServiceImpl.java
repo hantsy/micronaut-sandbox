@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
 import java.util.UUID;
 
 @Singleton
@@ -25,8 +26,12 @@ public class PostCommandServiceImpl implements PostCommandService {
 
     @Override
     public UUID createPost(CreatePostCommand command) {
+        // MN5 jackson NON_EMPTY inclusion: an empty tagId list is omitted in JSON and
+        // arrives as null after the round-trip.
+        var tagIds = command.tagId() == null ? List.<UUID>of() : command.tagId();
+
         // verify tagIds existence
-        command.tagId().forEach(id -> {
+        tagIds.forEach(id -> {
             if (!hashTagRepository.existsById(id)) {
 
                 // in the real world, it could be a custom exception
@@ -38,7 +43,7 @@ public class PostCommandServiceImpl implements PostCommandService {
         var savedID = postRepository.insert(Post.of(command.title(), command.content())).id();
 
         // creat post tag relations
-        var postTags = command.tagId()
+        var postTags = tagIds
                 .stream()
                 .map(id -> PostTagRelation.of(savedID, id))
                 .toList();
