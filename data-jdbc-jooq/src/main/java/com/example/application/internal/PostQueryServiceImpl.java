@@ -29,7 +29,7 @@ import static org.jooq.impl.DSL.select;
 @Slf4j
 @RequiredArgsConstructor
 public class PostQueryServiceImpl implements PostQueryService {
-    private DSLContext dslContext;
+    private final DSLContext dslContext;
 
     @Override
     public PaginatedResult<PostSummary> findPostsByKeyword(String keyword, int offset, int limit) {
