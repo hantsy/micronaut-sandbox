@@ -11,15 +11,15 @@ public class PageJsonSerializer extends ValueSerializer<Page<?>> {
     @Override
     public void serialize(Page<?> value, JsonGenerator gen, SerializationContext ctxt) {
         gen.writeStartObject();
-        gen.writeNumberField("pageNumber", value.getPageNumber());
+        gen.writeNumberProperty("pageNumber", value.getPageNumber());
         if (value.getNumberOfElements() != value.getSize()) {
             //only display it in the last page when number of elements is not equal to page size.
-            gen.writeNumberField("numberOfElements", value.getNumberOfElements());
+            gen.writeNumberProperty("numberOfElements", value.getNumberOfElements());
         }
-        gen.writeNumberField("size", value.getSize());
-        gen.writeNumberField("totalPages", value.getTotalPages());
-        gen.writeNumberField("totalSize", value.getTotalSize());
-        gen.writeObjectField("content", value.getContent());
+        gen.writeNumberProperty("size", value.getSize());
+        gen.writeNumberProperty("totalPages", value.getTotalPages());
+        gen.writeNumberProperty("totalSize", value.getTotalSize());
+        gen.writeObjectProperty("content", value.getContent());
         gen.writeEndObject();
     }
 }
