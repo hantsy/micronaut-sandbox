@@ -4,7 +4,7 @@ import com.example.domain.Post;
 import com.example.domain.Post_;
 import com.example.domain.Status;
 import io.micronaut.core.util.StringUtils;
-import io.micronaut.data.jpa.repository.criteria.Specification;
+import io.micronaut.data.repository.jpa.criteria.QuerySpecification;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -18,7 +18,7 @@ public class PostSpecifications {
         // forbid to instantiate
     }
 
-    public static Specification<Post> filterByKeywordAndStatus(
+    public static QuerySpecification<Post> filterByKeywordAndStatus(
             final String keyword,
             final Status status
     ) {

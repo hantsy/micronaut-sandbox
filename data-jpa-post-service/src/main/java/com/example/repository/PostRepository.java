@@ -3,7 +3,7 @@ package com.example.repository;
 import com.example.domain.Post;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.jpa.repository.JpaRepository;
-import io.micronaut.data.jpa.repository.JpaSpecificationExecutor;
+import io.micronaut.data.repository.jpa.JpaSpecificationExecutor;
 import lombok.RequiredArgsConstructor;
 
 import jakarta.persistence.EntityManager;
