@@ -5,7 +5,7 @@ import com.example.domain.Post;
 import com.example.repository.CommentRepository;
 import com.example.repository.PostRepository;
 import io.micronaut.context.env.Environment;
-import io.micronaut.data.jpa.repository.criteria.Specification;
+import io.micronaut.data.repository.jpa.criteria.QuerySpecification;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
 import io.micronaut.http.HttpStatus;
@@ -49,7 +49,7 @@ public class PostServiceClientTest {
     @DisplayName("test GET '/posts' endpoint")
     public void testGetAllPosts() throws Exception {
         var content = List.of(Post.builder().id(UUID.randomUUID()).title("test title").content("test content").build());
-        when(this.posts.findAll(isA(Specification.class), isA(Pageable.class))).thenReturn(
+        when(this.posts.findAll(isA(QuerySpecification.class), isA(Pageable.class))).thenReturn(
                 Page.of(content, Pageable.from(0, 20), 1L)
         );
 
@@ -59,7 +59,7 @@ public class PostServiceClientTest {
         assertThat(body.getTotalSize()).isEqualTo(1);
         assertThat(body.getContent().get(0).title()).isEqualTo("test title");
 
-        verify(this.posts, times(1)).findAll(isA(Specification.class), isA(Pageable.class));
+        verify(this.posts, times(1)).findAll(isA(QuerySpecification.class), isA(Pageable.class));
         verifyNoMoreInteractions(this.posts);
     }
 

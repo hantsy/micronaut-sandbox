@@ -4,7 +4,7 @@ import com.example.controller.dto.PostDetailsDto;
 import com.example.domain.Post;
 import com.example.repository.CommentRepository;
 import com.example.repository.PostRepository;
-import io.micronaut.data.jpa.repository.criteria.Specification;
+import io.micronaut.data.repository.jpa.criteria.QuerySpecification;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
 import io.micronaut.http.HttpRequest;
@@ -73,7 +73,7 @@ public class PostControllerTest {
     @DisplayName("test GET '/posts' endpoint")
     public void testGetAllPosts() throws Exception {
         var content = List.of(Post.builder().id(UUID.randomUUID()).title("test title").content("test content").build());
-        when(this.posts.findAll(isA(Specification.class), isA(Pageable.class))).thenReturn(
+        when(this.posts.findAll(isA(QuerySpecification.class), isA(Pageable.class))).thenReturn(
                 Page.of(content, Pageable.from(0, 20), 1L)
         );
         var request = HttpRequest.GET("/posts");
@@ -83,7 +83,7 @@ public class PostControllerTest {
         assertThat(JsonPath.from(body).getInt("totalSize")).isEqualTo(1);
         assertThat(JsonPath.from(body).getString("content[0].title")).isEqualTo("test title");
 
-        verify(this.posts, times(1)).findAll(isA(Specification.class), isA(Pageable.class));
+        verify(this.posts, times(1)).findAll(isA(QuerySpecification.class), isA(Pageable.class));
         verifyNoMoreInteractions(this.posts);
     }
 
