@@ -115,7 +115,7 @@ class PostControllerTest {
         PostDetails postDetails = new PostDetails(postId, "test blog", "test content", LocalDateTime.now(), LocalDateTime.now(), 1L, new LatestComment("test comment", LocalDateTime.now()));
         when(this.postQueryService.getPostDetailsById(any(UUID.class)))
                 .thenReturn(postDetails);
-        var request = HttpRequest.GET("/posts/" + postId);
+        var request = HttpRequest.GET("/" + postId);
         client.exchange(request, Argument.of(PostDetails.class))
                 .as(StepVerifier::create)
                 .consumeNextWith(res -> {

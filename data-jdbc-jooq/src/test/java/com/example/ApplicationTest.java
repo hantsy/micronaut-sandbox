@@ -45,7 +45,7 @@ class ApplicationTest {
     @Test
     void testPostCrudOperations() {
         // 1. Get initial count of all posts
-        HttpRequest<?> initialGetAllRequest = HttpRequest.GET("/posts");
+        HttpRequest<?> initialGetAllRequest = HttpRequest.GET("");
         HttpResponse<PaginatedResult<PostSummary>> initialGetAllResponse = postClient.toBlocking()
                 .exchange(initialGetAllRequest, new GenericArgument<PaginatedResult<PostSummary>>() {});
         assertEquals(HttpStatus.OK, initialGetAllResponse.getStatus());
@@ -55,7 +55,7 @@ class ApplicationTest {
 
         // 2. Create a new post
         CreatePostCommand createCommand = new CreatePostCommand("Test Post Title", "Test Post Content", Collections.emptyList());
-        HttpRequest<?> createRequest = HttpRequest.POST("/posts", createCommand);
+        HttpRequest<?> createRequest = HttpRequest.POST("", createCommand);
         HttpResponse<?> createResponse = postClient.toBlocking().exchange(createRequest);
         assertEquals(HttpStatus.CREATED, createResponse.getStatus());
         String location = createResponse.getHeaders().get("Location");
@@ -63,7 +63,7 @@ class ApplicationTest {
         UUID newPostId = UUID.fromString(location.substring(location.lastIndexOf('/') + 1));
 
         // 3. Get the newly created post by ID
-        HttpRequest<?> getByIdRequest = HttpRequest.GET(UriBuilder.of("/posts/{id}").expand(Map.of("id", newPostId)));
+        HttpRequest<?> getByIdRequest = HttpRequest.GET(UriBuilder.of("/{id}").expand(Map.of("id", newPostId)));
         HttpResponse<PostDetails> getByIdResponse = postClient.toBlocking().exchange(getByIdRequest, PostDetails.class);
         assertEquals(HttpStatus.OK, getByIdResponse.getStatus());
         PostDetails newPost = getByIdResponse.body();

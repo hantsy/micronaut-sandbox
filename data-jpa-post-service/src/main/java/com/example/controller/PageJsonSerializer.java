@@ -19,7 +19,8 @@ public class PageJsonSerializer extends ValueSerializer<Page<?>> {
         gen.writeNumberProperty("size", value.getSize());
         gen.writeNumberProperty("totalPages", value.getTotalPages());
         gen.writeNumberProperty("totalSize", value.getTotalSize());
-        gen.writeObjectProperty("content", value.getContent());
+        gen.writeName("content");
+        ctxt.writeValue(gen, value.getContent());
         gen.writeEndObject();
     }
 }
