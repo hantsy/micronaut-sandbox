@@ -2,7 +2,6 @@ plugins {
     id("io.micronaut.application") version "5.0.2"
     id("com.gradleup.shadow") version "9.4.1"
     id("io.micronaut.aot") version "5.0.2"
-    id("io.micronaut.test-resources") version "5.0.2"
     id("org.jooq.jooq-codegen-gradle") version "3.19.18"
 }
 
@@ -64,9 +63,9 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
 
     // testcontainers
-//    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
-//    testImplementation("org.testcontainers:testcontainers-postgresql")
-//    testImplementation("org.testcontainers:testcontainers")
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers-postgresql")
+    testImplementation("org.testcontainers:testcontainers")
 }
 
 application {
