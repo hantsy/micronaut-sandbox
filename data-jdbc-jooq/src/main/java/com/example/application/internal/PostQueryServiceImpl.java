@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
+import org.jooq.Record1;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 
@@ -52,7 +53,7 @@ public class PostQueryServiceImpl implements PostQueryService {
                                 .from(t)
                                 .join(pt).on(t.ID.eq(pt.TAG_ID))
                                 .where(pt.POST_ID.eq(p.ID))
-                        ).as("tags")
+                        ).convertFrom(tags -> tags.map(Record1::value1)).as("tags")
                 )
                 .from(p.leftJoin(c).on(c.POST_ID.eq(p.ID)))
                 .where(where)
