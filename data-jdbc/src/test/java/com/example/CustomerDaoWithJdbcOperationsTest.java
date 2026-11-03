@@ -1,21 +1,45 @@
 package com.example;
 
 import io.micronaut.context.ApplicationContext;
-import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
-import jakarta.inject.Inject;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@MicronautTest(application = Application.class, startApplication = false)
+//@MicronautTest(application = Application.class, startApplication = false)
+@Testcontainers
 class CustomerDaoWithJdbcOperationsTest {
 
-    @Inject
-    private ApplicationContext context;
+    @Container
+    static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer<>("postgres:18");
+//            .withCopyFileToContainer(
+//                    MountableFile.forClasspathResource("init.sql"),
+//                    "/docker-entrypoint-initdb.d/init.sql"
+//            );
 
+    private static ApplicationContext context;
+
+    @BeforeAll
+    static void beforeAll() {
+        context = ApplicationContext.run(
+                Map.of("datasources.default.url", postgreSQLContainer.getJdbcUrl(),
+                        "datasources.default.username", postgreSQLContainer.getUsername(),
+                        "datasources.default.password", postgreSQLContainer.getPassword(),
+                        "datasources.default.driverClassName","org.postgresql.Driver"
+                )
+        );
+
+    }
+
+    //@Inject
     CustomerDao customerRepository;
 
     @BeforeEach

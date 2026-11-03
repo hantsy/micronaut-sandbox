@@ -1,7 +1,6 @@
 plugins {
     id("com.gradleup.shadow") version "9.4.1"
     id("io.micronaut.application") version "5.0.2"
-    id("io.micronaut.test-resources") version "5.0.2"
 }
 
 version = "0.1"
@@ -51,6 +50,9 @@ dependencies {
     // test
     testImplementation("org.assertj:assertj-core")
     testImplementation("org.mockito:mockito-core")
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers-postgresql")
+    testImplementation("org.testcontainers:testcontainers")
 
     // reactor test
     testImplementation("io.projectreactor:reactor-test")

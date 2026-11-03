@@ -1,16 +1,16 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
-name: data-jdbc-testcontainers
+name: data-jdbc-test-resources
 
 on:
   push:
     paths:
-      - "data-jdbc-testcontainers/**"
+      - "data-jdbc-test-resources/**"
     branches:
       - master
   pull_request:
     paths:
-      - "data-jdbc-testcontainers/**"
+      - "data-jdbc-test-resources/**"
     types:
       - opened
       - synchronize
@@ -36,9 +36,9 @@ jobs:
         uses: gradle/gradle-build-action@v3
         # with:
             # arguments: build
-            # build-root-directory: data-jdbc
+            # build-root-directory: data-jdbc-test-resources
       - name: Execute Gradle build
         run: |
-          cd data-jdbc-testcontainers
+          cd data-jdbc-test-resources
           chmod +x gradlew
           ./gradlew build
