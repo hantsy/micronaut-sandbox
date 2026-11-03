@@ -7,30 +7,16 @@ import io.micronaut.http.client.annotation.Client;
 import io.micronaut.reactor.http.client.ReactorHttpClient;
 import io.micronaut.runtime.EmbeddedApplication;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
-import io.micronaut.test.support.TestPropertyProvider;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.testcontainers.containers.MongoDBContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 import reactor.test.StepVerifier;
-
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-// TestPropertyProvider requires PER_CLASS lifecycle (MicronautJunit5Extension.beforeAll).
 @MicronautTest
-@Testcontainers
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ApplicationTest implements TestPropertyProvider {
-
-    @Container
-    static MongoDBContainer mongo = new MongoDBContainer(DockerImageName.parse("mongo:4"));
+class ApplicationTest {
 
     @Inject
     EmbeddedApplication<?> application;
@@ -38,18 +24,6 @@ class ApplicationTest implements TestPropertyProvider {
     @Inject
     @Client("/customers")
     ReactorHttpClient client;
-
-    @Override
-    public Map<String, String> getProperties() {
-        // MicronautJunit5Extension.beforeAll runs before the Testcontainers extension
-        // auto-starts the container, so ensure it is running before reading its host/port.
-        if (!mongo.isRunning()) {
-            mongo.start();
-        }
-        return Map.of(
-            "mongodb.uri", "mongodb://" + mongo.getHost() + ":" + mongo.getFirstMappedPort() + "/mydb"
-        );
-    }
 
     @Test
     void testItWorks() {

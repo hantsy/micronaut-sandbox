@@ -1,6 +1,7 @@
 plugins {
     id("com.gradleup.shadow") version "9.4.1"
     id("io.micronaut.application") version "5.0.2"
+    id("io.micronaut.test-resources") version "5.0.2"
 }
 
 version = "0.1"
@@ -46,10 +47,8 @@ dependencies {
     testImplementation("org.mockito:mockito-core")
     testImplementation("io.projectreactor:reactor-test")
 
-    // testcontainers
-    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
-    testImplementation("org.testcontainers:testcontainers-mongodb")
-    testImplementation("org.testcontainers:testcontainers")
+    // micronaut test resources (mongodb)
+    testResourcesService("io.micronaut.testresources:micronaut-test-resources-mongodb")
 }
 
 application {
