@@ -6,8 +6,13 @@ import com.example.photos.AlbumRepository
 import groovy.util.logging.Slf4j
 import io.micronaut.runtime.EmbeddedApplication
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject
+import org.testcontainers.containers.MongoDBContainer
+import org.testcontainers.spock.Testcontainers
 import reactor.test.StepVerifier
+import spock.lang.AutoCleanup
+import spock.lang.Shared
 import spock.lang.Specification
 
 import java.time.Duration
@@ -15,8 +20,21 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
 @MicronautTest(startApplication = false)
+@Testcontainers
 @Slf4j
-class AlbumRepositorySpec extends Specification {
+class AlbumRepositorySpec extends Specification implements TestPropertyProvider {
+
+    @Shared
+    @AutoCleanup
+    MongoDBContainer mongo = new MongoDBContainer("mongo:4")
+
+    @Override
+    Map<String, String> getProperties() {
+        if (!mongo.isRunning()) {
+            mongo.start()
+        }
+        return ["mongodb.uri": mongo.getReplicaSetUrl()]
+    }
 
     @Inject
     EmbeddedApplication<?> application

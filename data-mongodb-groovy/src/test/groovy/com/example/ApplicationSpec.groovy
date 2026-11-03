@@ -6,7 +6,7 @@ import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.reactor.http.client.ReactorHttpClient
-import io.micronaut.runtime.EmbeddedServer
+import io.micronaut.runtime.server.EmbeddedServer
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject
@@ -33,7 +33,7 @@ class ApplicationSpec extends Specification implements TestPropertyProvider {
         if (!mongo.isRunning()) {
             mongo.start()
         }
-        return ["mongodb.uri": mongo.getReplicaSetUrl() + "/mydb"]
+        return ["mongodb.uri": mongo.getReplicaSetUrl("mydb")]
     }
 
     @Inject

@@ -47,7 +47,7 @@ class ApplicationTest implements TestPropertyProvider {
         if (!mongo.isRunning()) {
             mongo.start();
         }
-        return Map.of("mongodb.uri", mongo.getReplicaSetUrl() + "/mydb");
+        return Map.of("mongodb.uri", mongo.getReplicaSetUrl("mydb"));
     }
 
     @Test
