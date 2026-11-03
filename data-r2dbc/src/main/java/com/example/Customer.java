@@ -10,11 +10,11 @@ import static io.micronaut.data.annotation.Relation.Kind.EMBEDDED;
 @Introspected
 @MappedEntity(value = "customers")
 public record Customer(
-        @Id @AutoPopulated UUID id,
+        @Id @AutoPopulated @MappedProperty(definition = "UUID DEFAULT gen_random_uuid()") UUID id,
         String name,
         Integer age,
         @Relation(EMBEDDED) Address address,
-        @Version Long version
+        @Version @MappedProperty(definition = "BIGINT DEFAULT 0") Long version
 ) {
     public static Customer of(String name, Integer age, Address address) {
         return new Customer(null, name, age, address, null);
