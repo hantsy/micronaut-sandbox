@@ -7,7 +7,6 @@ plugins {
     id("com.google.devtools.ksp") version "2.3.7"
     id("com.gradleup.shadow") version "9.4.1"
     id("io.micronaut.application") version "5.0.2"
-    id("io.micronaut.test-resources") version "5.0.2"
 }
 
 version = "0.1"
@@ -83,7 +82,12 @@ dependencies {
     // https://mvnrepository.com/artifact/io.projectreactor/reactor-test
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlinCoVersion}")
-    testResourcesService("org.postgresql:postgresql")
+
+    // test containers support
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers-postgresql")
+    testImplementation("org.testcontainers:testcontainers")
+    testImplementation("org.testcontainers:testcontainers-r2dbc")
 }
 
 application {

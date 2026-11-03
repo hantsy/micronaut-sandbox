@@ -11,11 +11,15 @@ import java.util.*
 @MappedEntity(value = "posts", namingStrategy = NamingStrategies.UnderScoreSeparatedLowerCase::class)
 data class Post(
     @AutoPopulated//generated value UUID does not work here.
-    @field:Id val id: UUID?,
+    @field:Id
+    @field:MappedProperty(definition = "UUID DEFAULT gen_random_uuid()")
+    val id: UUID?,
     val title: String,
     val content: String,
     val status: Status? = Status.DRAFT,
-    @field:DateCreated val createdAt: LocalDateTime?,
+    @field:DateCreated
+    @field:MappedProperty(definition = "TIMESTAMP DEFAULT LOCALTIMESTAMP")
+    val createdAt: LocalDateTime?,
     @field:Relation(
         value = Relation.Kind.ONE_TO_MANY,
         mappedBy = "post",
