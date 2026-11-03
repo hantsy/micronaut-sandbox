@@ -1,0 +1,6 @@
+# MongoDB 8.x cannot start on the Linux kernels used by GitHub Actions runners
+# (SERVER-121912), so pin the test-resources container to an image that can.
+test-resources:
+  containers:
+    mongodb:
+      image-name: mongo:4
