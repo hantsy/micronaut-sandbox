@@ -7,7 +7,6 @@ plugins {
     id("com.google.devtools.ksp") version "2.3.13"
     id("com.gradleup.shadow") version "9.4.1"
     id("io.micronaut.application") version "5.0.2"
-    id("io.micronaut.test-resources") version "5.0.2"
 }
 
 version = "0.1"
@@ -89,6 +88,11 @@ dependencies {
 
     // yaml support
     runtimeOnly("org.yaml:snakeyaml")
+
+    // testcontainers
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers-postgresql")
+    testImplementation("org.testcontainers:testcontainers")
 
     //logging
     runtimeOnly("ch.qos.logback:logback-classic")
