@@ -18,7 +18,7 @@ The following table lists all examples in this repository.
 | [data-r2dbc-test-resources](https://github.com/hantsy/micronaut-sandbox/tree/master/data-r2dbc-test-resources) | Java   | Data R2dbc, Test Resources, JUnit                      |
 | [data-r2dbc-kotlin-co](https://github.com/hantsy/micronaut-sandbox/tree/master/data-r2dbc-kotlin-co)       | Kotlin   | Data R2dbc, Testcontainers, Kotest                     |
 | [data-mongo](https://github.com/hantsy/micronaut-sandbox/tree/master/data-mongo)                             | Java     | Data MongoDB, Testcontainers, JUnit                    |
-| [data-mongo-test-resources](https://github.com/hantsy/micronaut-sandbox/tree/master/data-mongo-test-resources) | Java   | Data MongoDB, Test Resources, JUnit                    |
+| [data-mongodb-test-resources](https://github.com/hantsy/micronaut-sandbox/tree/master/data-mongodb-test-resources) | Java   | Data MongoDB, Test Resources, JUnit                    |
 | [data-hibernate-reactive](https://github.com/hantsy/micronaut-sandbox/tree/master/data-hibernate-reactive) | Java     | Data Hibernate Reactive, Testcontainers, JUnit         |
 | [data-mongodb-groovy](https://github.com/hantsy/micronaut-sandbox/tree/master/data-mongodb-groovy)         | Groovy   | Data MongoDB, Testcontainers, Spock                    |
 | [mongodb-album-service](https://github.com/hantsy/micronaut-sandbox/tree/master/mongodb-album-service)     | Java     | MongoDB Async, Testcontainers, Spock                   |

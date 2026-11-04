@@ -1,14 +1,14 @@
-name: data-mongo-test-resources
+name: data-mongodb-test-resources
 
 on:
   push:
     paths:
-      - "data-mongo-test-resources/**"
+      - "data-mongodb-test-resources/**"
     branches:
       - master
   pull_request:
     paths:
-      - "data-mongo-test-resources/**"
+      - "data-mongodb-test-resources/**"
     types:
       - opened
       - synchronize
@@ -30,6 +30,6 @@ jobs:
 
       - name: Execute Gradle build
         run: |
-          cd data-mongo-test-resources
+          cd data-mongodb-test-resources
           chmod +x gradlew
           ./gradlew build
