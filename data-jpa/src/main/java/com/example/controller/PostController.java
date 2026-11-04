@@ -101,7 +101,7 @@ public class PostController {
         return posts.findById(id)
                 .map(post -> {
                     var comments = this.comments.findByPost(post);
-                    return ok(comments.stream().map(c -> new CommentDetailsDto(c.getId(), c.getContent(), c.getCreatedAt())));
+                    return ok(comments.stream().map(c -> new CommentDetailsDto(c.getId(), c.getContent(), c.getCreatedAt())).toList());
                 })
                 .orElseThrow(() -> new PostNotFoundException(id));
         //.orElseGet(HttpResponse::notFound);

@@ -1,6 +1,7 @@
 package com.example.customers;
 
 import lombok.AllArgsConstructor;
+import io.micronaut.serde.annotation.Serdeable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import org.bson.types.ObjectId;
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
 @BsonDiscriminator("customers")
+@Serdeable
 public class Customer {
     @BsonId
     private ObjectId id;

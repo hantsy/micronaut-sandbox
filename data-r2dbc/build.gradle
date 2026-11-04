@@ -17,9 +17,10 @@ dependencies {
 
     //micronaut framework
     implementation("io.micronaut.validation:micronaut-validation")
-    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("io.micronaut.reactor:micronaut-reactor")
 
+    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
     annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
 

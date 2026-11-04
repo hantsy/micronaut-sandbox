@@ -16,7 +16,7 @@ dependencies {
 
     // micronaut
     implementation("io.micronaut.validation:micronaut-validation")
-    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
     implementation("io.micronaut:micronaut-http-client")
@@ -26,6 +26,7 @@ dependencies {
     implementation("org.mongodb:mongodb-driver-sync")
 
     // annotation processor
+    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
     annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
     annotationProcessor("io.micronaut.data:micronaut-data-document-processor")
 

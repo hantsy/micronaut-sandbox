@@ -1,6 +1,7 @@
 package com.example;
 
 import lombok.*;
+import io.micronaut.serde.annotation.Serdeable;
 
 import jakarta.persistence.Embeddable;
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Serdeable
 public class Address implements Serializable {
     private String street;
     private String city;

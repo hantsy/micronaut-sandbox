@@ -3,4 +3,4 @@ defaultPackage: com.example
 testFramework: junit
 sourceLanguage: java
 buildTool: gradle
-features: [annotation-api, app-name, data-mongodb, gradle, java, java-application, jackson-databind, logback, micronaut-build, mongo-sync, netty-server, readme, shade, junit, testcontainers, yaml]
+features: [annotation-api, app-name, data-mongodb, gradle, java, java-application, serialization-jackson, logback, micronaut-build, mongo-sync, netty-server, readme, shade, junit, testcontainers, yaml]

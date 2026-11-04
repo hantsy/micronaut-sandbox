@@ -1,6 +1,7 @@
 package com.example.domain;
 
 import lombok.*;
+import io.micronaut.serde.annotation.Serdeable;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @Builder
 @Entity
 @Table(name = "posts")
+@Serdeable
 public class Post implements Serializable {
 
     @Id

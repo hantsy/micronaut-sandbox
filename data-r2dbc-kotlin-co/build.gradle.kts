@@ -12,9 +12,8 @@ plugins {
 version = "0.1"
 group = "com.example"
 
-val kotlinVersion = project.properties.get("kotlinVersion")
-val kotlinCoVersion = project.properties.get("kotlinCoVersion")
-val kotestVersion = project.properties.get("kotestVersion")
+val kotlinVersion: String by project
+val kotlinCoVersion: String by project
 
 repositories {
     mavenCentral()
@@ -43,7 +42,7 @@ dependencies {
 
     //micronaut framework
     implementation("io.micronaut:micronaut-http-client")
-    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
     implementation("io.micronaut.validation:micronaut-validation")
@@ -56,7 +55,6 @@ dependencies {
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
-    runtimeOnly("tools.jackson.module:jackson-module-kotlin")
 
     //flyway
     implementation("io.micronaut.flyway:micronaut-flyway")
@@ -77,6 +75,7 @@ dependencies {
     // ksp
     ksp("io.micronaut.data:micronaut-data-processor")
     ksp("io.micronaut.validation:micronaut-validation-processor")
+    ksp("io.micronaut.serde:micronaut-serde-processor")
 
     // test
     // https://mvnrepository.com/artifact/io.projectreactor/reactor-test

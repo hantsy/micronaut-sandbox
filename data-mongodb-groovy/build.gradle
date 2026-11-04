@@ -17,13 +17,14 @@ dependencies {
 
     // micronaut
     implementation("io.micronaut.validation:micronaut-validation")
-    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("io.micronaut.groovy:micronaut-runtime-groovy")
     // data mongodb
     implementation("io.micronaut.data:micronaut-data-mongodb")
     implementation("org.mongodb:mongodb-driver-sync")
 
     // annotation processor
+    compileOnly("io.micronaut.serde:micronaut-serde-processor")
     compileOnly("io.micronaut.validation:micronaut-validation-processor")
     compileOnly("io.micronaut.data:micronaut-data-document-processor")
 

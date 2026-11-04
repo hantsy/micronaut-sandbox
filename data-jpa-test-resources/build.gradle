@@ -29,7 +29,7 @@ dependencies {
 
     // micronaut framework
     implementation("io.micronaut:micronaut-http-client")
-    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("io.micronaut.validation:micronaut-validation")
     implementation("io.micronaut.data:micronaut-data-hibernate-jpa")

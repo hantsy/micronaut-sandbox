@@ -27,7 +27,7 @@ dependencies {
 
     //micronaut
     implementation("io.micronaut.validation:micronaut-validation")
-    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("io.micronaut.groovy:micronaut-runtime-groovy")
 	implementation("io.micronaut.reactor:micronaut-reactor")
     // data mongodb
@@ -45,6 +45,7 @@ dependencies {
 
     //lombok
     compileOnly("org.projectlombok:lombok")
+    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
     annotationProcessor("org.projectlombok:lombok")
     testAnnotationProcessor("org.projectlombok:lombok")
 

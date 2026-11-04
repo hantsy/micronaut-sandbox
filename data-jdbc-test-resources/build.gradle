@@ -19,7 +19,7 @@ dependencies {
 
     //micronaut framework
     implementation("io.micronaut.validation:micronaut-validation")
-    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
     implementation("io.micronaut:micronaut-http-client")
@@ -43,6 +43,7 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
 
     // annotation processor
+    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
     annotationProcessor("org.projectlombok:lombok")
     testAnnotationProcessor("org.projectlombok:lombok")
     annotationProcessor("io.micronaut.data:micronaut-data-processor")

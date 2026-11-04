@@ -1,6 +1,7 @@
 package com.example.photos;
 
 import lombok.AllArgsConstructor;
+import io.micronaut.serde.annotation.Serdeable;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Serdeable
 public class Album {
     @BsonId
     private ObjectId id;

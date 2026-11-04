@@ -1,6 +1,7 @@
 package com.example;
 
 import lombok.*;
+import io.micronaut.serde.annotation.Serdeable;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Serdeable
 public class Customer implements Serializable {
     @Id
     @GeneratedValue

@@ -4,10 +4,12 @@ import io.micronaut.data.annotation.GeneratedValue;
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
 import io.micronaut.data.annotation.Relation;
+import io.micronaut.serde.annotation.Serdeable;
 
 import static io.micronaut.data.annotation.Relation.Kind.EMBEDDED;
 
 @MappedEntity("customers")
+@Serdeable
 public record Customer(
     @Id @GeneratedValue String id,
     String name,

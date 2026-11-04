@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import io.micronaut.core.annotation.Introspected
 import io.micronaut.data.annotation.*
 import io.micronaut.data.model.naming.NamingStrategies
+import io.micronaut.serde.annotation.Serdeable
 import jakarta.persistence.JoinColumn
 import java.time.LocalDateTime
 import java.util.*
 
+@Serdeable
 @Introspected
 @MappedEntity(value = "comments", namingStrategy = NamingStrategies.UnderScoreSeparatedLowerCase::class)
 data class Comment(

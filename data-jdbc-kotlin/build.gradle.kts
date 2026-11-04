@@ -67,7 +67,7 @@ dependencies {
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
 
-    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("io.micronaut.validation:micronaut-validation")
 
     //database
@@ -84,7 +84,6 @@ dependencies {
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
-    runtimeOnly("tools.jackson.module:jackson-module-kotlin")
 
     // yaml support
     runtimeOnly("org.yaml:snakeyaml")
@@ -99,6 +98,7 @@ dependencies {
 
     // Google KSP
     ksp("io.micronaut.validation:micronaut-validation-processor")
+    ksp("io.micronaut.serde:micronaut-serde-processor")
     ksp("io.micronaut.data:micronaut-data-processor")
 }
 

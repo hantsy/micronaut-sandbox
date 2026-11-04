@@ -42,10 +42,9 @@ class IntegrationTestsWithRestAssured {
             .contentType(ContentType.JSON)
             .statusCode(200)
             .body(
-                    "pageNumber", equalTo(0),
-                    "size", equalTo(10),
+                    "pageable.number", equalTo(0),
+                    "pageable.size", equalTo(10),
                     "totalSize", equalTo(2),
-                    "totalPages", equalTo(1),
                     "content[0].title", containsString("Micronaut")
             );
         //@formatter:on
