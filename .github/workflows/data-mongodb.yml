@@ -1,14 +1,14 @@
-name: data-mongo
+name: data-mongodb
 
 on:
   push:
     paths:
-      - "data-mongo/**"
+      - "data-mongodb/**"
     branches:
       - master
   pull_request:
     paths:
-      - "data-mongo/**"
+      - "data-mongodb/**"
     types:
       - opened
       - synchronize
@@ -30,6 +30,6 @@ jobs:
 
       - name: Execute Gradle build
         run: |
-          cd data-mongo
+          cd data-mongodb
           chmod +x gradlew
           ./gradlew build

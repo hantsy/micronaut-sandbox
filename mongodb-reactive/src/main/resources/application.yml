@@ -8,9 +8,3 @@ mongodb:
   connectionPool:
     maxSize: 20
 
-jackson:
-  serialization:
-    indentOutput: true
-    writeDatesAsTimestamps: false
-  deserialization:
-    failOnUnknownProperties: false
