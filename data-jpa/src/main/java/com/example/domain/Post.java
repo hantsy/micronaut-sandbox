@@ -1,7 +1,6 @@
 package com.example.domain;
 
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -21,8 +20,7 @@ import java.util.UUID;
 public class Post implements Serializable {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue
     UUID id;
     String title;
     String content;

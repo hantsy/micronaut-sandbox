@@ -1,7 +1,6 @@
 package com.example.domain;
 
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -19,8 +18,7 @@ import java.util.UUID;
 public class Comment implements Serializable {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue
     private UUID id;
 
     @ManyToOne
