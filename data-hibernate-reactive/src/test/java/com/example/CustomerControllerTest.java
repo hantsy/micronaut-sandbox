@@ -29,6 +29,7 @@ import static org.mockito.Mockito.*;
 // config-only escapes avoid the connection: hbm2ddl.auto=none, an explicit hibernate.dialect,
 // hibernate.boot.allow_jdbc_metadata_access=false and jpa.default.enabled=false all still fail
 // with HR000092 (verified against an unreachable jdbc:postgresql://localhost:1/probe).
+// see: https://github.com/micronaut-projects/micronaut-data/issues/4243
 @Disabled("Requires a running database: Hibernate Reactive opens a connection when building the SessionFactory")
 @MicronautTest(environments = "mock")
 class CustomerControllerTest {
