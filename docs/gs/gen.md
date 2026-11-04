@@ -1,4 +1,4 @@
-# Generate a Project Skeleton
+# Generate a project skeleton
 
 Similar to [Spring Initializr]( https://start.spring.io), Micronaut provides an online service named **Launch** to generate a project skeleton for you.
 
@@ -8,15 +8,16 @@ Alternatively, Micronaut provides a command line. You can use it to generate a n
 
 Open your browser, go to [Micronaut Launch](https://micronaut.io/launch/), you will see the following screen.
 
-![launch](./launch.png)
+In **Application Type**, choose the type that matches your application. For a
+web application or REST API, select **Micronaut Application**.
 
-In the **Application Type** field, there are several options available in the dropdown menu, including **Micronaut Application**, **Command Line Application**, **gRPC Application**, **Function Application for serverless**, **Message-Driven Application**. For different purposes, you can choose one to generate the project skeleton. If you want to create a general web application, a RESTful API backend application, or a Microservice component, use the default **Micronaut Application**.
-
-In the **Java version** field, it is highly recommended to choose the latest LTS version **25**. The examples in this repository are built with Java 25.
+In **Java Version**, select Java 25 to match the examples in this repository.
 
 If you want to customize the application name (it is also the project artifact id) and base package name, alter the value in the **Name** and **Package Name** fields.
 
-Next, select the **Micronaut Version**(for new project, the latest stable version is recommended) and your favorite programming **Language**(Java, Kotlin, Groovy), **Build Tools**(Maven, Gradle, Gradle with Kotlin Script) and **Test framework**(JUnit, Kotest, Spock).
+Select a Micronaut version, language, build tool, and test framework. This
+repository includes Java, Kotlin, and Groovy projects, with Gradle and Gradle
+Kotlin DSL build files and JUnit, Kotest, and Spock tests.
 
 Click the **Features** button, it will popup a new window. In the popup window, it lists all Micronaut integrated libraries/frameworks. Filter and select those you want to use to build the application. 
 
@@ -64,14 +65,10 @@ After it is done, verify the installation.
 
 ```bash 
 $ mn -V
-Micronaut Version: 4.8.3
 ```
 
-> The standalone `mn` CLI is currently published in the 4.x line. To start a Micronaut 5 project, generate the skeleton from [Micronaut Launch](https://micronaut.io/launch/), which defaults to the latest stable platform (5.2.4 at the time of writing — the version pinned by the examples in this repository). To download an archive from a terminal instead of the browser:
->
-> ```bash
-> $ curl --fail --location "https://launch.micronaut.io/demo.zip?features=data-jpa,postgres,testcontainers" --output demo.zip
-> ```
+To generate a project with a specific Micronaut platform version, use the
+version selector in [Micronaut Launch](https://micronaut.io/launch/).
 
 Type `mn --help` command in the terminal to get all available options.
 

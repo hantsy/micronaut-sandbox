@@ -23,7 +23,7 @@ In the previous examples, we used JUnit and Kotest as testing framework, in this
 
 Create a Mongo document entity class.
 
-```kotlin
+```java
 @Data
 @Builder
 @NoArgsConstructor
@@ -174,7 +174,12 @@ Generally, a Spock test is called a  `Specfication`,  you can override the lifec
 
 In the above codes, we override the `setup` method and clear the data in the database. And then create a test to verify the insert and find operations, in the `then` block, we use the `StepVerify` to assert the result in Reactive Streams.
 
-If you want to start up a Testcontainers Docker to serve the required Mongo database,  try to define a  Mongo container instance with `Shared` and `AutoCleanup` annotation, and override `setupSpec` to ensure it is available for all tests in this specification.
+For a complete Spock integration-test example with a shared MongoDB
+Testcontainers instance, see the
+[`data-mongodb-groovy` repository test](https://github.com/hantsy/micronaut-sandbox/blob/master/data-mongodb-groovy/src/test/groovy/com/example/CustomerRepositorySpec.groovy).
+It configures the Micronaut context with the container's mapped port before
+running repository tests. See [Testing with Spock](../test/spock.md) for the
+test framework and dependency setup.
 
 ```groovy
 @Shared
@@ -275,7 +280,7 @@ public class ObjectIdJsonSerializer extends JsonSerializer<ObjectId> {
 
 Create a test for the `CustomerController`.
 
-```gro
+```groovy
 @MicronautTest(environments = ["mock"])
 class CustomerControllerSpec extends Specification {
 

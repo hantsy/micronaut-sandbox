@@ -68,7 +68,7 @@ docker compose up postgres
 ```
 Wait for a while, it will prepare a Postgres database from Docker image and start it.
 
-This local database is only needed when you run the application itself. Tests do not depend on it: the generated project adds the **testcontainers** feature, and `src/test/resources/application-test.yml` swaps the data source to the Testcontainers JDBC driver.
+This local database is only needed when you run the application itself. Tests do not depend on it: the project uses the Testcontainers JDBC driver configured in `src/test/resources/application-test.yml`.
 
 ```yaml
 datasources:

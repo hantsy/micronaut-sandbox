@@ -1,6 +1,8 @@
 # Building RESTful API with Micronaut Data Jdbc and Kotlin
 
-Micronaut Data also has great support for Jdbc and R2dbc. In this post, we will explore the Micronaut Data Jdbc and write the example in Kotlin language, and finally we will test the components with Kotest.
+Micronaut Data supports JDBC and R2DBC. This guide builds a Kotlin application
+with Micronaut Data JDBC and uses Kotest to test its repositories and HTTP
+endpoints.
 
 
 
@@ -8,7 +10,7 @@ Micronaut Data also has great support for Jdbc and R2dbc. In this post, we will 
 
 Open your browser and navigate to [Micronaut Launch](https://micronaut.io/launch) to generate a new project skeleton for this post. Select the following items on this page.
 
-*  Java version:  **17**
+*  Java version:  **25**
 
 * Language: **Kotlin** 
 
@@ -342,6 +344,10 @@ open class PostRepositoryAnnotationSpec() : AnnotationSpec() {
 Similar to Spring Jdbc and Spring Data Jdbc,  there is a template based `JdbcOperations` bean available for programmatic database operations. In the above testing codes, we used `JdbcOperations` to prepare and clean up sample data for each tests.
 
 In this application, we use Kotest as testing framework. 
+
+The project uses the Testcontainers JDBC driver for its PostgreSQL integration
+tests. For the Kotest spec patterns and the coroutine-based R2DBC example, see
+[Testing with Kotest](../test/kotest.md).
 
 Kotest provides a lot of testing code styles, some are inspired by the existing `describe/it` clause from NodeJS ecosystem or ScalaTest. 
 

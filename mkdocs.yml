@@ -49,7 +49,7 @@ plugins:
 nav:
   - Preface:
     - index.md
-  - Introduction to Mcironaut:
+  - Introduction to Micronaut:
     - intro/index.md
     - "What is Micronaut?": intro/what.md
     - "Why Micronaut?": intro/why.md    
@@ -67,6 +67,6 @@ nav:
   - Testing:
     - test/index.md
     - JUnit: test/junit.md
-    - KoTest: test/kotest.md
+    - Kotest: test/kotest.md
     - Spock: test/spock.md
     

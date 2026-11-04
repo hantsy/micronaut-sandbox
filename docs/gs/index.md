@@ -1,12 +1,16 @@
-# Getting Started
+# Getting started
 
-In this chapter, we will write some codes to explore the basic features. 
+Use these guides to generate, build, and explore the example applications. Each
+sample is a standalone project with its own Gradle wrapper.
 
-You will learn how to generate a project skeleton quickly from the online service Micronaut Launch or Micronaut CLI.
+Start with the [prerequisites](./prerequisites.md), then generate a project or
+open one of the examples below.
 
-Then we will create several small projects to demonstrate building RESTful APIs with Micronaut, in the samples, we will use varied combination of different languages and data access technologies.
-
-* [Java + Micronaut Data JPA](./gs-rest.md)
-* [Kotlin + Micronaut Data Jdbc](./jdbc-kotlin.md)
-* [Kotlin Coroutine + Micronaut Data R2dbc](./r2dbc-kotlin-co.md)
-* [Java + Micronaut Mongo Reactive](./mongo-reactive.md)
+- [Generate a project skeleton](./gen.md)
+- [Understand dependency injection](./di.md)
+- [Build and run an application](./build.md)
+- [Java with Micronaut Data JPA](./gs-rest.md)
+- [Kotlin with Micronaut Data JDBC](./jdbc-kotlin.md)
+- [Kotlin Coroutines with Micronaut Data R2DBC](./r2dbc-kotlin-co.md)
+- [Java with reactive MongoDB](./mongo-reactive.md)
+- [Jakarta Data with JPA, JDBC, or MongoDB](./jakarta-data.md)

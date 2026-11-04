@@ -1,27 +1,34 @@
-# Testing Micronaut Application with JUnit
+# Testing Micronaut applications with JUnit 5
 
-JUnit is the most popular testing framework for Java developers. 
+Use JUnit 5 with Micronaut Test to verify beans, persistence, and HTTP
+endpoints. This page describes the JUnit examples in this repository and their
+database test options.
 
-## Adding JUnit 
+## Adding JUnit
 
-When generating a Micronaut application, make sure you have selected **JUnit** testing framework.
+When generating a Micronaut application, select **JUnit** as the test
+framework. The Gradle Micronaut plugin configures the JUnit 5 test runtime with
+`testRuntime("junit5")`.
 
 Open *build.gradle* in the project root.
 
-In the *micronaut* task configuration, there is *testRuntime("junit5")*, it sets up the *junit-jupiter* in test scope.
+The `micronaut` configuration includes `testRuntime("junit5")`, which adds
+JUnit Jupiter to the test runtime.
 
-*AssertJ* and *Mockito* are usually used with JUnit. The former provides fluent asserting APIs, and the later is the defact mocking framework.
+AssertJ provides fluent assertions, and Mockito provides mock objects. Add
+them to the `dependencies` block when your tests need them:
 
 Add the following into the *dependencies* block.
 
-```groovy 
+```groovy
 testImplementation("org.assertj:assertj-core")
 testImplementation("org.mockito:mockito-core")
 ```
 
 ## Test Persistence Layer
 
-Write a test to verify functionality of `PostRepository`. Similar to the `@SpringBootTest`, Micronaut provides a `@MicronautTest`. 
+Write a test to verify `PostRepository`. Micronaut provides `@MicronautTest`
+to start the application context for a test.
 
 ```java
 @MicronautTest(application = Application.class, startApplication = false)
@@ -47,20 +54,67 @@ class PostRepositoryTest {
 
 Here we set `startApplication = false`, it does not start the embedded server to host the application, to test against the database, we do not need a running application
 
-We have add `testcontainers` feature, it will configure a Postgres for test automatically.  Check the testcontainers config in the `src/test/resources/application-test.yml`.
+The `data-jdbc` and Jakarta Data examples use the Testcontainers JDBC driver.
+Their test configuration points the datasource at a disposable PostgreSQL
+container:
 
-```java
+```yaml
 datasources:
   default:
-    url: jdbc:tc:postgresql:12:///postgres
+    url: jdbc:tc:postgresql:18:///postgres
     driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
 ```
 
-When there is a `tc` as database host name, testcontainer will start up a Postgres database automatically.
+The `jdbc:tc:` URL starts the container when the test first connects to the
+database. The examples declare the Testcontainers PostgreSQL and JDBC
+dependencies in their Gradle build files. Run `./gradlew test` from an example
+project directory to run its tests; Docker must be available.
+
+### Manage the container with JUnit
+
+Use the Testcontainers JUnit Jupiter extension when a test needs direct access
+to the container or its mapped ports. Annotate the class with `@Testcontainers`
+and the static container field with `@Container`. Start the Micronaut context
+with the connection properties returned by the container:
+
+```java
+import io.micronaut.context.ApplicationContext;
+import org.junit.jupiter.api.BeforeAll;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+
+import java.util.Map;
+
+@Testcontainers
+class CustomerDaoTest {
+    @Container
+    static PostgreSQLContainer<?> postgres =
+            new PostgreSQLContainer<>("postgres:18");
+
+    static ApplicationContext context;
+
+    @BeforeAll
+    static void startContext() {
+        context = ApplicationContext.run(Map.of(
+                "datasources.default.url", postgres.getJdbcUrl(),
+                "datasources.default.username", postgres.getUsername(),
+                "datasources.default.password", postgres.getPassword(),
+                "datasources.default.driverClassName", "org.postgresql.Driver"
+        ));
+    }
+}
+```
+
+The Testcontainers extension starts the static container for the test class.
+See the [repository test](https://github.com/hantsy/micronaut-sandbox/blob/master/data-jdbc/src/test/java/com/example/CustomerDaoTest.java)
+for the complete test. Use JDBC URL mode when you only need a disposable
+database; use a JUnit-managed container when the test needs container details
+or custom lifecycle control.
 
 ## Testing Controller
 
-Write a test for the `PostController`. 
+Write a test for `PostController`.
 
 ```java
 @MicronautTest(environments = Environment.TEST)
@@ -134,13 +188,12 @@ public class PostControllerTest {
 
 In this test, we use Mockito to mock all dependent beans(`PostRepository` and `CommentRepository`) in the `PostController`.  To mock beans in the test context, Micronaut provides a `MockBean` to produce a mocked instance to replace the *real* beans.
 
-Similar to Spring's `RestTemplate` or `WebClient`,  Micronaut provides a `HttpClient` to send request to a certain URI, by default it uses the *ReactiveStream*s compatible API, If you are stick on the traditional blocking API, call the `toBlocking()` method to switch to use it. 
+Micronaut's `HttpClient` sends requests to application endpoints. Its default
+API is reactive. Call `toBlocking()` when a test needs the blocking API.
 
 The `exchange` method will return a HTTP response object, and the `retrieve` method returns the response body directly.
 
 > Note: When using blocking APIs, if it returns a failure HTTP response, such as return a 4xx status code,  it will throws a `HttpClientResponseException` instead. In contrast,  in ReactiveStreams APIs, it will emit the exception to error channel.
-
-### 
 
 ## Integration Tests
 
@@ -217,7 +270,35 @@ class IntegrationTests {
 
 In the `testGetAllPosts` test, we try to use reactive `HttpClient` APIs and use reactor-test's `StepVerifier` to assert the data in a reactive data stream.
 
-The second test mothed is verifying the whole flow of creating a post, add comments, fetching comments, and deleting the post. 
+The second test verifies a flow that creates a post, adds and fetches comments,
+and deletes the post.
 
-In an API integration tests, test itself works as a Http client(through a HTTP Client library) to interact with the backend with defined APIs. Ideally you can use any HttpClient to test APIs, such as Java 11 HttpClient, OKHttp, etc. There are some examples in the example repository using `RestAssured` and Java 11 new `HttpClient`, check [the source codes](https://github.com/hantsy/micronaut-sandbox/tree/master/data-jpa) and explore them yourself.
+An API integration test acts as an HTTP client and sends requests to the
+application through its public endpoints. The repository's
+[`data-jpa` example](https://github.com/hantsy/micronaut-sandbox/tree/master/data-jpa)
+also includes tests using RestAssured and the Java HTTP client.
 
+## Use Micronaut Test Resources
+
+The repository includes JUnit 5 projects that use Micronaut Test Resources:
+`data-jdbc-test-resources`, `data-jpa-test-resources`, and
+`data-mongodb-test-resources`. Their Gradle builds apply the
+`io.micronaut.test-resources` plugin. The MongoDB project also declares the
+MongoDB Test Resources service and pins its test image in
+`src/test/resources/application-test.yml`.
+
+The MongoDB test configuration selects the container image used by the test
+resource service:
+
+```yaml
+test-resources:
+    containers:
+        mongodb:
+            image-name: mongo:4
+```
+
+Test Resources starts the required service for the test run and supplies its
+connection settings to the application. This differs from the Testcontainers
+JDBC URL shown above, where the test datasource uses the `jdbc:tc:` driver
+directly. See the [PostgreSQL Test Resources project](https://github.com/hantsy/micronaut-sandbox/tree/master/data-jdbc-test-resources)
+and the [MongoDB Test Resources configuration](https://github.com/hantsy/micronaut-sandbox/tree/master/data-mongodb-test-resources).

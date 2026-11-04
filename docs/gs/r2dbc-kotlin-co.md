@@ -8,7 +8,7 @@ In this post, we will continue to explore Micronaut Data  R2dbc,  and rewrite th
 
 Open your browser and navigate to [Micronaut Launch](https://micronaut.io/launch) to generate a new project skeleton for this post. Select the following items on this page.
 
-*  Java version:  **17**
+*  Java version:  **25**
 
 *  Language: **Kotlin** 
 
@@ -20,7 +20,7 @@ Open your browser and navigate to [Micronaut Launch](https://micronaut.io/launch
 
 Click **GENERATE PROJECT** button to generate a project archive, download it and extract the files into disk, and import to your IDE, such as IDEA.
 
-Open *pom.xml* file, add Kotlin Coroutines into the project dependencies.
+In `build.gradle.kts`, add Kotlin Coroutines to the project dependencies.
 
 ```kotlin
 //kotlin coroutines
@@ -84,7 +84,8 @@ class PostController(private val posts: PostRepository) {
 
 It looks very similar to  Jdbc version we have done in the last post, but here we return a Kotlin Coroutines specific `Flow` type or use a `suspend` function. The difference is all of these methods are executed in an coroutine context.
 
-Now let's try to add some sample data via a `DataInitializer` bean,which listens to a `ServerStartUpEvent`.
+Now add sample data with a `DataInitializer` bean that listens for a
+`ServerStartupEvent`.
 
 ```kotlin
 @Singleton
@@ -121,6 +122,10 @@ class DataInitializer(private val posts: PostRepository) {
 ```
 
 The `EventListener` does not support a `suspend` function, use a `runBlocking` to block the current thread and run the *suspend* functions in sequence.
+
+The `data-r2dbc-kotlin-co` example uses Testcontainers for both JDBC and R2DBC
+connections in its test environment. See [Testing with Kotest](../test/kotest.md)
+for the PostgreSQL configuration and the coroutine test example.
 
 ##  JPA Criteria API
 

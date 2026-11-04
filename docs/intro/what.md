@@ -1,8 +1,13 @@
 # What is Micronaut?
 
-In the homepage of [Micronaut](https://www.micronaut.io), it describes Micronaut is:
+Micronaut is a JVM framework for building modular applications, including
+microservices and serverless applications. The
+[Micronaut website](https://www.micronaut.io) describes the framework as:
 
-> A modern, JVM-based, full-stack framework for building modular, easily testable microservice and serverless applications.
+> A modern, JVM-based, full-stack framework for building modular, easily
+> testable microservice and serverless applications.
 
-Micronaut is relatedly new to Java developers, and it adopts the good part of the existing frameworks, such as Grails, Spring Boot, etc.
+Micronaut provides APIs for dependency injection, HTTP services, configuration,
+and data access. This guide demonstrates those APIs in Java, Kotlin, and Groovy
+examples.
 

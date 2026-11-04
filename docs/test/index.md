@@ -1,7 +1,17 @@
-# Testing 
+# Testing Micronaut applications
 
-Micronaut provides integraion for the popluar testing frameworks, including [JUnit][1], [KoTest][2] and [Spock][3].
+Use the framework you prefer to test Micronaut beans, HTTP endpoints, and
+database integrations. These guides focus on the examples in this repository
+and show where each framework connects to Micronaut Test.
 
- [1]: https://junit.org
- [2]: https://kotest.io
- [3]: https://spockframework.org
+## Choose a test framework
+
+- [JUnit 5](./junit.md) covers Java tests and the repository's Testcontainers
+	and Micronaut Test Resources examples.
+- [Kotest](./kotest.md) covers the Kotlin JDBC and coroutine-based R2DBC
+	examples, both of which use Testcontainers.
+- [Spock](./spock.md) covers Groovy specifications and the MongoDB
+	Testcontainers example.
+
+The Test Resources examples in this repository use JUnit 5. The Kotest and
+Spock examples use Testcontainers instead.

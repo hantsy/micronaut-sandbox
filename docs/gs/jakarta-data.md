@@ -2,13 +2,15 @@
 
 Micronaut is a modern, JVM-based framework designed for building cloud-native microservices and serverless applications. Previously, we explored how to create RESTful backend applications with various Micronaut Data modules, including [Data JPA](https://medium.com/itnext/building-restful-apis-with-micronaut-98f4eb39211c), [Data JDBC](https://medium.com/itnext/building-micronaut-applications-with-micronaut-data-jdbc-and-kotlin-81c1b6cf4b10), [Data R2dbc](https://medium.com/itnext/building-micronaut-applications-with-micronaut-data-r2dbc-and-kotlin-coroutines-a1416db5a7d0), and [Data MongoDB](https://medium.com/itnext/building-micronaut-applications-with-micronaut-mongo-reative-9c418b403bc1).
 
-With the release of Micronaut 4.9, support for the Jakarta Data specification (introduced in Jakarta EE 11) is now available, providing a *standardized* alternative to traditional data persistence approaches. In previous articles, we explored how to [integrate Jakarta Data with Spring](https://medium.com/itnext/integrating-jakarta-data-with-spring-0beb5c215f5f) and [Quarkus](https://medium.com/itnext/integrating-jakarta-data-with-quarkus-0d18365a86fe). In this guide, we'll focus on using Jakarta Data within a Micronaut application to handle data access.
+Micronaut supports Jakarta Data, the Jakarta EE repository specification, as an alternative to framework-specific repository APIs. This guide shows the Jakarta Data examples in this repository and how they use Micronaut Data with JPA, JDBC, and MongoDB.
+
+This repository contains three Jakarta Data projects: [`jakarta-data-jpa`](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data-jpa) uses JPA, [`jakarta-data`](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data) uses JDBC, and [`jakarta-data-mongodb`](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data-mongodb) uses MongoDB. The JDBC example is introduced in the [JDBC section](#jdbc-support).
 
 ## Generating the Project Skeleton
 
 Navigate to the [Micronaut Launch](https://micronaut.io/launch/) page and select the following options to generate your project skeleton:
 
-* **Micronaut Version**: 5.2.4 (latest stable version at the time of writing)
+* **Micronaut Version**: Choose a version compatible with the example project.
 * **Java Version**: 25
 * **Language**: Java
 * **Build Tools**: Gradle Kotlin
@@ -21,7 +23,7 @@ Next, click the **FEATURES** button and add these essential dependencies: *Jakar
 Then click the **GENERATE** button to download the generated archive, extract the files to your local system, and import the project into your favorite IDE, such as IntelliJ IDEA.
 
 > [!NOTE]
-> There is a typo in the generated *build.gradle.kts* in the current version. For more details, see: https://github.com/micronaut-projects/micronaut-starter/issues/2827. Simply change `implementation("jakarta.data:jakarta-data-api")` to `implementation("jakarta.data:jakarta.data-api:1.0.1")` to resolve this issue temporarily.
+> The Jakarta Data API dependency in this example is declared explicitly as `jakarta.data:jakarta.data-api:1.0.1`; see the project's Gradle build file for the dependency used by this sample.
 
 Additionally, add **Lombok** to the `testCompileOnly` and `testAnnotationProcessor` scopes, and organize the dependencies for clarity. You can check the final modified build script [here](https://github.com/hantsy/micronaut-sandbox/blob/master/jakarta-data-jpa/build.gradle.kts).
 
@@ -180,21 +182,33 @@ Please note that some methods that worked well in the Hibernate Jakarta Data imp
 
 You can explore the [complete example project on GitHub](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data-jpa), which also demonstrates testing against a real database using Testcontainers.
 
-## JDBC Support
+## JDBC support
 
-Unlike the Jakarta Data implementation Hiberante, which is heavily dependent on Hibernate's `StatelessSession`. Micronaut Data extends Jakarta Data support to all its data modules, including JDBC and MongoDB.
+The `jakarta-data` project demonstrates Jakarta Data repositories backed by
+Micronaut Data JDBC and PostgreSQL. Unlike the JPA example, it uses Micronaut
+Data's `@MappedEntity` mapping and does not require a JPA persistence provider.
 
-To use Jakarta Data with JDBC, simply select `Data JDBC` instead of `Data JPA` when generating your project skeleton.
-
-In your `CustomerRepository` interface, annotate it with both `@Repository` from Jakarta Data and `@JdbcRepository` from Micronaut Data:
+The `Customer` record maps to the `customers` table. Its `@AutoPopulated` ID,
+embedded `Address`, and `@Version` field are defined with Micronaut Data
+annotations. The repository combines Jakarta Data's `@Repository` and
+`CrudRepository` with Micronaut Data's `@JdbcRepository`:
 
 ```java
 @Repository
-@JdbcRepository
+@JdbcRepository(dialect = Dialect.POSTGRES)
 public interface CustomerRepository extends CrudRepository<Customer, UUID> {
-    // ...
+    Page<Customer> findByAddressCityLike(String cityLike, PageRequest pageRequest);
 }
 ```
+
+The project uses Testcontainers for PostgreSQL. Its
+`src/test/resources/application-test.properties` configures the JDBC
+Testcontainers URL, and the JUnit tests exercise the repository against that
+database. Run the tests from the project directory with `./gradlew test` (or
+`gradlew.bat test` on Windows).
+
+See the [complete JDBC example](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data),
+including the entity, repository, and tests.
 
 You can define the `Customer` entity using the standard Micronaut Data annotations:
 
@@ -267,4 +281,4 @@ You can explore the [complete example project](https://github.com/hantsy/microna
 
 ## Summary
 
-With Micronaut 4.9, support for the Jakarta Data specification introduces a *standardized* way to handle data access, providing an alternative approach for working with both relational databases and NoSQL stores.
+The three example projects demonstrate Jakarta Data repositories with JPA, JDBC, and MongoDB. Choose the persistence module that matches your storage model and use the corresponding project as a starting point.
