@@ -1,0 +1,35 @@
+name: data-mongodb-test-resources
+
+on:
+  push:
+    paths:
+      - "data-mongodb-test-resources/**"
+    branches:
+      - master
+  pull_request:
+    paths:
+      - "data-mongodb-test-resources/**"
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: '25'
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v3
+
+      - name: Execute Gradle build
+        run: |
+          cd data-mongodb-test-resources
+          chmod +x gradlew
+          ./gradlew build

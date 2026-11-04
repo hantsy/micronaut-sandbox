@@ -38,3 +38,6 @@ nbproject
 
 .vscode
 .micronaut
+
+# Superpowers SDD scratch (plans, specs, ledger)
+docs/superpowers/

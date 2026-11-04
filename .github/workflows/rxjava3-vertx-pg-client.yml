@@ -27,13 +27,8 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
-          java-version: '21'
+          java-version: '25'
           
-      - name: Start up databases via Docker Compose 
-        run: |
-            docker compose up -d postgres
-            docker ps -a              
-            
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
         # with:

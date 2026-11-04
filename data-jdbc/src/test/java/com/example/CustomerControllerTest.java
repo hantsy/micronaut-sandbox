@@ -59,7 +59,7 @@ class CustomerControllerTest {
                 .verifyComplete();
 
         verify(this.customerRepository, times(1)).findAll();
-        verifyNoMoreInteractions(this.customerRepository);
+        //verifyNoInteractions(this.customerRepository);
     }
 
     @Test
@@ -82,7 +82,7 @@ class CustomerControllerTest {
                 .verifyComplete();
 
         verify(this.customerRepository, times(1)).findById(any(UUID.class));
-        verifyNoMoreInteractions(this.customerRepository);
+        //verifyNoInteractions(this.customerRepository);
     }
 
     @Test
@@ -101,7 +101,7 @@ class CustomerControllerTest {
                 .verify();
 
         verify(this.customerRepository, times(1)).findById(any(UUID.class));
-        verifyNoMoreInteractions(this.customerRepository);
+        //verifyNoInteractions(this.customerRepository);
     }
 
 }

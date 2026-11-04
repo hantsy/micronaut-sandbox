@@ -13,7 +13,6 @@ import org.bson.types.ObjectId;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
 import java.util.Map;
 
 import static io.micronaut.http.HttpResponse.noContent;
@@ -44,21 +43,17 @@ public class PhotoController {
     public Mono<HttpResponse<?>> upload(@Part StreamingFileUpload file) {
         var filename = file.getFilename();
         var name = file.getName();
-        var contentType = file.getContentType();
-        var size = file.getSize();
-        log.debug("uploading file...\n filename:{},\n name:{},\n contentType: {},\n size: {} ", filename, name, contentType, size);
+        var mediaType = file.metadata().mediaType();
+        var size = file.getDefinedSize();
+        log.debug("uploading file...\n filename:{},\n name:{},\n contentType: {},\n size: {} ", filename, name, mediaType, size);
         var options = new GridFSUploadOptions();
-        contentType.ifPresent(c -> options.metadata(new Document("contentType", c)));
+        if (mediaType != null) {
+            options.metadata(new Document("contentType", mediaType.getName()));
+        }
         return Mono.from(this.bucket.uploadFromPublisher(
                                 filename,
-                                Mono.from(file).mapNotNull(partData -> {
-                                    try {
-                                        return partData.getByteBuffer();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    return null;
-                                }),
+                                Flux.from(file.streamingBody().toByteBufferPublisher())
+                                        .map(io.micronaut.core.io.buffer.ByteBuffer::asNioBuffer),
                                 options
                         )
                 )

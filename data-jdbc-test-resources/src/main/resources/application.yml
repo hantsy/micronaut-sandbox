@@ -1,0 +1,26 @@
+micronaut:
+  application:
+    name: demo
+  server:
+    port: 8080
+datasources:
+  default:
+#    url: jdbc:postgresql://localhost:5432/blogdb
+#    username: user
+#    password: password
+#    schema-generate: NONE
+    driverClassName: org.postgresql.Driver
+    dialect: POSTGRES
+    db-type: postgres
+flyway:
+  datasources:
+    default:
+      enabled: true
+      baselineOnMigrate: true
+      baseline-version: 0
+
+netty:
+  default:
+    allocator:
+      max-order: 3
+

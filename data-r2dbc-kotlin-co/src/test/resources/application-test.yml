@@ -1,0 +1,13 @@
+datasources:
+  default:
+    url: jdbc:tc:postgresql:18:///postgres?TC_IMAGE_TAG=18
+    driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
+r2dbc:
+  datasources:
+    default:
+      url: r2dbc:tc:postgresql:///postgres?TC_IMAGE_TAG=18
+      schema-generate: CREATE_DROP
+flyway:
+  datasources:
+    default:
+      enabled: false

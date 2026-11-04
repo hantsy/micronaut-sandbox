@@ -1,0 +1,9 @@
+datasources:
+  default:
+    url: jdbc:tc:postgresql:18:///postgres
+    driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
+
+blog:
+  title: test blog
+  description: desc in application-test.yml
+  author: author in application-test.yml

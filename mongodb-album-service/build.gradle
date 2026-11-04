@@ -1,7 +1,7 @@
 plugins {
     id("groovy")
-    id("com.gradleup.shadow") version "9.3.1"
-    id("io.micronaut.application") version "4.6.2"
+    id("com.gradleup.shadow") version "9.4.1"
+    id("io.micronaut.application") version "5.0.2"
 }
 
 version = "0.1"
@@ -22,12 +22,12 @@ micronaut {
 
 dependencies {
     //spec
-    implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
-	implementation("jakarta.validation:jakarta.validation-api:3.0.2")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+	implementation("jakarta.validation:jakarta.validation-api")
 
     //micronaut
     implementation("io.micronaut.validation:micronaut-validation")
-    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("io.micronaut.groovy:micronaut-runtime-groovy")
 	implementation("io.micronaut.reactor:micronaut-reactor")
     // data mongodb
@@ -45,6 +45,7 @@ dependencies {
 
     //lombok
     compileOnly("org.projectlombok:lombok")
+    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
     annotationProcessor("org.projectlombok:lombok")
     testAnnotationProcessor("org.projectlombok:lombok")
 
@@ -53,11 +54,11 @@ dependencies {
     annotationProcessor("io.micronaut.data:micronaut-data-document-processor")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.8.2")
+    testImplementation("io.projectreactor:reactor-test")
 
     // test containers
-    testImplementation("org.testcontainers:mongodb")
-    testImplementation("org.testcontainers:spock")
+    testImplementation("org.testcontainers:testcontainers-mongodb")
+    testImplementation("org.testcontainers:testcontainers-spock")
     testImplementation("org.testcontainers:testcontainers")
     // mock failed
     testImplementation("org.objenesis:objenesis:3.4")
@@ -72,8 +73,8 @@ application {
     mainClass.set("com.example.Application")
 }
 java {
-    sourceCompatibility = JavaVersion.toVersion("21")
-    targetCompatibility = JavaVersion.toVersion("21")
+    sourceCompatibility = JavaVersion.toVersion("25")
+    targetCompatibility = JavaVersion.toVersion("25")
 }
 
 // see: https://stackoverflow.com/questions/9356543/logging-while-testing-through-gradle/35457740#s
@@ -108,4 +109,9 @@ test {
 //                break
 //        }
 //    }
+}
+
+// JDK 25+: allow Mockito/Spock byte-buddy agent self-attach
+test {
+    jvmArgs "-Djdk.attach.allowAttachSelf=true", "-XX:+EnableDynamicAgentLoading"
 }

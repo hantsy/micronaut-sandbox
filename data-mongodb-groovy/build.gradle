@@ -1,7 +1,7 @@
 plugins {
     id("groovy")
-    id("com.gradleup.shadow") version "9.3.1"
-    id("io.micronaut.application") version "4.6.2"
+    id("com.gradleup.shadow") version "9.4.1"
+    id("io.micronaut.application") version "5.0.2"
 }
 
 version = "0.1"
@@ -17,13 +17,14 @@ dependencies {
 
     // micronaut
     implementation("io.micronaut.validation:micronaut-validation")
-    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("io.micronaut.groovy:micronaut-runtime-groovy")
     // data mongodb
     implementation("io.micronaut.data:micronaut-data-mongodb")
     implementation("org.mongodb:mongodb-driver-sync")
 
     // annotation processor
+    compileOnly("io.micronaut.serde:micronaut-serde-processor")
     compileOnly("io.micronaut.validation:micronaut-validation-processor")
     compileOnly("io.micronaut.data:micronaut-data-document-processor")
 
@@ -36,11 +37,11 @@ dependencies {
     testImplementation("io.micronaut.reactor:micronaut-reactor-http-client")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.8.2")
+    testImplementation("io.projectreactor:reactor-test")
 
     // test containers
-    testImplementation("org.testcontainers:mongodb")
-    testImplementation("org.testcontainers:spock")
+    testImplementation("org.testcontainers:testcontainers-mongodb")
+    testImplementation("org.testcontainers:testcontainers-spock")
     testImplementation("org.testcontainers:testcontainers")
 }
 
@@ -49,8 +50,8 @@ application {
     mainClass.set("com.example.Application")
 }
 java {
-    sourceCompatibility = JavaVersion.toVersion("21")
-    targetCompatibility = JavaVersion.toVersion("21")
+    sourceCompatibility = JavaVersion.toVersion("25")
+    targetCompatibility = JavaVersion.toVersion("25")
 }
 
 graalvmNative.toolchainDetection = false
@@ -65,4 +66,9 @@ micronaut {
 
 test {
     useJUnitPlatform()
+}
+
+// JDK 25+: allow Mockito/Spock byte-buddy agent self-attach
+test {
+    jvmArgs "-Djdk.attach.allowAttachSelf=true", "-XX:+EnableDynamicAgentLoading"
 }

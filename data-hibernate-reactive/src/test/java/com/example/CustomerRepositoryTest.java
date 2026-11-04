@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @Slf4j
 class CustomerRepositoryTest  {
 
-    static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:14");
+    static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:18");
 
     static ApplicationContext context;
 

@@ -6,9 +6,10 @@ import com.example.customers.CustomerRepository
 import groovy.util.logging.Slf4j
 import io.micronaut.runtime.EmbeddedApplication
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject
-import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.MongoDBContainer
+import org.testcontainers.spock.Testcontainers
 import reactor.test.StepVerifier
 import spock.lang.AutoCleanup
 import spock.lang.Shared
@@ -19,19 +20,21 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
 @MicronautTest(startApplication = false)
+@Testcontainers
 @Slf4j
-class CustomerRepositorySpec extends Specification {
+class CustomerRepositorySpec extends Specification implements TestPropertyProvider {
 
-   //starting a postgres in docker with testcontainers.
     @Shared
     @AutoCleanup
-    MongoDBContainer mongo = new MongoDBContainer("mongo:latest")
-            .withExposedPorts(27017)
+    MongoDBContainer mongo = new MongoDBContainer("mongo:4")
 
-    def setupSpec() {
-        mongo.start()
+    @Override
+    Map<String, String> getProperties() {
+        if (!mongo.isRunning()) {
+            mongo.start()
+        }
+        return ["mongodb.uri": mongo.getReplicaSetUrl()]
     }
-
 
     @Inject
     EmbeddedApplication<?> application

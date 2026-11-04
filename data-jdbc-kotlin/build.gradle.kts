@@ -2,12 +2,11 @@ import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "2.2.21"
-    id("org.jetbrains.kotlin.plugin.allopen") version "2.2.21"
-    id("com.google.devtools.ksp") version "2.3.5"
-    id("com.gradleup.shadow") version "9.3.1"
-    id("io.micronaut.application") version "4.6.2"
-    id("io.micronaut.test-resources") version "4.6.1"
+    id("org.jetbrains.kotlin.jvm") version "2.3.21"
+    id("org.jetbrains.kotlin.plugin.allopen") version "2.3.21"
+    id("com.google.devtools.ksp") version "2.3.13"
+    id("com.gradleup.shadow") version "9.4.1"
+    id("io.micronaut.application") version "5.0.2"
 }
 
 version = "0.1"
@@ -25,10 +24,10 @@ application {
 
 kotlin {
     // see: https://blog.allegro.tech/2024/11/popular-gradle-mistakes-and-how-to-avoid-them.html
-    jvmToolchain(21)
+    jvmToolchain(25)
     compilerOptions {
-        apiVersion.set(KotlinVersion.KOTLIN_2_2)
-        languageVersion.set(KotlinVersion.KOTLIN_2_2)
+        apiVersion.set(KotlinVersion.KOTLIN_2_3)
+        languageVersion.set(KotlinVersion.KOTLIN_2_3)
         jvmDefault = JvmDefaultMode.NO_COMPATIBILITY
         freeCompilerArgs.addAll(
             "-Xjsr305=strict",
@@ -61,14 +60,14 @@ micronaut {
 dependencies {
     // javaee/jakartaee specs
     implementation("jakarta.annotation:jakarta.annotation-api")
-    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+    implementation("jakarta.persistence:jakarta.persistence-api")
 
     // micronaut framework
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
 
-    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("io.micronaut.validation:micronaut-validation")
 
     //database
@@ -85,15 +84,25 @@ dependencies {
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
-    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // yaml support
     runtimeOnly("org.yaml:snakeyaml")
+
+    // testcontainers
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers-postgresql")
+    testImplementation("org.testcontainers:testcontainers")
 
     //logging
     runtimeOnly("ch.qos.logback:logback-classic")
 
     // Google KSP
     ksp("io.micronaut.validation:micronaut-validation-processor")
+    ksp("io.micronaut.serde:micronaut-serde-processor")
     ksp("io.micronaut.data:micronaut-data-processor")
+}
+
+// JDK 25+: allow mockk/byte-buddy agent self-attach
+tasks.withType<Test> {
+    jvmArgs("-Djdk.attach.allowAttachSelf=true", "-XX:+EnableDynamicAgentLoading")
 }

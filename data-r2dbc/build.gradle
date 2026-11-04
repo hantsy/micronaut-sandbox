@@ -1,7 +1,6 @@
 plugins {
-    id("com.gradleup.shadow") version "9.3.1"
-    id("io.micronaut.application") version "4.6.2"
-    id("io.micronaut.test-resources") version "4.6.1"
+    id("com.gradleup.shadow") version "9.4.1"
+    id("io.micronaut.application") version "5.0.2"
 }
 
 version = "0.1"
@@ -18,9 +17,10 @@ dependencies {
 
     //micronaut framework
     implementation("io.micronaut.validation:micronaut-validation")
-    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("io.micronaut.reactor:micronaut-reactor")
 
+    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
     annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
 
@@ -37,7 +37,7 @@ dependencies {
     //r2dbc
     implementation("io.micronaut.data:micronaut-data-r2dbc")
     runtimeOnly("org.postgresql:r2dbc-postgresql")
-    implementation("io.projectreactor:reactor-core:3.8.2")
+    implementation("io.projectreactor:reactor-core")
 
     // yaml support
     runtimeOnly("org.yaml:snakeyaml")
@@ -56,15 +56,15 @@ dependencies {
     // test
     testImplementation("org.assertj:assertj-core")
     testImplementation("org.mockito:mockito-core")
-    testResourcesService("org.postgresql:postgresql")
 
-    //test containers support
-//    testImplementation("org.testcontainers:junit-jupiter")
-//    testImplementation("org.testcontainers:postgresql")
-//    testImplementation("org.testcontainers:testcontainers")
+    // test containers support
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers-postgresql")
+    testImplementation("org.testcontainers:testcontainers-r2dbc")
+    testImplementation("org.testcontainers:testcontainers")
 
     // reactor test
-    testImplementation("io.projectreactor:reactor-test:3.8.2")
+    testImplementation("io.projectreactor:reactor-test")
 
 }
 
@@ -73,8 +73,8 @@ application {
     mainClass.set("com.example.Application")
 }
 java {
-    sourceCompatibility = JavaVersion.toVersion("21")
-    targetCompatibility = JavaVersion.toVersion("21")
+    sourceCompatibility = JavaVersion.toVersion("25")
+    targetCompatibility = JavaVersion.toVersion("25")
 }
 
 graalvmNative.toolchainDetection = false
@@ -94,4 +94,9 @@ test {
         showStandardStreams = true
         exceptionFormat = "full"
     }
+}
+
+// JDK 25+: allow Mockito/Spock byte-buddy agent self-attach
+test {
+    jvmArgs "-Djdk.attach.allowAttachSelf=true", "-XX:+EnableDynamicAgentLoading"
 }

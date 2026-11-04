@@ -1,6 +1,7 @@
 package com.example
 
 import groovy.transform.ToString
+import io.micronaut.serde.annotation.Serdeable
 import io.micronaut.data.annotation.GeneratedValue
 import io.micronaut.data.annotation.Id
 import io.micronaut.data.annotation.MappedEntity
@@ -10,6 +11,7 @@ import static io.micronaut.data.annotation.Relation.Kind.EMBEDDED
 
 @MappedEntity("customers")
 @ToString
+@Serdeable
 class Customer {
 
     @Id

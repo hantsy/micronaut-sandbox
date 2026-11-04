@@ -1,0 +1,27 @@
+micronaut:
+  application:
+    name: demo
+  server:
+    port: 8080
+datasources:
+  default:
+#    url: jdbc:postgresql://localhost:5432/blogdb
+#    username: user
+#    password: password
+    driverClassName: org.postgresql.Driver
+#    schema-generate: CREATE_DROP
+    dialect: POSTGRES
+    db-type: postgres
+jpa.default.properties.hibernate.hbm2ddl.auto: update
+
+jackson:
+  serialization:
+    indentOutput: true
+    writeDatesAsTimestamps: false
+  deserialization:
+    failOnUnknownProperties: false
+
+blog:
+  title: Hantsy's blog
+  description: Description of Hantsy's blog
+  author: Hantsy

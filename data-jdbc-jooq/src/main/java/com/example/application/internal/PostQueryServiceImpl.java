@@ -1,6 +1,7 @@
 package com.example.application.internal;
 
 import com.example.application.PaginatedResult;
+import com.example.application.LatestComment;
 import com.example.application.PostDetails;
 import com.example.application.PostQueryService;
 import com.example.application.PostSummary;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
+import org.jooq.Record1;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 
@@ -28,7 +30,7 @@ import static org.jooq.impl.DSL.select;
 @Slf4j
 @RequiredArgsConstructor
 public class PostQueryServiceImpl implements PostQueryService {
-    private DSLContext dslContext;
+    private final DSLContext dslContext;
 
     @Override
     public PaginatedResult<PostSummary> findPostsByKeyword(String keyword, int offset, int limit) {
@@ -51,7 +53,7 @@ public class PostQueryServiceImpl implements PostQueryService {
                                 .from(t)
                                 .join(pt).on(t.ID.eq(pt.TAG_ID))
                                 .where(pt.POST_ID.eq(p.ID))
-                        ).as("tags")
+                        ).convertFrom(tags -> tags.map(Record1::value1)).as("tags")
                 )
                 .from(p.leftJoin(c).on(c.POST_ID.eq(p.ID)))
                 .where(where)
@@ -73,27 +75,28 @@ public class PostQueryServiceImpl implements PostQueryService {
     public PostDetails getPostDetailsById(UUID postId) {
         log.debug("searching for post with id: {}", postId);
         var p = POSTS;
-        var pt = POSTS_TAGS;
-        var t = HASH_TAGS;
         var c = COMMENTS;
-        return dslContext
-                .select(
-                        p.ID,
-                        p.TITLE,
-                        p.CONTENT,
-                        p.CREATED_AT,
-                        p.UPDATED_AT,
-                        DSL.field("count(comments.id)", SQLDataType.BIGINT),
-                        DSL.row(select(c.CONTENT, c.CREATED_AT)
-                                .from(c)
-                                .where(c.POST_ID.eq(p.ID))
-                                .orderBy(c.CREATED_AT.desc())
-                                .limit(0, 1)
-                        )
-                )
-                .from(p.leftJoin(c).on(c.POST_ID.eq(p.ID)))
+        var post = dslContext.selectFrom(p)
                 .where(p.ID.eq(postId))
-                .orderBy(p.CREATED_AT.desc())
-                .fetchOneInto(PostDetails.class);
+                .fetchOne();
+        if (post == null) {
+            return null;
+        }
+        var commentsCount = dslContext.fetchCount(c, c.POST_ID.eq(postId));
+        var latestComment = dslContext.select(c.CONTENT, c.CREATED_AT)
+                .from(c)
+                .where(c.POST_ID.eq(postId))
+                .orderBy(c.CREATED_AT.desc())
+                .limit(1)
+                .fetchOne();
+        return new PostDetails(
+                post.getId(),
+                post.getTitle(),
+                post.getContent(),
+                post.getCreatedAt(),
+                post.getUpdatedAt(),
+                (long) commentsCount,
+                latestComment == null ? null : new LatestComment(latestComment.value1(), latestComment.value2())
+        );
     }
 }
