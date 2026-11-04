@@ -12,7 +12,7 @@ Open your browser, go to [Micronaut Launch](https://micronaut.io/launch/), you w
 
 In the **Application Type** field, there are several options available in the dropdown menu, including **Micronaut Application**, **Command Line Application**, **gRPC Application**, **Function Application for serverless**, **Message-Driven Application**. For different purposes, you can choose one to generate the project skeleton. If you want to create a general web application, a RESTful API backend application, or a Microservice component, use the default **Micronaut Application**.
 
-In the **Java version** field, it is highly recommended to choose the latest LTS version **17**.  
+In the **Java version** field, it is highly recommended to choose the latest LTS version **25**. The examples in this repository are built with Java 25.
 
 If you want to customize the application name (it is also the project artifact id) and base package name, alter the value in the **Name** and **Package Name** fields.
 
@@ -64,8 +64,14 @@ After it is done, verify the installation.
 
 ```bash 
 $ mn -V
-Micronaut Version: 3.1.0
+Micronaut Version: 4.8.3
 ```
+
+> The standalone `mn` CLI is currently published in the 4.x line. To start a Micronaut 5 project, generate the skeleton from [Micronaut Launch](https://micronaut.io/launch/), which defaults to the latest stable platform (5.2.4 at the time of writing — the version pinned by the examples in this repository). To download an archive from a terminal instead of the browser:
+>
+> ```bash
+> $ curl --fail --location "https://launch.micronaut.io/demo.zip?features=data-jpa,postgres,testcontainers" --output demo.zip
+> ```
 
 Type `mn --help` command in the terminal to get all available options.
 
@@ -155,7 +161,7 @@ Besides Gradle build scripts related resources, it is similar to the Spring Boot
 
 Let's have a look at *build.gradle*.
 
-It uses `com.github.johnrengelman.shadow` to package the application into a jar archive.
+It uses `com.gradleup.shadow` to package the application into a fat jar archive.
 
 The `io.micronaut.application` plugin handles the dependency injection at compile time via Java Compiler Annotation Processors. This plugin also includes other tasks, such building application into Docker image and GraalVM native executable binary.
 

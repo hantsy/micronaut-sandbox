@@ -1,4 +1,4 @@
-# Building RESTful API with Micronaut Mongo Reative 
+# Building RESTful API with Micronaut Mongo Reactive 
 
 In this post, we will explore the Micronaut Mongo Reactive feature. Unlike the Data JPA and R2dbc, the Mongo Reactive feature is not part of the Micronaut Data project. Micronaut Mongo Reactive is a light-weight wrapper of the official Mongo Java Drivers, and provides autoconfiguration of `MongoClient` from application properties.
 
@@ -7,7 +7,7 @@ In this post, we will explore the Micronaut Mongo Reactive feature. Unlike the D
 
 Open your browser and navigate to [Micronaut Launch](https://micronaut.io/launch) to generate a new project skeleton for this post. Select the following items on this page.
 
-*  Java version:  **17**
+*  Java version:  **25**
 
 *  Language: **Java** 
 
@@ -479,7 +479,7 @@ public class PhotoController {
 
 To upload a file, use `bucket.uploadFromPublisher` to transfer the upload data into a Gridfs bucket. To download a file, call `downloadToPublisher` to read data info a `ByteBuffer`. To remove it, just invoke the delete method.
 
-Get the complete [source codes](https://github.com/hantsy/micronaut-sandbox/tree/master/album-service) from my Github.
+Get the complete [source codes](https://github.com/hantsy/micronaut-sandbox/tree/master/mongodb-reactive) from my Github.
 
 
 

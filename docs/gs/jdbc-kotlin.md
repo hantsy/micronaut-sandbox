@@ -110,10 +110,19 @@ class PostController(private val posts: PostRepository) {
 
 Now let's try to start up the application, make sure there is a running Postgres database, the database settings  should match the configuration in the *application.yaml*. 
 
-Simply, you can prepare the database through docker compose file. Run the following command to start a Postgres in docker, the database details is defined in the *docker-compose.yaml*.
+Simply, you can prepare the database through docker compose file. Run the following command to start a Postgres in docker, the database details is defined in the *docker-compose.yaml* in the root of this repository.
 
-```bas
-# docker compose up postgres
+```bash
+docker compose up postgres
+```
+
+Tests do not need this database. `src/test/resources/application-test.yml` switches the data source to the Testcontainers JDBC driver, so `./gradlew build` starts a disposable Postgres container for the test run by itself:
+
+```yaml
+datasources:
+  default:
+    url: jdbc:tc:postgresql:18:///postgres
+    driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
 ```
 
 Now run the application.
@@ -137,11 +146,11 @@ You can use `curl` command to test the */posts* endpoint.
 
 If you have some experience of Spring Data JPA, you will be impressed by the JPA Specification, but it only works with Spring Data JPA. In Micronaut Data, the **data-jdbc** also supports query by JPA Specification. 
 
-Add  `jakarta.persistence:jakarta.persistence-api:3.0.0` into dependencies.
+Add  `jakarta.persistence:jakarta.persistence-api` (no version — it is managed by the Micronaut platform BOM) into dependencies.
 
 Change `PostRepository`, make it extends `JpaSpecificationExecutor`.
 
-```bas
+```kotlin
 @JdbcRepository
 interface PostRepository : PageableRepository<Post, UUID>, JpaSpecificationExecutor<Post>
 ```
@@ -545,4 +554,4 @@ class IntegrationTests(
 
 
 
-Get the complete [source codes](https://github.com/hantsy/micronaut-sandbox/tree/master/jdbc-kotlin) from my Github.
+Get the complete [source codes](https://github.com/hantsy/micronaut-sandbox/tree/master/data-jdbc-kotlin) from my Github.

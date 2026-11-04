@@ -25,9 +25,11 @@ $ java -jar target/demo.jar
 If you prefer Gradle as the build tools, use the following commands instead.
 
 ```bash 
-$ ./gradle build
-$ java -jar build/demo.jar
+$ ./gradlew build
+$ java -jar build/libs/demo-0.1-all.jar
 ```
+
+The `com.gradleup.shadow` plugin writes the fat jar to *build/libs/demo-0.1-all.jar*; the plain `demo-0.1.jar` next to it only contains your own classes.
 
 ## Setup Database 
 
@@ -38,3 +40,5 @@ For example, run the following command to bootstrap a Postgres database instance
 ```bash 
 $ docker compose up postgres
 ```
+
+This is only needed to *run* an application against a stable database. The test suites do not depend on it: each example either uses the Testcontainers JDBC driver / Testcontainers `@Container` (so a disposable container is started and stopped around the test run) or Micronaut Test Resources (which provisions the same containers on demand from the build). Running `./gradlew build` therefore needs a working Docker daemon, but no pre-started database.

@@ -8,7 +8,7 @@ I have used Spring Boot in numerous real-world projects. In my opinion, there is
 
 I assume you are already a Java developer and know some knowledge of Spring framework and at least used one of the popular Dependency injection frameworks, eg. Spring, Guice, or Weld, or know well about the JSR 330 specification(aka Dependency Inject specification).
 
-I am trying to use the latest Java 17 language syntax in the sample codes. Please update yourself if you are using a lower-versioned Java. 
+I am trying to use the latest Java 25 language syntax in the sample codes. Please update yourself if you are using a lower-versioned Java. 
 
 Besides Java, to demonstrate Micronaut *polyglot* feature, some example codes are written in Kotlin and Kotlin Coroutines, even Groovy and Scala in future.
 

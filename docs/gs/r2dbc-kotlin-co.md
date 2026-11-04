@@ -129,7 +129,7 @@ Micronaut Data provides JPA criteria API support for both Data Jdbc and Data R2d
 Add `jakarta-persistence-api` into dependencies to provide JPA Criteria API.
 
 ```bash 
-implementation("jakarta.persistence:jakarta.persistence-api:3.0.0")
+implementation("jakarta.persistence:jakarta.persistence-api")
 ```
 
 Let's reuse `Specifications` we have created in the last post.
@@ -418,7 +418,7 @@ class PostControllerTest(
 
 Firstly, create a mock bean for `PostRepository` , then do stubbing with a `coEvery` and verify the calls in the mocks with `coVerify` clause.
 
-Get the complete [source codes](https://github.com/hantsy/micronaut-sandbox/tree/master/r2dbc-kotlin-co) from my Github.
+Get the complete [source codes](https://github.com/hantsy/micronaut-sandbox/tree/master/data-r2dbc-kotlin-co) from my Github.
 
 
 

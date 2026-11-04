@@ -17,11 +17,11 @@ The following table lists all examples in this repository.
 | [data-r2dbc](https://github.com/hantsy/micronaut-sandbox/tree/master/data-r2dbc)                             | Java     | Data R2dbc, Testcontainers, JUnit                      |
 | [data-r2dbc-test-resources](https://github.com/hantsy/micronaut-sandbox/tree/master/data-r2dbc-test-resources) | Java   | Data R2dbc, Test Resources, JUnit                      |
 | [data-r2dbc-kotlin-co](https://github.com/hantsy/micronaut-sandbox/tree/master/data-r2dbc-kotlin-co)       | Kotlin   | Data R2dbc, Testcontainers, Kotest                     |
-| [data-mongo](https://github.com/hantsy/micronaut-sandbox/tree/master/data-mongo)                             | Java     | Data MongoDB, Testcontainers, JUnit                    |
+| [data-mongodb](https://github.com/hantsy/micronaut-sandbox/tree/master/data-mongodb)                             | Java     | Data MongoDB, Testcontainers, JUnit                    |
 | [data-mongodb-test-resources](https://github.com/hantsy/micronaut-sandbox/tree/master/data-mongodb-test-resources) | Java   | Data MongoDB, Test Resources, JUnit                    |
 | [data-hibernate-reactive](https://github.com/hantsy/micronaut-sandbox/tree/master/data-hibernate-reactive) | Java     | Data Hibernate Reactive, Testcontainers, JUnit         |
 | [data-mongodb-groovy](https://github.com/hantsy/micronaut-sandbox/tree/master/data-mongodb-groovy)         | Groovy   | Data MongoDB, Testcontainers, Spock                    |
-| [mongodb-album-service](https://github.com/hantsy/micronaut-sandbox/tree/master/mongodb-album-service)     | Java     | MongoDB Async, Testcontainers, Spock                   |
+| [mongodb-reactive](https://github.com/hantsy/micronaut-sandbox/tree/master/mongodb-reactive)     | Java     | MongoDB Async, Testcontainers, Spock                   |
 | [rxjava3-vertx-pg-client](https://github.com/hantsy/micronaut-sandbox/tree/master/rxjava3-vertx-pg-client) | Java     | RxJava3, Vertx Pg Client, Testcontainers, JUnit        |
 | [jakarta-data](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data)                       | Java     | Jakarta Data/Jdbc, Testcontainers, JUnit               |
 | [jakarta-data-jpa](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data-jpa)               | Java     | Jakarta Data/Data JPA, Testcontainers, JUnit           |
@@ -37,8 +37,8 @@ The following table lists all examples in this repository.
 
 Make sure you have installed the following software.
 
-- JDK 21
-- Gradle 8+
+- JDK 25
+- Gradle 9.8.2 (or use the `gradlew` wrapper in each project)
 - Docker
 
 ### Build & Run

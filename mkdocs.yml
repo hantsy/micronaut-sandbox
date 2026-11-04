@@ -52,7 +52,7 @@ nav:
   - Introduction to Mcironaut:
     - intro/index.md
     - "What is Micronaut?": intro/what.md
-    - "Why Micronaut?": intro/why    
+    - "Why Micronaut?": intro/why.md    
   - Getting Started:
     - gs/index.md
     - Prerequisites: gs/prerequisites.md

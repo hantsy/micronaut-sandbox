@@ -8,8 +8,8 @@ With the release of Micronaut 4.9, support for the Jakarta Data specification (i
 
 Navigate to the [Micronaut Launch](https://micronaut.io/launch/) page and select the following options to generate your project skeleton:
 
-* **Micronaut Version**: 4.9.1 (latest stable version at the time of writing)
-* **Java Version**: 21
+* **Micronaut Version**: 5.2.4 (latest stable version at the time of writing)
+* **Java Version**: 25
 * **Language**: Java
 * **Build Tools**: Gradle Kotlin
 * **Test Framework**: JUnit
@@ -42,8 +42,7 @@ Let's start by creating a simple Jakarta Persistence `@Entity` class and an `@Em
 @Data
 public class Customer {
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue
     UUID id;
     String name;
     Integer age;
@@ -75,7 +74,7 @@ In the above code fragments:
 * Lombok annotations automatically generate setters, getters, `equals`, `hashCode`, and a no-argument constructor, all of which are required for Jakarta Persistence `Entity` classes.
 * `@Introspected` is necessary for Ahead-of-Time (AOT) compilation, especially if you plan to build a native image of your application.
 * `@Serdeable` (from the Micronaut Serde module) provides portable serialization and deserialization support compatible with formats like Jackson and BSON.
-* The `@Entity` and `@Table` annotations on the `Customer` class designate it as a Jakarta Persistence entity and specify the corresponding database table. The `@Embeddable` annotation on the `Address` class marks it as a component that can be embedded within other entities, such as the `address` field in `Customer`, which is annotated with `@Embedded`. The `@Id` annotation identifies the primary key field, while `@GeneratedValue` and `@GenericGenerator` configure the ID generation strategy. The `@Version` field enables optimistic locking for transactional consistency.
+* The `@Entity` and `@Table` annotations on the `Customer` class designate it as a Jakarta Persistence entity and specify the corresponding database table. The `@Embeddable` annotation on the `Address` class marks it as a component that can be embedded within other entities, such as the `address` field in `Customer`, which is annotated with `@Embedded`. The `@Id` annotation identifies the primary key field; with JPA 3.2, a plain `@GeneratedValue` on a `UUID` field is enough to let the provider generate the value, replacing Hibernate's deprecated `@GenericGenerator(strategy = "uuid2")`. The `@Version` field enables optimistic locking for transactional consistency.
 
 Jakarta Data introduces a completely new `Repository` abstraction to simplify data access. At its core is the top-level `DataRepository` interface, which is extended by `BasicRepository` and `CrudRepository` for general CRUD operations.
 
@@ -264,7 +263,7 @@ public interface CustomerRepository extends CrudRepository<Customer, String> {
 }
 ```
 
-You can explore the [complete example project](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data-mongo) updated for MongoDB.
+You can explore the [complete example project](https://github.com/hantsy/micronaut-sandbox/tree/master/jakarta-data-mongodb) updated for MongoDB.
 
 ## Summary
 
