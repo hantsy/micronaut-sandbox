@@ -14,13 +14,6 @@ datasources:
     db-type: postgres
 jpa.default.properties.hibernate.hbm2ddl.auto: update
 
-jackson:
-  serialization:
-    indentOutput: true
-    writeDatesAsTimestamps: false
-  deserialization:
-    failOnUnknownProperties: false
-
 blog:
   title: Hantsy's blog
   description: Description of Hantsy's blog

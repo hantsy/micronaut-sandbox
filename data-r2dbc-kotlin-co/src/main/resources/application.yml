@@ -26,10 +26,3 @@ r2dbc:
 #      url: r2dbc:postgresql://localhost:5432/blogdb
 #      username: user
 #      password: password
-
-jackson:
-  serialization:
-    indentOutput: true
-    writeDatesAsTimestamps: false
-  deserialization:
-    failOnUnknownProperties: false
