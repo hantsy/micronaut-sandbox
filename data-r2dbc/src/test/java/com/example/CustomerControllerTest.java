@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.dto.CustomerDto;
 import io.micronaut.core.type.Argument;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpStatus;
@@ -50,7 +51,7 @@ class CustomerControllerTest {
                 );
 
         var request = HttpRequest.GET("");
-        client.exchange(request, Argument.listOf(Customer.class))
+        client.exchange(request, Argument.listOf(CustomerDto.class))
                 .as(StepVerifier::create)
                 .consumeNextWith(res -> {
                     assertEquals(HttpStatus.OK, res.getStatus());
@@ -73,7 +74,7 @@ class CustomerControllerTest {
                 );
 
         var request = HttpRequest.GET(UriBuilder.of("/{id}").expand(Map.of("id", UUID.randomUUID())));
-        client.exchange(request, Argument.of(Customer.class))
+        client.exchange(request, Argument.of(CustomerDto.class))
                 .as(StepVerifier::create)
                 .consumeNextWith(res -> {
                     assertEquals(HttpStatus.OK, res.getStatus());
@@ -92,7 +93,7 @@ class CustomerControllerTest {
                 .thenReturn(Mono.empty());
 
         var request = HttpRequest.GET(UriBuilder.of("/{id}").expand(Map.of("id", UUID.randomUUID())));
-        client.exchange(request, Argument.of(Customer.class))
+        client.exchange(request, Argument.of(CustomerDto.class))
                 .as(StepVerifier::create)
                 .consumeErrorWith(r -> {
                     assertThat(r).isInstanceOf(HttpClientResponseException.class);

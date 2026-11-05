@@ -21,13 +21,13 @@ public class PostController {
     private final PostRepository postRepository;
 
     @Get
-    public MutableHttpResponse<Flowable<Post>> getPosts() {
-        return ok(this.postRepository.findAll());
+    public MutableHttpResponse<Flowable<PostDto>> getPosts() {
+        return ok(this.postRepository.findAll().map(this::toDto));
     }
 
     @Get("{id}")
-    public @NonNull Single<MutableHttpResponse<Post>> getById(@PathVariable UUID id) {
-        return this.postRepository.findById(id).map(data -> ok(data));
+    public @NonNull Single<MutableHttpResponse<PostDto>> getById(@PathVariable UUID id) {
+        return this.postRepository.findById(id).map(data -> ok(toDto(data)));
     }
 
     @io.micronaut.http.annotation.Post
@@ -43,5 +43,9 @@ public class PostController {
                     if (deleted > 0) return noContent();
                     else return notFound();
                 });
+    }
+
+    private PostDto toDto(Post p) {
+        return new PostDto(p.id(), p.title(), p.content(), p.createdAt());
     }
 }

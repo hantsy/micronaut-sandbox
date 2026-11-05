@@ -1,5 +1,7 @@
 package com.example
 
+import com.example.dto.CustomerDto
+import com.example.dto.NewCustomerCommand
 import io.micronaut.context.annotation.Property
 import io.micronaut.core.type.Argument
 import io.micronaut.http.HttpRequest
@@ -59,7 +61,7 @@ class CustomerControllerSpec extends Specification {
         1 * customerRepository.findAll() >> List.of(Customer.of("Jack", 40, null), Customer.of("Rose", 20, null))
 
         when:
-        Mono<HttpResponse<List<Customer>>> responseFlux = client.exchange(HttpRequest.GET("/customers"), Argument.listOf(Customer)).log()
+        Mono<HttpResponse<List<CustomerDto>>> responseFlux = client.exchange(HttpRequest.GET("/customers"), Argument.listOf(CustomerDto)).log()
 
         then:
         StepVerifier.create(responseFlux)
@@ -77,7 +79,7 @@ class CustomerControllerSpec extends Specification {
         1 * customerRepository.save(_) >> new Customer(id: objId.toString(), name: "Jack", age: 20, address: null)
 
         when:
-        def body = Customer.of("Jack", 40, null)
+        def body = new NewCustomerCommand(name: "Jack", age: 40, address: null)
         Mono<HttpResponse<Void>> resFlux = client.exchange(HttpRequest.POST("/customers", body), Void).log()
 
         then:
@@ -96,7 +98,7 @@ class CustomerControllerSpec extends Specification {
         1 * customerRepository.findById(_) >> Optional.of(new Customer(id: objId.toString(), name: "Jack", age: 20, address: null))
 
         when:
-        Mono<HttpResponse<Customer>> resFlux = client.exchange(HttpRequest.GET("/customers/" + objId.toHexString()), Argument.of(Customer)).log()
+        Mono<HttpResponse<CustomerDto>> resFlux = client.exchange(HttpRequest.GET("/customers/" + objId.toHexString()), Argument.of(CustomerDto)).log()
 
         then:
         StepVerifier.create(resFlux)

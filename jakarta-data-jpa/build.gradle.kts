@@ -17,9 +17,14 @@ dependencies {
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
     annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
+    annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
 
     // serde with Jackson
     implementation("io.micronaut.serde:micronaut-serde-jackson")
+
+    // validation
+    implementation("jakarta.validation:jakarta.validation-api")
+    implementation("io.micronaut.validation:micronaut-validation")
 
     // data and postgres
     implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
