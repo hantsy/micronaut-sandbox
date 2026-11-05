@@ -210,30 +210,53 @@ public class DataInitializer {
 }
 ```
 
-Try to create a  controller to expose the RESTful APIs.
+Try to create a  controller to expose the RESTful APIs. Following the DTO
+pattern, use a command record for the request body and a DTO record for
+responses.
+
+```java
+// NewCustomerCommand.java
+@Serdeable
+public record NewCustomerCommand(
+        @NotBlank String name,
+        @NotNull Integer age,
+        @NotNull Address address
+) {}
+
+// CustomerDto.java
+@Serdeable
+public record CustomerDto(
+        String id,
+        String name,
+        Integer age,
+        Address address
+) {}
+```
 
 ```java
 @Controller("/customers")
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class CustomerController {
     private final CustomerRepository customerRepository;
 
     @Get(uri = "/", produces = {MediaType.APPLICATION_JSON})
-    public Flux<?> all() {
-        return this.customerRepository.findAll();
+    public Flux<CustomerDto> all() {
+        return this.customerRepository.findAll().map(this::toDto);
     }
 
     @Get(uri = "/{id}", produces = {MediaType.APPLICATION_JSON})
-    public Mono<MutableHttpResponse<Customer>> byId(@PathVariable ObjectId id) {
+    public Mono<MutableHttpResponse<CustomerDto>> byId(@PathVariable ObjectId id) {
         return this.customerRepository.findById(id)
-                .map(HttpResponse::ok)
+                .map(c -> ok(toDto(c)))
                 .switchIfEmpty(Mono.just(notFound()));
     }
 
     @Post(uri = "/", consumes = {MediaType.APPLICATION_JSON})
-    public Mono<HttpResponse<?>> create(@Body Customer data) {
-        return this.customerRepository.insertOne(data)
+    public Mono<HttpResponse<?>> create(@Body @Valid NewCustomerCommand cmd) {
+        var customer = Customer.of(cmd.name(), cmd.age(), cmd.address());
+        return this.customerRepository.insertOne(customer)
                 .map(id -> created(URI.create("/customers/" + id.toHexString())));
     }
 
@@ -247,6 +270,10 @@ public class CustomerController {
                         return notFound();
                     }
                 });
+    }
+
+    private CustomerDto toDto(Customer c) {
+        return new CustomerDto(c.getId().toHexString(), c.getName(), c.getAge(), c.getAddress());
     }
 }
 
@@ -324,7 +351,7 @@ class CustomerControllerSpec extends Specification {
         1 * customerRepository.insertOne(_) >> Mono.just(objId)
 
         when:
-        def body = Customer.of(null, "Jack", 40, null)
+        def body = new NewCustomerCommand("Jack", 40, null)
         Flux<HttpResponse<String>> resFlux = client.exchange(HttpRequest.POST("/customers", body), String).log()
 
         then:

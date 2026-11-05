@@ -60,25 +60,51 @@ Micronaut Data provides several Repository interface for ReactiveStreams API, fo
  Similarly, `JpaSpecificationExecutor` has some variants for Reactive Streams, the `CoroutineJpaSpecificationExecutor` is ready for Kotlin Coroutines. We have created a `Specificaitons` to setup several criteria for query, update and delete operations, we will reuse them in this post.
 
 Let's move to the Controller, create a new controller class named  `PostController`.
+Following the DTO pattern, use a command record for the request body and a DTO
+record for responses.
+
+```kotlin
+// CreatePostCommand.kt (already exists)
+@Serdeable
+@Introspected
+data class CreatePostCommand(
+    @field:NotBlank var title: String,
+    @field:NotBlank var content: String
+)
+
+// PostDto.kt
+@Serdeable
+data class PostDto(
+    val id: UUID,
+    val title: String,
+    val content: String,
+    val status: Status?,
+    val createdAt: LocalDateTime?
+)
+```
 
 ```kotlin
 @Controller("/posts")
+@Validated
 class PostController(private val posts: PostRepository) {
 
     @Get(uri = "/", produces = [MediaType.APPLICATION_JSON])
-    fun all(): HttpResponse<Flow<Post>> = ok(posts.findAll())
+    fun all(): HttpResponse<Flow<PostDto>> = ok(posts.findAll().map { it.toDto() })
 
     @Get(uri = "/{id}", produces = [MediaType.APPLICATION_JSON])
     suspend fun byId(@PathVariable id: UUID): HttpResponse<Any> {
         val post = posts.findById(id) ?: return notFound()
-        return ok(post)
+        return ok(post.toDto())
     }
 
     @io.micronaut.http.annotation.Post(consumes = [MediaType.APPLICATION_JSON])
-    suspend fun create(@Body body: Post): HttpResponse<Any> {
-        val saved = posts.save(body)
+    suspend fun create(@Body @Valid body: CreatePostCommand): HttpResponse<Any> {
+        val data = Post(title = body.title, content = body.content)
+        val saved = posts.save(data)
         return created(URI.create("/posts/" + saved.id))
     }
+
+    private fun Post.toDto() = PostDto(id!!, title, content, status, createdAt)
 }
 ```
 
