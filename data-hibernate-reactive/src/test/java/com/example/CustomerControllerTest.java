@@ -11,7 +11,6 @@ import io.micronaut.reactor.http.client.ReactorHttpClient;
 import io.micronaut.test.annotation.MockBean;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
@@ -25,13 +24,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-// Hibernate Reactive opens a connection while building the SessionFactory, so a "mock" context
-// still needs a reachable database and @MockBean on the repository cannot prevent it. None of the
-// config-only escapes avoid the connection: hbm2ddl.auto=none, an explicit hibernate.dialect,
-// hibernate.boot.allow_jdbc_metadata_access=false and jpa.default.enabled=false all still fail
-// with HR000092 (verified against an unreachable jdbc:postgresql://localhost:1/probe).
+// Hibernate Reactive opens a connection while building the SessionFactory, so a bare "mock"
+// context still needs a reachable database and @MockBean on the repository cannot prevent it.
+// The fix is in src/test/resources/application-mock.properties: the global key
+// jpa.enabled=false disables JPA bootstrapping and lets the context start with no database.
+// The per-config key jpa.default.enabled=false is ignored on the reactive path
+// (micronaut-projects/micronaut-sql#2168), hence the global key.
 // see: https://github.com/micronaut-projects/micronaut-data/issues/4243
-@Disabled("Requires a running database: Hibernate Reactive opens a connection when building the SessionFactory")
 @MicronautTest(environments = "mock")
 class CustomerControllerTest {
 
