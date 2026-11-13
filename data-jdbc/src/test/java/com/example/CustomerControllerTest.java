@@ -1,6 +1,7 @@
 package com.example;
 
 import com.example.dto.NewCustomerCommand;
+import com.example.dto.UpdateCustomerCommand;
 import io.micronaut.core.type.Argument;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpStatus;
@@ -13,6 +14,7 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import reactor.test.StepVerifier;
 
 import java.util.List;
@@ -80,6 +82,49 @@ class CustomerControllerTest {
                 .verifyComplete();
 
         verify(this.customerRepository, times(1)).save(any(Customer.class));
+    }
+
+    @Test
+    @DisplayName("update a customer")
+    public void testUpdateCustomer() {
+        var id = UUID.randomUUID();
+        when(this.customerRepository.findById(any(UUID.class)))
+                .thenReturn(Optional.of(new Customer(id, "Jack", 20, null, 1L)));
+        when(this.customerRepository.update(any(Customer.class)))
+                .thenReturn(new Customer(id, "William", 40, null, 1L));
+
+        var request = HttpRequest.PUT(UriBuilder.of("/{id}").expand(Map.of("id", id)),
+                new UpdateCustomerCommand("William", 40, null));
+        client.exchange(request, Argument.VOID)
+                .as(StepVerifier::create)
+                .consumeNextWith(res -> assertEquals(HttpStatus.NO_CONTENT, res.getStatus()))
+                .verifyComplete();
+
+        verify(this.customerRepository, times(1)).findById(any(UUID.class));
+        var captor = ArgumentCaptor.forClass(Customer.class);
+        verify(this.customerRepository, times(1)).update(captor.capture());
+        assertThat(captor.getValue().name()).isEqualTo("William");
+        assertThat(captor.getValue().age()).isEqualTo(40);
+        assertThat(captor.getValue().address()).isNull();
+    }
+
+    @Test
+    @DisplayName("update a non-existing customer")
+    public void testUpdateNonExistingCustomer() {
+        when(this.customerRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
+
+        var request = HttpRequest.PUT(UriBuilder.of("/{id}").expand(Map.of("id", UUID.randomUUID())),
+                new UpdateCustomerCommand("William", 40, null));
+        client.exchange(request, Argument.VOID)
+                .as(StepVerifier::create)
+                .consumeErrorWith(r -> {
+                    assertThat(r).isInstanceOf(HttpClientResponseException.class);
+                    assertEquals(HttpStatus.NOT_FOUND, ((HttpClientResponseException) r).getStatus());
+                })
+                .verify();
+
+        verify(this.customerRepository, times(1)).findById(any(UUID.class));
+        verify(this.customerRepository, never()).update(any(Customer.class));
     }
 
     @Test

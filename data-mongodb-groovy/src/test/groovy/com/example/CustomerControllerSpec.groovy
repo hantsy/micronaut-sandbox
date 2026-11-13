@@ -2,6 +2,7 @@ package com.example
 
 import com.example.dto.CustomerDto
 import com.example.dto.NewCustomerCommand
+import com.example.dto.UpdateCustomerCommand
 import io.micronaut.context.annotation.Property
 import io.micronaut.core.type.Argument
 import io.micronaut.http.HttpRequest
@@ -116,6 +117,42 @@ class CustomerControllerSpec extends Specification {
 
         when:
         Mono<HttpResponse<String>> resFlux = client.exchange(HttpRequest.GET("/customers/" + ObjectId.get().toHexString()), String).log()
+
+        then:
+        StepVerifier.create(resFlux)
+                .consumeErrorWith(error -> {
+                    assert error instanceof HttpClientResponseException
+                    assert (error as HttpClientResponseException).status == HttpStatus.NOT_FOUND
+                })
+                .verify()
+    }
+
+    void 'update customer by id'() {
+        given:
+        def objId = ObjectId.get()
+        1 * customerRepository.findById(_) >> Optional.of(new Customer(id: objId.toString(), name: "Jack", age: 20, address: null))
+        1 * customerRepository.update(_) >> new Customer(id: objId.toString(), name: "William", age: 40, address: null)
+
+        when:
+        def body = new UpdateCustomerCommand(name: "William", age: 40, address: null)
+        Mono<HttpResponse<Void>> resFlux = client.exchange(HttpRequest.PUT("/customers/" + objId.toHexString(), body), Void).log()
+
+        then:
+        StepVerifier.create(resFlux)
+                .consumeNextWith(s -> {
+                    assert s.getStatus() == HttpStatus.NO_CONTENT
+                })
+                .expectComplete()
+                .verify()
+    }
+
+    void 'update customer by none-existing id'() {
+        given:
+        1 * customerRepository.findById(_) >> Optional.ofNullable(null)
+
+        when:
+        def body = new UpdateCustomerCommand(name: "William", age: 40, address: null)
+        Mono<HttpResponse<Void>> resFlux = client.exchange(HttpRequest.PUT("/customers/" + ObjectId.get().toHexString(), body), Void).log()
 
         then:
         StepVerifier.create(resFlux)
