@@ -11,6 +11,5 @@ class UpdateCustomerCommand {
     String name
     @NotNull
     Integer age
-    @NotNull
     Address address
 }
