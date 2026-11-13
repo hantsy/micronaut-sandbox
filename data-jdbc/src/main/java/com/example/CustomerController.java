@@ -40,7 +40,7 @@ public class CustomerController {
     HttpResponse<?> save(@Body @Valid NewCustomerCommand cmd) {
         var customer = Customer.of(cmd.name(), cmd.age(), cmd.address());
         var saved = customerRepository.save(customer);
-        return created(URI.create("/customers/" + saved));
+        return created(URI.create("/customers/" + saved.id()));
     }
 
     @Put("{id}")

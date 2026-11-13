@@ -38,7 +38,7 @@ public class CustomerController {
     @Post
     Mono<HttpResponse<?>> save(@Body @Valid NewCustomerCommand cmd) {
         var customer = Customer.of(cmd.name(), cmd.age(), cmd.address());
-        return customerRepository.save(customer).map(id -> created(URI.create("/customers/" + id)));
+        return customerRepository.save(customer).map(saved -> created(URI.create("/customers/" + saved.id())));
     }
 
     @Put("{id}")

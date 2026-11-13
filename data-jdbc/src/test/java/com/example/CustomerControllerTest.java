@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.dto.NewCustomerCommand;
 import io.micronaut.core.type.Argument;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpStatus;
@@ -60,6 +61,25 @@ class CustomerControllerTest {
 
         verify(this.customerRepository, times(1)).findAll();
         //verifyNoInteractions(this.customerRepository);
+    }
+
+    @Test
+    @DisplayName("create a new customer")
+    public void testCreateCustomer() {
+        var id = UUID.randomUUID();
+        when(this.customerRepository.save(any(Customer.class)))
+                .thenReturn(new Customer(id, "Jack", 20, null, 1L));
+
+        var request = HttpRequest.POST("", new NewCustomerCommand("Jack", 20, null));
+        client.exchange(request, Argument.VOID)
+                .as(StepVerifier::create)
+                .consumeNextWith(res -> {
+                    assertEquals(HttpStatus.CREATED, res.getStatus());
+                    assertThat(res.getHeaders().get("Location")).isEqualTo("/customers/" + id);
+                })
+                .verifyComplete();
+
+        verify(this.customerRepository, times(1)).save(any(Customer.class));
     }
 
     @Test

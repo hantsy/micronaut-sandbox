@@ -9,5 +9,5 @@ import jakarta.validation.constraints.NotNull;
 public record NewCustomerCommand(
         @NotBlank String name,
         @NotNull Integer age,
-        @NotNull Address address
+        Address address
 ) {}
